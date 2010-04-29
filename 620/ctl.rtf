@@ -1,0 +1,171 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf460
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red191\green0\blue0;\red0\green115\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 s = \cf2 Server\cf0 .local;\
+s.waitForBoot\
+\{\
+\cf2 Routine\cf0 \{\
+\
+\cf3 ////////////////////// buffers, synth arrays, busses\cf0 \
+~gbuflen = 20.0;\
+~grain_buf = \cf2 Array\cf0 .fill(4, \{\
+	\cf2 Buffer\cf0 .alloc(s, s.sampleRate * ~gbuflen, 1);\
+\});\
+\
+0.5.wait;\
+\
+\cf3 ////// wavetables\cf0 \
+~vosc_bufs = \cf2 Buffer\cf0 .allocConsecutive\
+(	4, s, 1024, 1,\
+	\{	\cf2 arg\cf0  buf, i;\
+			\cf2 var\cf0  sa;\
+		sa = \cf2 Array\cf0 .fill\
+		(	i+1,\
+			\{	\cf2 arg\cf0  j;\
+				\cf2 var\cf0  val;\
+				if (j<i, \{val=0\}, \{val=1\});\
+				val.postln\
+			\}\
+		);\
+		buf.sine1Msg(sa);\
+	\}\
+);\
+\
+\
+0.5.wait;\
+\
+\cf3 ////////// groups\cf0 \
+~ig = \cf2 Group\cf0 .head(s);\
+~sg = \cf2 Group\cf0 .after(~ig);\
+~og = \cf2 Group\cf0 .after(~sg);\
+\
+\cf3 //////////// output\cf0 \
+~out_0_b = \cf2 Bus\cf0 .audio(s, 1);\
+~out_1_b = \cf2 Bus\cf0 .audio(s, 1);\
+~out_0_s = \cf2 Synth\cf0 .new(\cf4 \\patch_mono\cf0 , [\cf4 \\in\cf0 , ~out_0_b.index, \cf4 \\out\cf0 , 1], ~og, \cf4 \\addToTail\cf0 );\
+~out_1_s = \cf2 Synth\cf0 .new(\cf4 \\patch_mono\cf0 , [\cf4 \\in\cf0 , ~out_1_b.index, \cf4 \\out\cf0 , 1], ~og, \cf4 \\addToTail\cf0 );\
+\
+\cf3 ///// pitch analysis\cf0 \
+~pitch_in_b = \cf2 Bus\cf0 .audio(s);\
+~pitch_b = \cf2 Bus\cf0 .control(s, 1);\
+\cf3 // pich input\cf0 \
+~pitch_in_s = \cf2 Synth\cf0 .new(\cf4 \\in_adc\cf0 , [\cf4 \\in\cf0 , 1, \cf4 \\out\cf0 , ~pitch_in_b.index], ~ig, \cf4 \\addToHead\cf0 );\
+~pitch_s = \cf2 Synth\cf0 .new(\cf4 \\freq\cf0 , [\cf4 \\in\cf0 , ~pitch_in_b.index], ~ig, \cf4 \\addAfter\cf0 ); \
+\
+\cf3 //////// grain synths\cf0 \
+~grain_s = \cf2 Array\cf0 .newClear(4);\
+~grain_rec = \cf2 Array\cf0 .fill(4, \{\cf2 |i|Synth\cf0 .new(\cf4 \\record_adc\cf0 , [\cf4 \\in\cf0 , 0, \cf4 \\buf\cf0 , ~grain_buf[i].bufnum], ~ig, \cf4 \\addAfter\cf0 )\});\
+\cf3 ////////// tone synths\cf0 \
+~tone_s = \cf2 Array\cf0 .newClear(5);\
+\
+\cf3 /*Array.fill(5, \{|i|\
+	var t1 = 0.0;\
+	Synth.new\
+	(	\\vorg_endless, \
+		[	\\freq, 220,\
+			\\level, 0.0,//0.4,\
+			\\timbre_offset, 0,\
+			\\basebuf, ~vosc_bufs[0].bufnum,\
+			\\out, 0 //i%2\
+		], ~sg, \\addToTail\
+	);\
+\});*/\cf0 \
+\cf3 ////////////// \cf0 \
+\
+\
+\cf3 //////////////////////////////////////////////// control structure\cf0 \
+\
+\
+~button_press_times = \cf2 Array\cf0 .newClear(9); \cf3 // timers for 9 buttons\cf0 \
+~button_down = \{ \cf2 |index, which|\cf0 \
+	\cf2 SystemClock\cf0 .sched(0, \{\cf2 |time|\cf0 \
+		~button_press_times[index] = time;\
+		if (index < 4, \{\
+			index.postln;\
+			~grain_rec[index].set(\cf4 \\run\cf0 , 1);\
+		\});\
+	\cf2 nil\cf0 \});\
+\};\
+\
+~button_up = \{\cf2 |index, which|\cf0 \
+	\cf2 var\cf0  dur;\
+	\cf2 SystemClock\cf0 .sched(0, \{\cf2 |time|\cf0 \
+		dur = time - ~button_press_times[index];\
+		if (index < 4, \{\
+			~grain_rec[index].set(\cf4 \\run\cf0 , 0);\
+			~do_grain.value(index, dur);\
+		\}, \{\
+			~do_tone.value(index, dur);\
+		\});\
+	\cf2 nil\cf0 \});\
+\};\
+\
+~tone_amps = \cf2 Array\cf0 .fill(4, \{0.35\});\
+~knob = \{\cf2 |num, val|\cf0 \
+	num.postln;\
+	if(num<4, \{\
+		\cf2 var\cf0  pitchval;\
+		pitchval = pow(2.0, val/127.0 * 2.0 - 1.0);\
+		pitchval.postln;\
+		~grain_s[num].set(\cf4 \\pitchpitch\cf0 , pitchval);\
+	\}, \{\
+		~tone_amps[num-4] = (val/127.0 * 32.0 - 48.0).dbamp;\
+		~tone_s[num-4].set(\cf4 \\level\cf0 , ~tone_amps[num-4])\
+	\});\
+\};\
+\
+~t1s = \cf2 Array\cf0 .newClear(5);\
+~fader = \{\cf2 |num, val|\cf0 \
+	num.postln;\
+	if(num<4, \{\
+		if (val<3, \{~grain_s[num].set(\cf4 \\level\cf0 , 0.0)\},\
+			\{~grain_s[num].set(\cf4 \\level\cf0 , (val/127.0 * 32.0 - 26.0).dbamp);\}\
+		);\
+	\}, \{\
+		\cf2 var\cf0  t1;\
+		t1 = val / 127.0 * 0.8;\
+		~t1s[num-4] = t1;\
+		~tone_s[num-4].set(\cf4 \\timbre1_0\cf0 , t1);\
+		~tone_s[num-4].set(\cf4 \\timbre2_0\cf0 , t1.rand);\
+		~tone_s[num-4].set(\cf4 \\timbre3_0\cf0 , t1.rand);\
+	\});\
+\};\
+\
+~do_grain = \{ \cf2 |num, dur|\cf0 \
+	num.postln;\
+	\
+	if (~grain_s[num] == \cf2 nil\cf0 , \{\
+		~grain_s[num] = \cf2 Synth\cf0 .tail(~sg, \cf4 \\phasegrain\cf0 , [\cf4 \\buf\cf0 , ~grain_buf[num].bufnum, \cf4 \\pitchgrainsize\cf0 , 0.25, \cf4 \\pitchpitchblend\cf0 , 0.85, \cf4 \\out\cf0 , ~out_0_b.index]);\
+\pard\pardeftab560\ql\qnatural
+\cf0 		~grain_s[num].set(\cf4 \\grainrate\cf0 , 15 + (num*2), \cf4 \\graindur\cf0 , 24+num, \cf4 \\posrate\cf0 , 0.1, \cf4 \\phasemin\cf0 , 0.1, \cf4 \\phasemax\cf0 , 0.9, \cf4 \\level\cf0 , 0.25); \
+	\});\
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 \};\
+\
+~do_tone = \{ \cf2 |num, dur|\cf0 \
+	[num, dur].postln;\
+	num = num-4;\
+	~pitch_b.get(\{\cf2 |freq|\cf0 \
+		freq.postln;\
+		~tone_s[num] = \cf2 Synth\cf0 .new(\cf4 \\vorg_1shot\cf0 , [ \
+			\cf4 \\out\cf0 , 1, \cf3 //~out_0_b.index,\cf0 \
+			\cf4 \\freq\cf0 , freq,\
+			\cf4 \\attack\cf0 , dur*4,\
+			\cf4 \\dur\cf0 , dur*8,\
+			\cf4 \\release\cf0 , dur*6,\
+			\cf4 \\level\cf0 , ~tone_amps[num],\
+			\cf4 \\pan\cf0 , 0.5.rand2,\
+		], ~sg, \cf4 \\addToHead\cf0 );\
+		~tone_s[num].set(\cf4 \\timbre1_0\cf0 , ~t1s[num]);\
+		~tone_s[num].set(\cf4 \\timbre2_0\cf0 , ~t1s[num].rand);\
+		~tone_s[num].set(\cf4 \\timbre3_0\cf0 , ~t1s[num].rand);\
+	\});\
+\};\
+\
+\}.play; \cf3 // sync routine\cf0 \
+\
+\}; \cf3 // waitforboot;}

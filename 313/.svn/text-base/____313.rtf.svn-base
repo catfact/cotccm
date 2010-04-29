@@ -1,0 +1,329 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue0;\red0\green0\blue191;
+\red0\green115\blue0;\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 /* rawsc, pgns */\cf3 \
+\cf2 /* doesss it all */\cf3 \
+\
+x = \{\cf4 |p|\cf3  \cf4 this\cf3 .executeFile(\cf5 '/Users/e/_code/_sc/cotccm/313/'\cf3 ++p)\};\
+\
+s = \cf4 Server\cf3 .local;\
+\
+s.waitForBoot \{\
+s.freeAll;\
+\
+c = \cf4 Condition\cf3 .new;\
+\
+~clock = \cf4 Document\cf3 (\cf6 "ccclck"\cf3 ,\cf6 ""\cf3 );\
+~clock.background = \cf4 Color\cf3 .red;\
+~clock.font = \cf4 Font\cf3 (\cf6 "Monaco"\cf3 , 30);\
+\cf4 Task\cf3 (\{ (60 * 25).do(\{ \cf4 |i|\cf3  ~clock.string = \cf6 " "\cf3  ++ (i.div(60)) ++ \cf6 ":"\cf3  ++ (i%60); 1.wait; \}); \}).play(\cf4 AppClock\cf3 );\
+\
+\cf4 Routine\cf3  \{\
+	\cf2 // make a post document and a post method\cf3 \
+	\{ ~postit = \cf4 Document\cf3 (\cf6 "zzzzrrr"\cf3 , \cf6 ""\cf3 ); ~postit.background = \cf4 Color\cf3 .black; ~postit.stringColor = \cf4 Color\cf3 .white; ~postit.font = \cf4 Font\cf3 (\cf6 "Times"\cf3 , 26); \}.defer;\
+	~post = \{ \cf4 |it|\cf3  \{ ~postit.string = (~postit.string + \cf6 "__."\cf3  + it)\}.defer; \};\
+	~post.value(\cf5 'post.'\cf3 );\
+\
+	0.1.wait;\
+		\
+	\cf2 // run the defs\cf3 \
+	x.value(\cf6 "defs.scd"\cf3 );\
+	~post.value(\cf5 'defs.'\cf3 );\
+	\
+	0.1.wait;		\
+	\
+	\cf2 // make a grain buffer and a grain group\cf3 \
+	~grainbuflength = 30.0;\
+	~grainbuf = \cf4 Buffer\cf3 .alloc(s, ~grainbuflength * s.sampleRate, 1);\
+	~gg = \cf4 Group\cf3 .tail(s);\
+	~post.value(\cf6 "grgrbf."\cf3 );\
+	2.0.wait;\
+	\
+	\cf2 // make a rawsc group and some rawscs\cf3 \
+	~rf = 40.midicps;  \cf2 // low e\cf3 \
+	~rg = \cf4 Group\cf3 .tail(s);	\cf2 // rawsc group\cf3 \
+	\cf2 // melody\cf3 \
+	~rs1 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscl\cf3 , [\cf5 \\hz\cf3 , ~rf * 2.0]);\
+	~rs2 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscl\cf3 , [\cf5 \\hz\cf3 , ~rf * 3.0]);	\
+	\cf2 /// low base drone\cf3 \
+	~rs3 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscl\cf3 , [\cf5 \\hz\cf3 , ~rf * 1.0]);	\
+	~rs4 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscl\cf3 , [\cf5 \\hz\cf3 , ~rf * 0.5]);	\
+	\cf2 // secondary tonic\cf3 \
+	~rs5 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscl\cf3 , [\cf5 \\hz\cf3 , ~rf * 2.0]);\
+	\cf2 // (quieter) crackly versions at tonic, 4th, 5th, 9th\cf3 \
+	~rsn1 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscn\cf3 , [\cf5 \\lpfhz\cf3 , 4000, \cf5 \\attack\cf3 , 30, \cf5 \\hz\cf3 , ~rf]);\
+	~rsn2 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscn\cf3 , [\cf5 \\lpfhz\cf3 , 4000, \cf5 \\attack\cf3 , 50, \cf5 \\hz\cf3 , ~rf * 4 / 3]);\
+	~rsn3 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscn\cf3 , [\cf5 \\lpfhz\cf3 , 4000, \cf5 \\attack\cf3 , 70, \cf5 \\hz\cf3 , ~rf * 3]);\
+	~rsn4 = \cf4 Synth\cf3 .tail(~rg, \cf5 \\rawscn\cf3 , [\cf5 \\lpfhz\cf3 , 4000, \cf5 \\attack\cf3 , 90, \cf5 \\hz\cf3 , ~rf * 9 / 4]);\
+	\
+	~post.value(\cf5 'rawscs.'\cf3 );\
+	\
+								1.wait;\
+\pard\pardeftab560\ql\qnatural
+\cf3 	~grainrec = \cf4 Synth\cf3 .newPaused(\cf5 \\record_adc\cf3 , [\cf5 \\buf\cf3 , ~grainbuf.bufnum, \cf5 \\run\cf3 , 1], ~gg, \cf5 \\addBefore\cf3 );\
+	~post.value(\cf6 "grrrrc."\cf3 );\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 								10.wait; \cf2 ////c.hang;\cf3 \
+	\
+	\cf2 // turn on 1st\cf3 \
+	~rs1.set(\cf5 \\attack\cf3 , 100.0);\
+	0.1.wait;\
+	~post.value(\cf5 'rwsc 1 fdin.'\cf3 );\
+	~rs1.set(\cf5 \\level\cf3 , -25.dbamp);\
+	~rs1.set(\cf5 \\hz_off\cf3 , 1/5);			4.wait;\
+	~rs1.set(\cf5 \\crate\cf3 , 1.5);			4.wait;\
+	~rs1.set(\cf5 \\hz\cf3 , ~rf * 2);\
+								40.wait;\
+	\cf2 // add 2nd\cf3 \
+	~rs2.set(\cf5 \\attack\cf3 , 160.0);\
+	0.1.wait;\
+	~post.value(\cf5 'rwsc 2 fdin.'\cf3 );\
+	~rs2.set(\cf5 \\level\cf3 , -24.dbamp);\
+	~rs2.set(\cf5 \\hz\cf3 , ~rf*3);			4.wait;\
+	~rs2.set(\cf5 \\crate\cf3 , 2/3);\
+	~rs2.set(\cf5 \\hz_off\cf3 , 1/7);\
+								33.wait;\
+	\cf2 // add 3rd (low + oct)\cf3 \
+	~rs3.set(\cf5 \\attack\cf3 , 100.0);\
+	~rs3.set(\cf5 \\level\cf3 , -24.dbamp);	3.wait;\
+	~rs3.set(\cf5 \\hz_off\cf3 , 1/9);			2.wait;\
+	~rs3.set(\cf5 \\crate\cf3 , 0.5);\
+	~rs3.set(\cf5 \\hz\cf3 , ~rf);\
+	~rs3.set(\cf5 \\lpfhz\cf3 , 1280);\
+	~post.value(\cf5 'rwsc 3 fdin.'\cf3 );\
+								20.wait;\
+	\cf2 // add 4th (lowlow + 5th\cf3 \
+	~rs4.set(\cf5 \\attack\cf3 , 100.0);\
+	~rs4.set(\cf5 \\level\cf3 , -20.dbamp);\
+	~rs4.set(\cf5 \\hz_off\cf3 , 1/7);\
+	~rs4.set(\cf5 \\crate\cf3 , 0.5);\
+	~rs4.set(\cf5 \\hz\cf3 , ~rf*0.5);\
+	~rs4.set(\cf5 \\lpfhz\cf3 , 1880);\
+	~post.value(\cf5 'rwsc 4 fdin.'\cf3 );\
+								10.wait;\
+	~post.value(\cf6 "opnen..."\cf3 );\
+	\cf2 /// openup lpf\cf3 \
+	~rs3.set(\cf5 \\lpfhz\cf3 , 2880);\
+	~rs4.set(\cf5 \\lpfhz\cf3 , 2880);			4.wait;\
+	~rs1.set(\cf5 \\lpfhz\cf3 , 4880);\
+	~rs2.set(\cf5 \\lpfhz\cf3 , 4880);	\
+	~post.value(\cf5 'opnd.'\cf3 );\
+								20.wait;\
+	\cf2 // add distortion\cf3 \
+	~post.value(\cf6 "dstn..."\cf3 );\
+	~rs1.set(\cf5 \\dst\cf3 , 3);			2.wait;\
+	~rs2.set(\cf5 \\dst\cf3 , 4);			4.wait;			\
+	~rs3.set(\cf5 \\dst\cf3 , 3);\
+	~rs4.set(\cf5 \\dst\cf3 , 2.0);\
+	~post.value(\cf6 "dsted."\cf3 );\
+								18.wait;\
+	\cf2 /// openup\cf3 \
+	~post.value(\cf6 "opnen..."\cf3 );\
+	~rs3.set(\cf5 \\lpfhz\cf3 , 12880);\
+	~rs4.set(\cf5 \\lpfhz\cf3 , 12880);		8.wait;\
+	~rs1.set(\cf5 \\lpfhz\cf3 , 18050);\
+	~rs2.set(\cf5 \\lpfhz\cf3 , 18050);		8.wait;\
+	~post.value(\cf5 'opnd.'\cf3 );\
+	\
+	\cf2 ////// sing here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\cf3 \
+								14.wait;\
+	\cf2 // grain\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf3 	~post.value(\cf6 "GHGGRGRG !!!!!!"\cf3 );\
+\pard\pardeftab560\ql\qnatural
+\cf3 	~gs1 = \cf4 Synth\cf3 .tail(~gg, \cf5 \\phasegrain\cf3 , [\cf5 \\buf\cf3 , ~grainbuf.bufnum, \cf5 \\pitchfrainsize\cf3 , 0.25]);\
+	~gs1.set(\cf5 \\grainrate\cf3 , 20, \cf5 \\graindur\cf3 , 25, \cf5 \\posrate\cf3 , 0.002, \cf5 \\phasemin\cf3 , 0.2, \cf5 \\phasemax\cf3 , 0.8, \cf5 \\level\cf3 , 0.25); \
+	\{ t.keyDownAction.value; \}.defer;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 		\
+								47.wait;\
+	~gs1.set(\cf5 \\pitchpitch\cf3 , 3.0);\
+\pard\pardeftab560\ql\qnatural
+\cf3 	~gs1.set(\cf5 \\pitchpitchblend\cf3 , 1.0);\
+								33.wait;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 		\
+	\cf2 //harmony mvmnt\cf3 \
+	\cf2 // add 2ndary tonic\cf3 \
+	~post.value(\cf5 'secton fdin.'\cf3 );\
+	\
+	\cf2 // 26/9 and 21/9\cf3 \
+	~post.value(\cf5 'hrmv.'\cf3 );\
+	~rs1.set(\cf5 \\klag\cf3 , 20);\
+	~rs2.set(\cf5 \\klag\cf3 , 10);\
+	~rs1.set(\cf5 \\hz\cf3 , ~rf * 26 / 9);\
+	~rs2.set(\cf5 \\hz\cf3 , ~rf * 21 / 9);\
+	~rs1.set(\cf5 \\crate\cf3 , 9 / 26);\
+	~rs2.set(\cf5 \\crate\cf3 , 9 / 21);\
+	\
+	\cf2 // another tonic\cf3 \
+	~rs5.set(\cf5 \\attack\cf3 , 30.0);\
+	0.1.wait;\
+	~rs5.set(\cf5 \\level\cf3 , -20.dbamp);\
+	~rs5.set(\cf5 \\hz\cf3 , ~rf * 2.0);	\
+	~rs5.set(\cf5 \\crate\cf3 , 0.5);\
+	~rs5.set(\cf5 \\hz_off\cf3 , 1/5);			6.wait;\
+	~rs5.set(\cf5 \\lpfhz\cf3 , 20000);		2.wait;\
+	~rs1.set(\cf5 \\crate\cf3 , 2/6);\
+	~rs2.set(\cf5 \\crate\cf3 , 3/8);			\
+								40.wait;\
+	\
+	\cf2 ///////// sitting on the fifth\cf3 \
+	\cf2 ///////////// grain!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf3 	~post.value(\cf6 "GHGGRGRG @@@@@"\cf3 );\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 	~gs2 = \cf4 Synth\cf3 .after(~grainrec, \cf5 \\phasegrain\cf3 , [\cf5 \\buf\cf3 , ~grainbuf.bufnum, \cf5 \\pitchgrainsize\cf3 , 2/7]);\
+\pard\pardeftab560\ql\qnatural
+\cf3 	~gs2.set(\cf5 \\grainrate\cf3 , 20, \cf5 \\graindur\cf3 , 25, \cf5 \\posrate\cf3 , 1/17, \cf5 \\phasemin\cf3 , 0.1, \cf5 \\phasemax\cf3 , 0.9, \cf5 \\level\cf3 , 0.3);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 								40.wait;\
+	~gsyn2.set(\cf5 \\pitch\cf3 , 9/13);\
+\pard\pardeftab560\ql\qnatural
+\cf3 	~gsyn2.set(\cf5 \\pitchpitch\cf3 , 13/9);\
+	~gsyn2.set(\cf5 \\pitchpitchblend\cf3 , 1.0);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 								30.wait;\
+	\
+	\cf2 // 5.4 and 3\cf3 \
+	~rs4.set(\cf5 \\hz\cf3 , ~rf * 4 / 6);\
+	~rs1.set(\cf5 \\hz_off\cf3 , 3);\
+	~rs2.set(\cf5 \\hz_off\cf3 , 8/3);\
+	\
+	\cf2 // add distortion\cf3 \
+	~post.value(\cf6 "dstn..."\cf3 );\
+	~rs1.set(\cf5 \\dst\cf3 , 6.5);			2.wait;\
+	~rs2.set(\cf5 \\dst\cf3 , 5.5);			4.wait;	\
+	~rs3.set(\cf5 \\dst\cf3 , 4.5);			6.wait;\
+	~rs4.set(\cf5 \\dst\cf3 , 3.0);\
+	~post.value(\cf6 "dsted."\cf3 );			32.wait;\
+\
+\cf2 // 3 and 2\cf3 \
+	~rs3.set(\cf5 \\hz\cf3 , ~rf * 4/3);		3.wait;	\
+	~post.value(\cf5 'mvngn.'\cf3 );\
+	~rs1.set(\cf5 \\hz\cf3 , ~rf * 3);			4.wait;\
+	~rs2.set(\cf5 \\hz\cf3 , ~rf * 2);			16.wait;\
+	\
+	\cf2 // 11/9\cf3 \
+	~rs3.set(\cf5 \\hz\cf3 , ~rf * 11/9);		\
+	\
+								40.wait;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf3 \
+	\cf2 ////// grain !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\cf3 \
+	~post.value(\cf6 "GHGGRGRG #####"\cf3 );\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 	~gs3 = \cf4 Synth\cf3 .after(~grainrec, \cf5 \\phasegrain\cf3 , [\cf5 \\buf\cf3 , ~grainbuf.bufnum, \cf5 \\pitchgrainsize\cf3 , 0.2]);\
+\pard\pardeftab560\ql\qnatural
+\cf3 	~gs3.set(\cf5 \\grainrate\cf3 , 10);\
+	~gs3.set(\cf5 \\graindur\cf3 , 25);\
+	~gs3.set(\cf5 \\posrate\cf3 , 0.005);\
+	~gs3.set(\cf5 \\phasemin\cf3 , 0.05);\
+	~gs3.set(\cf5 \\phasemax\cf3 , 0.91); \
+	~gs3.set(\cf5 \\level\cf3 , 0.35); \
+								30.wait;\
+	~gs3.set(\cf5 \\pitch\cf3 , 3/8);\
+	~gs3.set(\cf5 \\pitchpitch\cf3 , 8/3);\
+	~gs3.set(\cf5 \\pitchpitchblend\cf3 , 1.0);\
+								40.wait;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 	\
+	\cf2 //26/7 and 36/13\cf3 \
+	~post.value(\cf5 'mvngn.'\cf3 );\
+	~rs1.set(\cf5 \\hz\cf3 , ~rf * 26/7);		8.wait;\
+	~rs2.set(\cf5 \\hz\cf3 , ~rf * 36/13);		6.wait;\
+	~rs3.set(\cf5 \\hz\cf3 , ~rf * 13/14);		3.wait;\
+	~rs4.set(\cf5 \\hz\cf3 , ~rf * 9/13);		8.wait;\
+	~post.value(\cf5 'mvngn.'\cf3 );\
+								30.wait;\
+	\
+	\cf2 // 17/13\cf3 \
+	~rs2.set(\cf5 \\hz\cf3 , ~rf * 34/13);\
+	~rs4.set(\cf5 \\hz\cf3 , ~rf * 17/26);\
+								43.wait;\
+	\cf2 // 7 and 3\cf3 \
+	~post.value(\cf5 'mvngn.'\cf3 );\
+	~rs1.set(\cf5 \\hz\cf3 , ~rf * 3.5);\
+	~rs3.set(\cf5 \\hz\cf3 , ~rf * 7 / 8);		14.wait;\
+	~rs4.set(\cf5 \\hz\cf3 , ~rf * 3/4);		6.wait;\
+	~rs2.set(\cf5 \\hz\cf3 , ~rf * 3);\
+								60.wait;\
+	\cf2 // 3 and 2\cf3 \
+	~post.value(\cf5 'mvngn.'\cf3 );\
+	~rs3.set(\cf5 \\level\cf3 , -20.dbamp);\
+	~rs3.set(\cf5 \\hz\cf3 , ~rf * 6 / 8);		6.wait;\
+	~rs1.set(\cf5 \\hz\cf3 , ~rf * 3);			7.wait;\
+	~rs4.set(\cf5 \\hz\cf3 , ~rf * 0.5);		16.wait;\
+	~rs2.set(\cf5 \\klag\cf3 , 40);\
+	~rs2.set(\cf5 \\hz\cf3 , ~rf * 4);			6.wait;\
+	~rs2.set(\cf5 \\level\cf3 , -28.dbamp);\
+	\
+	\cf2 // bring in crackly drones\cf3 \
+	~post.value(\cf5 'fdnincrkl.'\cf3 );\
+	~rsn1.set(\cf5 \\level\cf3 , -32.dbamp, \cf5 \\klag\cf3 , 40, \cf5 \\lpfhz\cf3 , 18000, \cf5 \\hz_off\cf3 , 1/3, \cf5 \\crate\cf3 , 1/2);\
+	~rsn2.set(\cf5 \\level\cf3 , -32.dbamp, \cf5 \\klag\cf3 , 40, \cf5 \\lpfhz\cf3 , 18000, \cf5 \\hz_off\cf3 , 1/5, \cf5 \\crate\cf3 , 1/3);\
+	~rsn3.set(\cf5 \\level\cf3 , -32.dbamp, \cf5 \\klag\cf3 , 40, \cf5 \\lpfhz\cf3 , 18000, \cf5 \\hz_off\cf3 , 1/7, \cf5 \\crate\cf3 , 1/5);\
+	~rsn4.set(\cf5 \\level\cf3 , -32.dbamp, \cf5 \\klag\cf3 , 40, \cf5 \\lpfhz\cf3 , 18000, \cf5 \\hz_off\cf3 , 1/9, \cf5 \\crate\cf3 , 1/7);\
+\
+	\cf2 /////// whole group gets reallly slow	\cf3 \
+	~rg.set(\cf5 \\klag\cf3 , 100, \cf5 \\release\cf3 , 200);\
+	\
+	~post.value(\cf6 "sweepoutrwasccsscs."\cf3 );\
+	\cf2 ////// sweep chaos freq up\cf3 \
+	~rg.set(\cf5 \\crate\cf3 , 32, \cf5 \\level\cf3 , -23.dbamp);\
+								10.wait;\
+	~rg.set(\cf5 \\hz_off\cf3 , 64.0);\
+								100.wait;\
+	~rg.set(\cf5 \\crate\cf3 , 128, \cf5 \\level\cf3 , -60.dbamp);\
+	\
+	\cf2 // the end.. slow down the grain rates\cf3 \
+	~post.value(\cf6 "slwewggrnrnas."\cf3 );\
+	\
+	~gs1.set(\cf5 \\grainrate\cf3 , 3.0);\
+							4.0.wait;\
+	~gs1.set(\cf5 \\graindur\cf3 , 6.0);\
+	\
+							8.0.wait;\
+	~gs2.set(\cf5 \\grainrate\cf3 , 2.0);\
+							8.0.wait;\
+	~gs2.set(\cf5 \\graindur\cf3 , 4.0);\
+							6.0.wait;\
+	~gs3.set(\cf5 \\grainrate\cf3 , 7/4);\
+							14.wait;\
+	~gs3.set(\cf5 \\graindur\cf3 , 5.0);\
+		\
+	\cf2 ////// full feedback to wipe out the buffer and finish\cf3 \
+	\
+	\
+\}.play;\
+\
+w = \cf4 SCWindow\cf3 .new(\cf6 "ttggr"\cf3 , \cf4 Rect\cf3 (100, 500, 200, 200));\
+t = \cf4 SCTextField\cf3 .new(w, \cf4 Rect\cf3 (0, 0, 200, 200));\
+~rtog = \cf4 false\cf3 ;\
+t.keyDownAction = \{\
+	~rtog = ~rtog.not; \
+	~rtog.postln;\
+	if(~rtog, \{t.boxColor = \cf4 Color\cf3 .green; \}, \{t.boxColor =\cf4 Color\cf3 .black;\});\
+	~grainrec.run(~rtog);\
+	w.refresh;\
+\};\
+\
+w.front;\
+t.focus;\
+\
+\}	\cf2 // waitforboot;\cf3 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

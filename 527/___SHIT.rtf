@@ -1,0 +1,185 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green115\blue0;\red191\green0\blue0;
+\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 x = \{\cf2 |p|\cf0  \cf2 this\cf0 .executeFile(\cf3 '/Users/e/_code/_sc/cotccm/527/'\cf0 ++p)\};\
+\
+s = \cf2 Server\cf0 .local;\
+s.waitForBoot \{\
+\
+\
+\cf2 Routine\cf0  \{\
+	\cf4 // make a post document and a post method\cf0 \
+	\{ ~postit = \cf2 Document\cf0 (\cf5 "zzzzrrr"\cf0 , \cf5 ""\cf0 ); ~postit.background = \cf2 Color\cf0 .black; ~postit.stringColor = \cf2 Color\cf0 .white; ~postit.font = \cf2 Font\cf0 (\cf5 "Times"\cf0 , 26); \}.defer;\
+	~post = \{ \cf2 |it|\cf0  \{ ~postit.string = (~postit.string + \cf5 "__."\cf0  + it)\}.defer; \};\
+	~post.value(\cf3 'post.'\cf0 );\
+\
+\
+1.wait;\
+\
+\
+\cf4 //----------------------------------------- defs\cf0 \
+	\cf2 SynthDef\cf0 .new(\cf3 \\phasegrain\cf0 , \{\
+		\cf2 arg\cf0  out=0, buf=0, grainrate=10.0, graindur=10.0,\
+			posrate=0.1, posrand=0.01,\
+			phasemin=0.0, phasemax=1.0,\
+			resetpos=0.0, trig=0,\
+			pitch=1.0, pitchpitch=2.0, pitchpitchblend=0.1,\
+			pitchgrainsize=0.5,\
+			pannoiserate=4.0, pannoisewidth=0.2, pannoisecenter=0.0,\
+			attack=10.0, release=30.0, level=0.1, gate=1;\
+			\
+		\cf2 var\cf0  pos, pulse, dur, bufdur, pan, grains, pitched, amp;\
+		\
+		bufdur = \cf2 BufDur\cf0 .kr(buf);\
+		dur = graindur / grainrate;\
+		pulse = \cf2 Impulse\cf0 .kr(grainrate);\
+		pos = \cf2 Phasor\cf0 .kr(\
+			trig,\
+			posrate / bufdur,\
+			0.0,\
+			2.0 * bufdur,\
+			resetpos\
+		);\
+		amp = \cf2 LagUD\cf0 .kr(level, attack, release); \cf4 // Linen.kr(gate, attack, release) * level;\cf0 \
+		\cf2 FreeSelf\cf0 (amp);\
+		pos = pos + \cf2 TRand\cf0 .kr(0, 0.01, pulse);\
+		pos = pos.fold(phasemin * bufdur, phasemax * bufdur);\
+		pan = \cf2 LFNoise0\cf0 .kr(pannoiserate, pannoisewidth, pannoisecenter).wrap(-1, 1);\
+		grains =  \cf2 TGrains\cf0 .ar(2, pulse, buf, pitch, pos, dur, pan, 0.1);\
+		pitched = \cf2 PitchShift\cf0 .ar(grains, pitchgrainsize, pitchpitch);\
+		\cf2 Out\cf0 .ar(out, amp * (grains + (pitched * pitchpitchblend)));\
+		\cf2 FreeSelf\cf0 .kr(amp.max(gate));\
+	\}).send(s);\
+	\
+	\
+\cf2 SynthDef\cf0 .new(\cf3 \\patch_stereo\cf0 , \{\
+	\cf2 arg\cf0  gate=1, level=1.0, attack=1.0, release=1.0, \
+		in=0, out=0, pan=0.0;\
+	\cf2 var\cf0  sig, amp_env, amp_gen;\
+	amp_env = \cf2 Env\cf0 .asr(attack, 1.0, release);\
+	amp_gen= \cf2 EnvGen\cf0 .ar(amp_env, doneAction:2);\
+	sig = \cf2 In\cf0 .ar(in, 2);\
+	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(sig * level, pan));\
+\}).send(s);\
+\
+\cf2 SynthDef\cf0 .new(\cf3 \\delay_shape_klank\cf0 , \{\
+	\cf2 arg\cf0  gate=1, level=1.0, attack=1.0, release=1.0, \
+		in=0, out=0, pan=0.0,\
+		pregain=0.1, buf= 0,\
+		freqs = #[ 82.406889228217, 164.81377845643, 329.62755691287, 659.25511382574 ],\
+		amps = #[0.03, 0.03, 0.02, 0.01], \
+		rings = #[1, 1, 1, 1],\
+		delaytime=0.4, maxdelaytime=1.0,\
+		levlag = 75.0;\
+	\cf2 var\cf0  delay, shaper, klank,\
+		amp_env, amp_gen;\
+	amp_env = \cf2 Env\cf0 .asr(attack, 1.0, release);\
+	amp_gen= \cf2 EnvGen\cf0 .ar(amp_env, doneAction:2);\
+	level = \cf2 Lag\cf0 .kr(level, levlag);\
+	delay = \cf2 DelayN\cf0 .ar(\cf2 In\cf0 .ar(in, 2) * pregain, maxdelaytime, delaytime);\
+	shaper = \cf2 Shaper\cf0 .ar(buf, delay);\
+	klank = \cf2 DynKlank\cf0 .ar(`[freqs, amps, rings], shaper);\
+	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(klank * amp_gen * level, pan));\
+\}).send(s);\
+\
+x.value(\cf5 "_s313_defs.scd"\cf0 );\
+x.value(\cf5 "_mm_defs.rtf"\cf0 );\
+\
+\
+	\
+2.wait;\
+\
+\cf4 //------------------------------------------------------------- buffers\cf0 \
+~cheby_shape_buf = \cf2 Buffer\cf0 .alloc(s, 512, 1, \{\cf2 arg\cf0  buf; buf.chebyMsg([	0,\
+	0,\
+	1,\
+	1,\
+	1,\
+	1,\
+	1\
+])\});\
+\
+2.wait;\
+\
+\
+~sat_shape_buf = \cf2 Buffer\cf0 .alloc(s, 2048, 1);\
+1.wait;\
+\
+~sat_shape_buf.sendCollection\
+(	\cf2 Signal\cf0 .fill\
+	(	1024,\
+		\{	\cf2 arg\cf0  i;\
+			atan(i.linlin(0.0, 1023.0, -2.0, 2.0))\
+		\}\
+	).asWavetable\
+);\
+\
+2.wait;\
+\
+\
+	\cf4 // make a grain buffer and a grain group\cf0 \
+	~grainbuflength = 30.0;\
+	~grainbuf = \cf2 Buffer\cf0 .alloc(s, ~grainbuflength * s.sampleRate, 1);\
+	~gg = \cf2 Group\cf0 .tail(s);\
+	~post.value(\cf5 "grgrbf."\cf0 );\
+\
+	2.0.wait;\
+	\
+	\cf4 //////////// scum\cf0 \
+	\cf4 //-------------------------------------------------  wavehsaping + rez + delay\cf0 \
+~shape_rez_synth = \cf2 Synth\cf0 .new(\cf3 \\delay_shape_klank\cf0 , [\
+	\cf3 \\in\cf0 , 0,\
+	\cf3 \\buf\cf0 , ~sat_shape_buf.bufnum,\
+	\cf4 //\\freqs, Array.with(40.midicps, 52.midicps, 64.midicps, 76.midicps),\cf0 \
+	\cf4 //\\amps,  Array.with(0.1, 0.2, 0.1, 0.3),\cf0 \
+	\cf4 //\\rings,  Array.fill(4, \{1.0\}),\cf0 \
+	\cf3 \\level\cf0 , -12.dbamp,\
+	\cf3 \\pregain\cf0 , -12.dbamp,\
+	\cf3 \\out\cf0 , 0\
+], ~gg, \cf3 \\addAfter\cf0 );\
+\
+\
+~shape_rez_synth.setn(\cf3 \\freqs\cf0 , \cf2 Array\cf0 .with(88.midicps, 52.midicps, 64.midicps, 76.midicps));\
+~shape_rez_synth.setn(\cf3 \\amps\cf0 ,  \cf2 Array\cf0 .with(0.04, 0.04, 0.04, 0.04));\
+~shape_rez_synth.setn(\cf3 \\rings\cf0 ,  \cf2 Array\cf0 .fill(4, \{6.0\}));\
+\
+~shape_rez_synth.set(\cf3 \\level\cf0 , -32.dbamp);\
+~shape_rez_synth.set(\cf3 \\pregain\cf0 , 0.dbamp);\
+~shape_rez_synth.set(\cf3 \\buf\cf0 , ~cheby_shape_buf.bufnum);\
+\
+\
+\cf2 SystemClock\cf0 .sched(300, \{\
+	x.value(\cf5 "_grains.rtf"\cf0 );\
+\cf2 nil\cf0 \});\
+\
+\cf2 SystemClock\cf0 .sched(1050, \{ \
+	~shape_rez_synth.set(\cf3 \\level\cf0 , 0.0);\
+	x.value(\cf3 '_remains.sc'\cf0 );\
+\cf2 nil\cf0  \});\
+\
+\
+\}.play;\
+\
+\}; \cf4 // waitforboot\cf0 \
+\
+\pard\pardeftab560\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf0 \
+w = \cf2 SCWindow\cf0 .new(\cf5 "ttggr"\cf0 , \cf2 Rect\cf0 (100, 500, 400, 400));\
+t = \cf2 SCTextField\cf0 .new(w, \cf2 Rect\cf0 (0, 0, 400, 400));\
+~rtog = \cf2 false\cf0 ;\
+t.keyDownAction = \{\
+	~rtog = ~rtog.not; \
+	~rtog.postln;\
+	if(~rtog, \{t.boxColor = \cf2 Color\cf0 .green; \}, \{t.boxColor =\cf2 Color\cf0 .black;\});\
+	~grainrec.run(~rtog);\
+	w.refresh;\
+\};\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 \
+w.front;\
+t.focus;}

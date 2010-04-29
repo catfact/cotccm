@@ -1,0 +1,51 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue0;\red0\green0\blue191;
+\red96\green96\blue96;}
+\deftab560
+\pard\pardeftab560\ql\qnatural
+
+\f0\fs18 \cf2 /// setup HID manager and get the gamepad\cf3 \
+\cf4 GeneralHID\cf3 .buildDeviceList;\
+\
+~hids = \cf4 GeneralHID\cf3 .deviceList;\
+~pad = \cf4 GeneralHID\cf3 .open(\cf4 GeneralHID\cf3 .findBy(0x07B5));\
+\
+\cf4 GeneralHID\cf3 .startEventLoop;\
+\
+\cf2 // ABCD\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 // down\cf3 \
+~pad.slots.at(1).at(1).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 1 "\cf3  ++ slot.value); \});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf2 // left\cf3 \
+~pad.slots.at(1).at(2).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 2 "\cf3  ++ slot.value); \});\
+\cf2 // right\cf3 \
+~pad.slots.at(1).at(3).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 3 "\cf3  ++ slot.value); \});\
+\cf2 // up\cf3 \
+~pad.slots.at(1).at(4).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 4 "\cf3  ++ slot.value); \});\
+\
+\cf2 // triggers\cf3 \
+\cf2 // top left\cf3 \
+~pad.slots.at(1).at(5).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 5 "\cf3  ++ slot.value); \});\
+\cf2 // bottom left\cf3 \
+~pad.slots.at(1).at(6).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 6 "\cf3  ++ slot.value); \});\
+\cf2 // top right\cf3 \
+~pad.slots.at(1).at(7).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 7 "\cf3  ++ slot.value); \});\
+\cf2 // bottom right\cf3 \
+~pad.slots.at(1).at(8).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 1 8 "\cf3  ++ slot.value); \});\
+\
+\
+\
+\cf2 /// dpad\cf3 \
+\cf2 // x\cf3 \
+~pad.slots.at(3).at(48).action_(\{\
+	\cf4 arg\cf3  slot;\
+	\cf4 var\cf3  val;\
+	val = slot.value;\
+	postln(\cf5 "pad 3 48 "\cf3  ++ slot.value); 	\
+\});\
+\cf2 // y\cf3 \
+~pad.slots.at(3).at(49).action_(\{ \cf4 arg\cf3  slot; postln(\cf5 "pad 3 49 "\cf3  ++ slot.value); \});\
+\
+}

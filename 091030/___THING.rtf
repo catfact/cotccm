@@ -1,0 +1,35 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs34 \cf2 ~basepath = \cf3 Document\cf2 .current.dir ++\cf4 "/"\cf2 ;\
+x = \{ \cf3 |p|\cf2  \cf3 this\cf2 .executeFile(~basepath++p); \};\
+\
+\cf3 Routine\cf2  \{\
+	x.value(\cf4 "_base.scd"\cf2 );\
+	\
+	10.wait;\
+	\
+	x.value(\cf4 "rawsc.scd"\cf2 );\
+	\
+	x.value(\cf4 "specfreeze_score.scd"\cf2 );\
+	\cf4 "111111111111111111111111111111111111111"\cf2 .postln;\
+	\
+	(60 * 7).wait;\
+	\
+	x.value(\cf4 "vla_grains.scd"\cf2 );\
+	\cf4 "2222222222222222222222222222222222222222"\cf2 .postln;\
+	\{ ~tellme.value; \}.defer;\
+	~
+\fs18 nwhichbus = 1;\
+	~namp = -4.dbamp;\
+	
+\fs34 \
+	\
+	60.wait;\
+	x.value(\cf4 "vla_voscs_score.scd"\cf2 );\
+\}.play;\
+	\
+x.value(\cf4 "gfx.scd"\cf2 );}

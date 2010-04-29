@@ -1,0 +1,94 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf460
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green115\blue0;\red191\green0\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 s = \cf2 Server\cf0 .local;\
+s.waitForBoot\{\
+\
+\cf2 SynthDef\cf0 .new(\cf3 \\phasegrain\cf0 , \{\
+	\cf2 arg\cf0  out=0, buf=0, grainrate=10.0, graindur=10.0,\
+		posrate=0.1, posrand=0.01,\
+		phasemin=0.0, phasemax=1.0,\
+		resetpos=0.0, trig=0,\
+		pitch=1.0, pitchpitch=2.0, pitchpitchblend=0.1,\
+		pitchgrainsize=0.5,\
+		pannoiserate=4.0, pannoisewidth=0.2, pannoisecenter=0.0,\
+		attack=10.0, release=30.0, level=0.1, gate=1; \cf4 //bufdur = 10.0;\cf0 \
+		\
+	\cf2 var\cf0  pos, pulse, dur,\
+	 bufdur, bufframes,\
+	 pan, grains, pitched, amp;\
+	\
+	\cf4 // pass as argument\cf0 \
+	bufdur = \cf2 BufDur\cf0 .kr(buf); \
+	bufframes = \cf2 BufFrames\cf0 .kr(buf);\
+	dur = graindur / grainrate;\
+	pulse = \cf2 Impulse\cf0 .kr(grainrate);\
+	pos = \cf2 Phasor\cf0 .kr(\
+		trig,\
+		posrate,\
+		0.0,\
+		2.0 * bufdur,\
+		resetpos\
+	);\
+	\
+	pitchpitch= \cf2 Lag\cf0 .kr(pitchpitch, 14000.0);\
+	\
+	amp = \cf2 LagUD\cf0 .kr(level, attack, release); \cf4 // Linen.kr(gate, attack, release) * level;\cf0 \
+	\cf4 //FreeSelf(amp);\cf0 \
+	pos = pos + \cf2 TRand\cf0 .kr(0, 0.01, pulse);\
+	pos = pos.fold(phasemin * bufdur, phasemax * bufdur);\
+	pan = \cf2 LFNoise0\cf0 .kr(pannoiserate, pannoisewidth, pannoisecenter).wrap(-1, 1);\
+	grains =  \cf2 TGrains\cf0 .ar(2, pulse, buf, pitch, pos, dur, pan, 0.1);\
+	pitched = \cf2 PitchShift\cf0 .ar(grains, pitchgrainsize, pitchpitch);\
+	\cf2 Out\cf0 .ar(out, amp * (grains + (pitched * pitchpitchblend)));\
+	\cf4 //FreeSelf.kr(amp.max(gate));\cf0 \
+\}).send(s);\
+\
+\
+\cf2 SynthDef\cf0 .new(\cf3 \\record_adc\cf0 , \{\cf2 arg\cf0  in=0, buf=0, run=0, reclevel=1.0, prelevel=0.0, loop=1, off=0.0, trig=0;\
+	\cf2 RecordBuf\cf0 .ar(\cf2 SoundIn\cf0 .ar(in, 1), buf, off, reclevel, prelevel, run, loop, trig);\
+\}).send(s);\
+\
+\cf2 SynthDef\cf0 .new(\cf3 \\freq_adc\cf0 , \{\cf2 arg\cf0  in=0, out=0; \cf4 // target bus should have two channels\cf0 \
+	\cf2 var\cf0  sig;\
+	sig = \cf2 SoundIn\cf0 .ar(in, 1);\
+	\cf2 Out\cf0 .kr(out, \cf2 Pitch\cf0 .kr(sig));\
+\}).load(s);\
+\
+\
+\cf2 SynthDef\cf0 .new(\cf3 \\freq\cf0 , \{\cf2 arg\cf0  in=0, out=0; \cf4 // target bus should have two channels\cf0 \
+	\cf2 var\cf0  sig;\
+	sig = \cf2 In\cf0 .ar(in, 1);\
+	\cf2 Out\cf0 .kr(out, \cf2 Pitch\cf0 .kr(sig));\
+\}).load(s);\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 \
+\cf2 SynthDef\cf0 .new(\cf3 \\vorg_1shot\cf0 , \
+\{	\cf2 arg\cf0  out=0, timbre1_0, timbre1_1, timbre2_0, timbre2_1, timbre3_0, timbre3_1, freq=440, gate=1, level=0.1, attack=0.1, release=0.1, dur=10, filter_level=0.0, noise_level = 0.0, sub_level=1.0, numbufs=4, basebuf=0, pan=0.0;\
+	\cf2 var\cf0  timbre1, timbre2, timbre3, sin, saw, ring, saws, amp, saw_amp, env, noise, filter;\
+	timbre1 = \cf2 Lag\cf0 .kr(timbre1_0, dur*0.0625);\
+	timbre2 = \cf2 Lag\cf0 .kr(timbre2_0, dur*0.0625);\
+	timbre3 = \cf2 Lag\cf0 .kr(timbre3_0, dur*0.0625);\
+\cf4 //	freq = Lag.kr(freq, attack * 0.125);\cf0 \
+	env = \cf2 Env\cf0 .linen(attack, dur, release, 1, \cf3 'lin'\cf0 );\
+	amp = \cf2 EnvGen\cf0 .ar(env, gate, timeScale:1); \cf4 //, doneAction:2);\cf0 \
+\cf4 //	amp = LagUD.kr(level, attack, release);\cf0 \
+	saw_amp = \cf2 EnvGen\cf0 .ar(env, gate, timeScale:2.0);\
+	\cf4 //rq = 5.5 - EnvGen.ar(env, gate, 4.0, 0, 2.4); \cf0 \
+	saw = \cf2 SyncSaw\cf0 .ar(freq, freq * (2 ** (3 * timbre2)));\
+	sin = \cf2 Mix\cf0 .new([\cf2 VOsc\cf0 .ar((timbre1 * numbufs) + basebuf), \cf2 FSinOsc\cf0 .ar(freq * 0.5) * sub_level]);\
+	ring = sin * saw;\
+	saws = \cf2 Mix\cf0 .new([saw * timbre3, ring * timbre3]) * saw_amp;\
+	noise = \cf2 LFNoise2\cf0 .ar(freq * 64, sin + saws) * noise_level;\
+	level = \cf2 Lag\cf0 .kr(level, attack);\
+	filter = \cf2 LPF\cf0 .ar(\cf2 Mix\cf0 .new([sin, saws, noise]), freq + (filter_level * (9000-freq)));\
+	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(filter * amp * level, pan));\
+\}).load(s);\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 \
+\};}

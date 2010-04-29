@@ -1,0 +1,150 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;\red96\green96\blue96;\red0\green115\blue0;\red191\green0\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 \
+\cf3 GeneralHID\cf2 .buildDeviceList;\
+\cf3 GeneralHID\cf2 .postDevicesAndProperties;\
+\
+~pad = \cf3 GeneralHID\cf2 .open(\cf3 GeneralHID\cf2 .findBy(0x07B5));\
+\
+\cf3 Routine\cf2  \{\
+	1.0.wait;\
+\
+	\cf3 GeneralHID\cf2 .startEventLoop;\
+	\
+	~pad.slots.do(\{ \cf3 arg\cf2  slot, slotindex;\
+		slot.do(\{ \cf3 arg\cf2  element, elementindex;\
+			postln(\cf4 "slot "\cf2  ++ slotindex ++ \cf4 " , element "\cf2  ++ elementindex ++ \cf4 " : "\cf2  ++ element).postln;\
+			element.action_(\{ \cf3 arg\cf2  element; \
+				postln(\cf4 "slot "\cf2  ++ slotindex ++ \cf4 " , element "\cf2  ++ elementindex ++ \cf4 " : "\cf2  ++ element.value);\
+			\});\
+		\});\
+	\});\
+	\
+	0.5.wait;\
+	\
+	~footswitch_func = \{\cf3 arg\cf2  val; postln(\cf4 "footswitch "\cf2  ++ val); \};\
+	\
+	0.5.wait;\
+	\
+	~pad.slots.do(\{\cf3 arg\cf2  slot; slot.postln; \});\
+	\
+	0.5.wait;\
+	\
+	~pad.slots.at(1).at(7).action_\{\
+		\cf3 arg\cf2  element;\
+		~footswitch_func.value(element.value);\
+	\};\
+	\
+	\cf0 ~footswitch_func = \{ arg val;\
+		if(val > 0, \{\
+			~vla_del.set(\cf5 \\inputamp\cf0 , 1.0);\
+			postln(\cf6 "VLA INPUT ON.........\
+			...................\
+			..................\
+			........\
+			"\cf0 );\
+		\}, \{\
+			~vla_del.set(\cf5 \\inputamp\cf0 , 0.0);\
+			postln(\cf6 "VLA INPUT OFF.........\
+			...................\
+			..................\
+			........\
+			"\cf0 );\
+		\});\
+	\};\
+		\cf2 \
+\}.play(\cf3 AppClock\cf2 );\
+\
+\
+\
+\
+\
+w = \cf3 SCWindow\cf2 .new(\cf4 "__"\cf2 , \cf3 Rect\cf2 (0, 0, 400, 400));\
+w.front;\
+w.view.keyDownAction = \{ \cf3 arg\cf2  view, char;\
+	if (char == $z, \{\
+		w.view.background = \cf3 Color\cf2 .black;\
+				\
+		~vla_del_g = \cf3 Group\cf2 .new(~vla_del_out_s, \cf7 \\addBefore\cf2 );\
+		\
+		~vla_del_grain1 = \cf3 Synth\cf2 .new(\cf7 \\bufgrain_pan\cf2 , [\cf7 \\buf\cf2 , ~loop_buf.bufnum,\
+			\cf7 \\trigrate\cf2 , 8.0 / 1.2,\
+			\cf7 \\posrate\cf2 , 0.25 / 1.2,\
+			\cf7 \\dur\cf2 , 0.25 / 1.2,\
+			\cf7 \\out\cf2 , ~vla_del_out_b.index,\
+			\cf7 \\pan\cf2 , -0.8,\
+			\cf7 \\amplag\cf2 , 60.0,\
+			\cf7 \\amp\cf2 , -6.dbamp\
+		], ~vla_del_g);\
+		\cf8 //~vla_del_grain1.set(\\amplag, 60.0);\cf2 \
+		\cf8 //SystemClock.sched(1.2, \{~vla_del_grain1.set(\\amp, -6.dbamp); nil\});\cf2 \
+		\
+		~vla_del_grain2 = \cf3 Synth\cf2 .new(\cf7 \\bufgrain_pan\cf2 , [\cf7 \\buf\cf2 , ~loop_buf.bufnum,			\cf7 \\trigrate\cf2 , 6.0 / 1.2,\
+			\cf7 \\posrate\cf2 , 0.125 / 1.2,\
+			\cf7 \\dur\cf2 , 0.25 / 1.2,\
+			\cf7 \\out\cf2 , ~vla_del_out_b.index,\
+			\cf7 \\pan\cf2 , -0.8,\
+			\cf7 \\amplag\cf2 , 60.0,\
+			\cf7 \\amp\cf2 , -6.dbamp\
+		], ~vla_del_g);\
+		\cf8 //~vla_del_grain2.set(\\amplag, 60.0);\cf2 \
+		\cf8 //SystemClock.sched(1.2, \{~vla_del_grain2.set(\\amp, -6.dbamp); nil\});\cf2 \
+		\
+		\
+		~vla_del_grain3 = \cf3 Synth\cf2 .new(\cf7 \\bufgrain_pan\cf2 , [\cf7 \\buf\cf2 , ~loop_buf.bufnum,\
+			\cf7 \\trigrate\cf2 , 3.0 / 1.2,\
+			\cf7 \\posrate\cf2 , (1/8) / 1.2,\
+			\cf7 \\dur\cf2 , 0.25 / 1.2,\
+			\cf7 \\rate\cf2 , 1.0,\
+			\cf7 \\out\cf2 , ~vla_del_out_b.index,\
+			\cf7 \\pan\cf2 , -0.25,\
+			\cf7 \\amplag\cf2 , 60.0,\
+			\cf7 \\amp\cf2 , -6.dbamp\
+		], ~vla_del_g);\
+		\cf8 //~vla_del_grain3.set(\\amplag, 90.0);\cf2 \
+		\cf8 //SystemClock.sched(1.2, \{~vla_del_grain3.set(\\amp, -24.dbamp); nil\});\cf2 \
+		\
+		\
+		~vla_del_grain4 = \cf3 Synth\cf2 .new(\cf7 \\bufgrain_pan\cf2 , [\cf7 \\buf\cf2 , ~loop_buf.bufnum,\
+			\cf7 \\trigrate\cf2 , 4.0 / 1.2,\
+			\cf7 \\posrate\cf2 , (1/12) / 1.2,\
+			\cf7 \\dur\cf2 , 0.25 / 1.2,\
+			\cf7 \\rate\cf2 , 1.0,\
+			\cf7 \\out\cf2 , ~vla_del_out_b.index,\
+			\cf7 \\pan\cf2 , 0.25,\
+			\cf7 \\amplag\cf2 , 60.0,\
+			\cf7 \\amp\cf2 , -6.dbamp\
+		], ~vla_del_g);\
+		\cf8 //~vla_del_grain4.set(\\amplag, 120.0);\cf2 \
+		\cf8 //SystemClock.sched(1.2, \{~vla_del_grain4.set(\\amp, -20.dbamp); nil\});\cf2 \
+		\
+		\
+		~vla_del_grain5 = \cf3 Synth\cf2 .new(\cf7 \\bufgrain_pan\cf2 , [\cf7 \\buf\cf2 , ~loop_buf.bufnum,\
+			\cf7 \\trigrate\cf2 , 8.0 / 1.2,\
+			\cf7 \\posrate\cf2 , (1/6) / 1.2,\
+			\cf7 \\dur\cf2 , 0.4 / 1.2,\
+			\cf7 \\rate\cf2 , 2.0,\
+			\cf7 \\out\cf2 , ~vla_del_out_b.index,\
+			\cf7 \\pan\cf2 , -0.5,\
+			\cf7 \\amplag\cf2 , 60.0,\
+			\cf7 \\amp\cf2 , -6.dbamp\
+		], ~vla_del_g);\
+		\cf8 //~vla_del_grain5.set(\\amplag, 90.0);\cf2 \
+		\cf8 //SystemClock.sched(1.2, \{~vla_del_grain5.set(\\amp, -6.dbamp); nil\});\cf2 \
+		\
+		\
+		~vla_del_grain6 = \cf3 Synth\cf2 .new(\cf7 \\bufgrain_pan\cf2 , [\cf7 \\buf\cf2 , ~loop_buf.bufnum,			\cf7 \\trigrate\cf2 , 4.0 / 1.2,\
+			\cf7 \\posrate\cf2 , (1/4) / 1.2,\
+			\cf7 \\dur\cf2 , 0.4 / 1.2,\
+			\cf7 \\rate\cf2 , 2.0,\
+			\cf7 \\out\cf2 , ~vla_del_out_b.index,\
+			\cf7 \\pan\cf2 , 0.5,\
+			\cf7 \\amplag\cf2 , 0.0,\
+			\cf7 \\amp\cf2 , -6.dbamp\
+		], ~vla_del_g);\
+	\});\
+\};'}
