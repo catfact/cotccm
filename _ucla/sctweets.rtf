@@ -1,0 +1,99 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red191\green0\blue0;
+\red96\green96\blue96;\red0\green115\blue0;}
+\deftab720
+\pard\pardeftab720\ql\qnatural
+
+\f0\fs24 \cf2 01\
+\cf3 Nathaniel\cf2  \cf3 Virgo\cf2 \
+\{\cf3 LocalOut\cf2 .ar(a=\cf3 CombN\cf2 .ar(\cf3 BPF\cf2 .ar(\cf3 LocalIn\cf2 .ar(2)*7.5+\cf3 Saw\cf2 .ar([32,33],0.2),2**\cf3 LFNoise0\cf2 .kr(4/3,4)*300,0.1).distort,2,2,40));a\}.play\cf4 //#supercollider\cf2 \
+\
+02\
+\cf3 LFSaw\cf2 \
+\{\cf3 Splay\cf2 .ar(\cf3 Ringz\cf2 .ar(\cf3 Impulse\cf2 .ar([2, 1, 4], [0.1, 0.11, 0.12]), [0.1, 0.1, 0.5])) * \cf3 EnvGen\cf2 .kr(\cf3 Env\cf2 ([1, 1, 0], [120, 10]), doneAction: 2)\}.play\
+\
+03\
+\cf3 Tim\cf2  \cf3 Walters\cf2 \
+play\{(\{\cf3 |k|\cf2 (\{\cf3 |i|\cf2 y=\cf3 SinOsc\cf2 ;y.ar(i*k*k,y.ar(i*k**i/[4,5])*\cf3 Decay\cf2 .kr(\cf3 Dust\cf2 .kr(1/4**i),y.ar(0.1)+1*k+i,k*999))\}!8).product\}!16).sum\}\cf4 //#supercollider\cf2 \
+\
+04\
+\cf3 Nathaniel\cf2  \cf3 Virgo\cf2 \
+b=\cf3 Buffer\cf2 .read(s,\cf5 "sounds/a11wlk01.wav"\cf2 );play\{t=\cf3 Impulse\cf2 .kr(5);\cf3 PlayBuf\cf2 .ar(1,b,1,t,\cf3 Demand\cf2 .kr(t,0,\cf3 Dseq\cf2 (1e3*[103,41,162,15,141,52,124,190],4)))!2\}\
+\
+05\
+\cf3 Batuhan\cf2  \cf3 Bozkurt\cf2 \
+play\{f=\cf3 LocalIn\cf2 .ar(2).tanh;k=\cf3 Latch\cf2 .kr(f[0].abs,\cf3 Impulse\cf2 .kr(1/4));\cf3 LocalOut\cf2 .ar(f+\cf3 CombC\cf2 .ar(\cf3 Blip\cf2 .ar([4,6],100*k+50,0.9),1,k*0.3,50*f));f\}\cf4 //44.1kHz\cf2 \
+\
+06\
+\cf3 Batuhan\cf2  \cf3 Bozkurt\cf2  (refactored by \cf3 Charles\cf2  \cf3 Celeste\cf2  \cf3 Hutchins\cf2 )\
+f=\{\cf3 |t|Pbind\cf2 (\cf6 \\note\cf2 ,\cf3 Pseq\cf2 ([-1,1,6,8,9,1,-1,8,6,1,9,8]+5,319),\cf6 \\dur\cf2 ,t)\};\cf3 Ptpar\cf2 ([0,f.(1/6),12,f.(0.1672)],1).play\cf4 //#supercollider reich RT @earslap\cf2 \
+\
+07\
+\cf3 Thor\cf2  \cf3 Magnusson\cf2 \
+play\{x=\cf3 SinOsc\cf2 ;y=\cf3 LFNoise0\cf2 ;a=y.ar(8);(x.ar(\cf3 Pulse\cf2 .ar(1)*24)+x.ar(90+(a*90))+\cf3 MoogFF\cf2 .ar(\cf3 Saw\cf2 .ar(y.ar(4,333,666)),a*\cf3 XLine\cf2 .ar(1,39,99,99,0,2)))!2/3\}\
+\
+08\
+\cf3 Charlie\cf2  \cf3 Hoistman\cf2 \
+\cf3 Ptpar\cf2 ((\{\cf3 |i|\cf2 [i*8,\cf3 Pbind\cf2 (\cf6 \\scale\cf2 ,[0,2,4,7,9],\cf6 \\degree\cf2 ,\cf3 Pseq\cf2 (32.fib.fold(0,10),4)+(2*i+i)-10,\cf6 \\dur\cf2 ,1+2**i%2/6)]\}!4).flat).play \cf4 // #supercollider\cf2 \
+\
+09\
+\cf3 MCLD\cf2 \
+\{\cf3 LocalOut\cf2 .ar(a=\cf3 DynKlank\cf2 .ar(`[\cf3 LocalIn\cf2 .ar.clip2(\cf3 LFPulse\cf2 .kr([1,2,1/8]).sum/2)**100*100],\cf3 Impulse\cf2 .ar(10)));\cf3 HPF\cf2 .ar(a).clip2\}.play\cf4 //\cf2 \
+\
+10\
+\cf3 Julian\cf2  \cf3 Rohrhuber\cf2 \
+\cf4 /*eclecticity*/\cf2  \cf3 Ndef\cf2 (\cf6 \\x\cf2 , \{ \cf3 SinOsc\cf2 .ar(\cf3 BrownNoise\cf2 .ar(30!2, 200), \cf3 Ndef\cf2 (\cf6 \\x\cf2 ).ar * \cf3 LFNoise1\cf2 .kr(1!2,1,1)) \}).play;\
+\
+11\
+\cf3 Micromoog\cf2 \
+play\{\cf3 VarSaw\cf2 .ar((\cf3 Hasher\cf2 .ar(\cf3 Latch\cf2 .ar(\cf3 SinOsc\cf2 .ar((1..4)!2),\cf3 Impulse\cf2 .ar([5/2,5])))*300+300).round(60),0,\cf3 LFNoise2\cf2 .ar(2,1/3,1/2))/5\}\cf4 //#supercollider\cf2 \
+\
+12\
+\cf3 Jose\cf2  \cf3 Padovani\cf2 \
+play\{x=165;b=\cf3 SinOsc\cf2 ;p=\cf3 Trig\cf2 .ar(\cf3 Saw\cf2 .ar(x),1);y=b.ar(p*x);z=b.ar(p);(\cf3 GVerb\cf2 .ar(\cf3 GrainIn\cf2 .ar(2,y,y/2,z,p*z,-1),9))/9\}\cf4 //basso gettato #SuperCollider\cf2 \
+\
+13\
+\cf3 Batuhan\cf2  \cf3 Bozkurt\cf2 \
+play\{\cf3 LeakDC\cf2 .ar(\cf3 BRF\cf2 .ar(\cf3 Saw\cf2 .ar(8,\cf3 Decay2\cf2 .kr(x=\cf3 Duty\cf2 .kr(1/8,0,\cf3 Drand\cf2 ([0,\cf3 Drand\cf2 ((0.4,0.5..1))],\cf3 inf\cf2 )),0.01,0.3))**1.5,x*20+[45.1,45],0.1)).tanh\}\cf4 //#sc\cf2 \
+\
+14\
+\cf3 Nathaniel\cf2  \cf3 Virgo\cf2 \
+\cf3 Ndef\cf2 (\cf6 'x'\cf2 ,\{x=\cf3 Ndef\cf2 (\cf6 'x'\cf2 ).ar+0.01;a=\cf3 BPF\cf2 .ar(x,6**\cf3 Latch\cf2 .ar(x,\cf3 Dust\cf2 .ar(x))*200,0.1).sin;9.do\{a=\cf3 AllpassN\cf2 .ar(a,0.2,\{0.2.rand\}!2,9)\};a+a.mean\}).play;\
+\
+15\
+\cf3 Jason\cf2  \cf3 Dixon\cf2 \
+\{x=\cf3 Array\cf2 .fill(5,\{[0.00001,0.03].asSpec.map(\cf3 LFNoise2\cf2 .kr(3))\});\cf3 Splay\cf2 .ar(\cf3 Friction\cf2 .ar(\cf3 LFTri\cf2 .ar(50),friction:x,mass:x*30000))\}.play\
+\
+16\
+\cf3 Batuhan\cf2  \cf3 Bozkurt\cf2 \
+play\{\cf3 AllpassC\cf2 .ar(\cf3 SinOsc\cf2 .ar(55).tanh,0.4,\cf3 TExpRand\cf2 .ar(2e-4, 0.4,\cf3 Impulse\cf2 .ar(8)).round([2e-3,4e-3]),2)\};\cf4 // #supercollider with bass please...\cf2 \
+\
+17\
+redFrik\
+\{\cf3 RHPF\cf2 .ar(\cf3 GbmanN\cf2 .ar([2300,1150]),\cf3 LFSaw\cf2 .ar(\cf3 Pulse\cf2 .ar(4,[1,2]/8,1,\cf3 LFPulse\cf2 .ar(1/8)/5+1))+2)\}.play \cf4 //punk (loud!)\cf2 \
+\
+18\
+\cf3 Nathaniel\cf2  \cf3 Virgo\cf2 \
+play\{p=\cf3 PinkNoise\cf2 .ar(1!2);\cf3 BRF\cf2 .ar(p+\cf3 Blip\cf2 .ar(p+2,400),150,2,0.1)+\cf3 LPF\cf2 .ar(\cf3 FreeVerb2\cf2 .ar(*\cf3 LPF\cf2 .ar(p+0.2*\cf3 Dust\cf2 .ar(0.1),60)++[1,1,0.2,1e4]).tanh,2000)\}\
+\
+19\
+\cf3 MCLD\cf2 \
+\{a=[0.02,0.1,1,2,3,4]; k=\cf3 LFPar\cf2 .kr(a+0.5).sum; f=\cf3 Latch\cf2 .kr(k,\cf3 Impulse\cf2 .kr(a)); \cf3 Splay\cf2 .ar(\cf3 SinOsc\cf2 .ar(f*100+300)/5)\}.play \cf4 // #supercollider\cf2 \
+\
+20\
+\cf3 Sciss\cf2 \
+play\{2.collect\{\cf3 RecordBuf\cf2 .ar(\cf3 Limiter\cf2 .ar(\cf3 HPF\cf2 .ar(\cf3 Convolution2\cf2 .ar(k=\cf3 Crackle\cf2 .ar(l=\cf3 Line\cf2 .kr(1,2,90)),b=\cf3 LocalBuf\cf2 (2048),\cf3 Dust\cf2 .kr(4)),8)+k)*(2-l),b)\}\}\
+\
+21\
+\cf3 Andrea\cf2  \cf3 Valle\cf2 \
+\{13.do\{\cf3 |i|\cf2 k=\cf5 "SuperCollider"\cf2 [i].ascii;20.do\{\cf3 |u|\cf2 \{\cf3 MoogFF\cf2 .ar(\cf3 Saw\cf2 .ar((k/4).midicps)*\cf3 EnvGen\cf2 .ar(\cf3 Env\cf2 .perc),u+k*9,k/30)\}.play;(k*0.001).wait\}\}\}.fork\
+\
+22\
+\cf3 MCLD\cf2 \
+play\{a=\cf3 Duty\cf2 .kr(0.1,0,\cf3 Dseq\cf2 (fib(32).wrap(20,55).midicps,\cf3 inf\cf2 ));\cf3 HPF\cf2 .ar(\cf3 LeakDC\cf2 .ar(\cf3 Splay\cf2 .ar(\cf3 LFCub\cf2 .ar([-1,a,a/3,-2])))*9).clip2/9\};\cf4 //#supercollider\cf2 \
+\
+\
+\
+\cf3 This\cf2  \cf3 SuperCollider\cf2  source code (c) the authors, published under \cf3 Creative\cf2  \cf3 Commons\cf2  \cf3 BY\cf2 -\cf3 NC\cf2 -\cf3 SA\cf2  3.0.\
+}

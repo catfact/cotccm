@@ -1,0 +1,92 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red191\green0\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 s = \cf3 Server\cf2 .local;\
+s.boot;\
+\
+\cf3 SynthDef\cf2 .new(\cf4 \\sine\cf2 , \{ \cf3 arg\cf2  amp, hz, out=0, pan=0;\
+	\cf3 Out\cf2 .ar(out, \cf3 Pan2\cf2 .ar(\cf3 SinOsc\cf2 .ar(hz) * amp, pan));\
+\}).load(s);\
+\
+~sine = \cf3 Synth\cf2 .new(\cf4 \\sine\cf2 , [\cf4 \\amp\cf2 , -8.dbamp, \cf4 \\hz\cf2 , 330], s);\
+\
+~sine.set(\cf4 \\amp\cf2 , 0.0);\
+~sine.set(\cf4 \\amp\cf2 , -6.dbamp);\
+~sine.set(\cf4 \\amp\cf2 , 0.0);\
+\
+~hz_list = [45.midicps, 52.midicps, 54.midicps, 38.midicps];\
+~hz_list = [45, 52, 54, 38, 47, 59].midicps * 2.0;\
+~hz_list = ~freqs * 2.0;\
+\
+~hz_list = ~hz_list.pyramid(2);\
+\
+~hz_routine_period = 0.12;\
+\
+~hz_period_list = [0.5, 1.0, 2.0, 0.5, 0.75].stutter(3);\
+\
+~hz_routine = \cf3 Routine\cf2 (\{ \cf3 inf\cf2 .do(\{\cf3 arg\cf2  i;\
+	~sine.set(\cf4 \\hz\cf2 , ~hz_list[i % (~hz_list.size)]);\
+	(~hz_routine_period * ~hz_period_list[i % ~hz_period_list.size]).wait;\
+\}) \});\
+\
+~hz_routine.play;\
+~hz_routine.stop;\
+\
+\cf3 SynthDef\cf2 .new(\cf4 \\dist_lpf_stereo_insert\cf2 , \{ \cf3 arg\cf2  in=0, out=0, pan=0, hz, hz_lag = 0.1, rez, dist_mix, lpf_mix;\
+	\cf3 var\cf2  signal, dist;\
+	hz = \cf3 Lag\cf2 .kr(hz, hz_lag);\
+	signal = \cf3 In\cf2 .ar(in, 2);\
+	dist = signal.distort.distort.distort;\
+	signal = (dist * dist_mix) + (signal * (1.0 - dist_mix));\
+	signal = (\cf3 RLPF\cf2 .ar(signal, hz, rez) * lpf_mix) + (signal * (1.0 - lpf_mix));\
+	\cf3 ReplaceOut\cf2 .ar(out, signal);\
+\}).load(s);\
+\
+~fx = \cf3 Synth\cf2 .new(\cf4 \\dist_lpf_stereo_insert\cf2 , [\cf4 \\hz\cf2 , 800, \cf4 \\rez\cf2 , 0.2, \cf4 \\dist_mix\cf2 , 0.8, \cf4 \\lpf_mix\cf2 , 1.0], ~sine, \cf4 \\addAfter\cf2 );\
+\
+~fx.set(\cf4 \\hz\cf2 , 1200);\
+\
+~fx_hz_list = [800, 1200, 400, 1500];\
+\
+~fx_hz_routine_period = 0.56;\
+\
+~fx_hz_routine =  \cf3 Routine\cf2 (\{ \cf3 inf\cf2 .do(\{\cf3 arg\cf2  i;\
+	~fx.set(\cf4 \\hz\cf2 , ~fx_hz_list[i % (~fx_hz_list.size)]);\
+	~fx_hz_routine_period.wait;\
+\}) \});\
+\
+~fx_hz_routine.play;\
+\cf5 //~fx_hz_routine.stop;\cf2 \
+ \
+\
+~fx_rez_list = [0.0, 0.1, 0.2, 0.5, 0.4, 0.14, 0.05].pyramid(2).pyramid(4) * 2.0 + 0.2;\
+~fx_rez_routine_period = 0.424;\
+\
+~fx_rez_routine =  \cf3 Routine\cf2 (\{ \cf3 inf\cf2 .do(\{\cf3 arg\cf2  i;\
+	~fx.set(\cf4 \\rez\cf2 , ~fx_rez_list[i % (~fx_rez_list.size)]);\
+	~fx_rez_routine_period.wait;\
+\}) \});\
+\
+~fx_rez_routine.play;\
+\cf5 //~fx_rez_routine.stop;\cf2 \
+\
+\
+~fx_dist_list = [0.0, 1.0, 0.7, 1.3, 2.0].pyramid(5).pyramid(3);\
+\
+~fx_dist_routine_period = 0.324;\
+\
+~fx_dist_routine =  \cf3 Routine\cf2 (\{ \cf3 inf\cf2 .do(\{\cf3 arg\cf2  i;\
+	~fx.set(\cf4 \\dist_mix\cf2 , ~fx_dist_list[i % (~fx_dist_list.size)]);\
+	~fx_dist_routine_period.wait;\
+\}) \});\
+\
+~fx_dist_routine.play;\
+~fx_dist_routine.stop;\
+\
+\
+~fx.set(\cf4 \\lpf_mix\cf2 , 0.6);\
+\
+~fx.free;}

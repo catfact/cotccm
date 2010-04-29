@@ -1,0 +1,42 @@
+digraph pitch_amp_logic
+	{
+		readamp [label="read input amplitude" shape=parallelogram];
+		readpitch [label="read input frequency" shape=parallelogram];
+	
+		ampcomp [label="amplitude loud enough?" shape=diamond];
+		durcomp [label="current time - start time > time threshold?" shape=diamond];
+		pitchcomp [label="pitch == target pitch?" shape=diamond];
+		lastampcomp1 [label="last amplitude loud enough?" shape=diamond];
+		lastampcomp2 [label="last amplitude loud enough?" shape=diamond];
+		
+		setdur [label="duration = current time - start time" shape=box];
+		setstart [label="start time = current time" shape=box];
+		setechotime [label="set next echo time" shape=box color=red];
+		settargetpitch1 [label="target pitch = current pitch" shape=box];
+		settargetpitch2 [label="target pitch = current pitch" shape=box];
+		
+		newnote [label="play note using frequency, amp, duration" shape=box color=red];
+		
+		setlastamp [label="last amp = current amp" shape=box];
+		
+		wait[label="wait" shape=box];
+		
+		readamp -> readpitch -> ampcomp
+		ampcomp -> lastampcomp1 [label="NO"]
+		lastampcomp1 -> setlastamp [label="NO"]
+		lastampcomp1 -> setdur [label="YES"]
+		
+		ampcomp -> lastampcomp2 [label="YES"]
+		lastampcomp2 -> setstart [label="NO"]
+		lastampcomp2 -> durcomp [label="YES"]
+		setstart -> settargetpitch1 -> durcomp
+		durcomp -> setlastamp [label="NO"]
+		durcomp -> pitchcomp [label="YES"]
+		pitchcomp -> settargetpitch2 [label="NO"]
+		settargetpitch2 -> setlastamp
+		pitchcomp -> newnote [label="YES"]
+		
+		newnote -> setlastamp
+		
+		setdur -> setechotime -> setlastamp -> wait -> readamp
+	}
