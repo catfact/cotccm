@@ -62,3 +62,58 @@ w.view.keyUpAction = { arg view, char;
 		~vgrain_rec.set(\reclevel, 0.0);
 	});
 };
+
+~butN_func = {
+	arg val;
+	if (val > 0, {
+		{ w.view.background = Color.green; }.defer;
+		postln(" VOXX REC ON...........
+		..............
+		..........
+		.....");
+		~vgrain_rec.set(\reclevel, 1.0);
+		~vgrain_rec.set(\trig, 0);
+		~vgrain_rec.set(\trig, 1);
+
+	}, {
+		{ w.view.background = Color.black; }.defer;
+		postln(" VOXX REC OFF...........
+		..............
+		..........
+		.....");
+		~vgrain_rec.set(\reclevel, 0.0);
+	});
+};
+
+
+~butS_func = {
+	arg val;
+	if (val > 0, {
+		postln(" CLEARING VOX GRAINS...........
+		..............
+		..........
+		.....");
+		~vgrain_rec.set(\prelevel, 0.0);
+	}, {
+		postln(" DONE CLEARinG...........
+		..............
+		..........
+		.....");
+		~vgrain_rec.set(\prelevel, 1.0);
+	});
+};
+
+
+~butE_func = {
+	arg val;
+	if (val > 0, {
+		postln(" POLL HZ...........
+		..............
+		..........
+		.....");
+		~setvhz.value;
+	}, {
+
+	});
+};
+

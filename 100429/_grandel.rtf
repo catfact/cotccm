@@ -1,55 +1,55 @@
 {\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
 {\fonttbl\f0\fnil\fcharset0 Monaco;}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green115\blue0;\red191\green0\blue0;
-\red96\green96\blue96;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red191\green0\blue0;\red96\green96\blue96;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f0\fs18 \cf0 s = \cf2 Server\cf0 .internal;\
-s.waitForBoot \{ \cf2 Routine\cf0  \{\
+\f0\fs18 \cf2 s = \cf3 Server\cf2 .internal;\
+s.waitForBoot \{ \cf3 Routine\cf2  \{\
 \
-	\cf2 SynthDef\cf0 .new(\cf3 \\patch\cf0 , \{\cf2 arg\cf0  in, out, amp=1.0, amplag=1.0;\
-		amp = \cf2 Lag\cf0 .kr(amp, amplag);\
-		\cf2 Out\cf0 .ar(out, \cf2 In\cf0 .ar(in) * amp);\
+	\cf3 SynthDef\cf2 .new(\cf4 \\patch\cf2 , \{\cf3 arg\cf2  in, out, amp=1.0, amplag=1.0;\
+		amp = \cf3 Lag\cf2 .kr(amp, amplag);\
+		\cf3 Out\cf2 .ar(out, \cf3 In\cf2 .ar(in) * amp);\
 	\}).store;\
 	\
 	\
-	\cf2 SynthDef\cf0 .new(\cf3 \\adc\cf0 , \{\cf2 arg\cf0  in, out, amp=1.0, amplag=1.0;\
-		amp = \cf2 Lag\cf0 .kr(amp, amplag);\
-		\cf2 Out\cf0 .ar(out, \cf2 SoundIn\cf0 .ar(in) * amp);\
+	\cf3 SynthDef\cf2 .new(\cf4 \\adc\cf2 , \{\cf3 arg\cf2  in, out, amp=1.0, amplag=1.0;\
+		amp = \cf3 Lag\cf2 .kr(amp, amplag);\
+		\cf3 Out\cf2 .ar(out, \cf3 SoundIn\cf2 .ar(in) * amp);\
 	\}).store;\
 	\
 		\
-	\cf2 SynthDef\cf0 .new(\cf3 \\fb_rlpf\cf0 , \{\
-		\cf2 arg\cf0  in=0, out=0,\
+	\cf3 SynthDef\cf2 .new(\cf4 \\fb_rlpf\cf2 , \{\
+		\cf3 arg\cf2  in=0, out=0,\
 			amp=0.125, hz=5000, rq=0.5,\
 			amplag=0.1, hzlag=0.1, rqlag=0.1;\
 			\
-		\cf2 var\cf0  sig;\
+		\cf3 var\cf2  sig;\
 		\
-		amp = \cf2 Lag\cf0 .kr(amp, amplag);\
-		hz= \cf2 Lag\cf0 .kr(hz, hzlag);\
-		rq = \cf2 Lag\cf0 .kr(rq, rqlag);\
+		amp = \cf3 Lag\cf2 .kr(amp, amplag);\
+		hz= \cf3 Lag\cf2 .kr(hz, hzlag);\
+		rq = \cf3 Lag\cf2 .kr(rq, rqlag);\
 		\
-		sig = \cf2 InFeedback\cf0 .ar(in, 1);\
-		sig = \cf2 RLPF\cf0 .ar(sig, hz, rq);\
+		sig = \cf3 InFeedback\cf2 .ar(in, 1);\
+		sig = \cf3 RLPF\cf2 .ar(sig, hz, rq);\
 		\
-		\cf2 Out\cf0 .ar(out, sig * amp);\
+		\cf3 Out\cf2 .ar(out, sig * amp);\
 	\}).store;\
 	\
 	s.sync;\
 	\
-	~gran_g = \cf2 Group\cf0 .new(s);\
-	~in_g = \cf2 Group\cf0 .before(~gran_g);\
-	~out_g = \cf2 Group\cf0 .after(~gran_g);\
+	~gran_g = \cf3 Group\cf2 .new(s);\
+	~in_g = \cf3 Group\cf2 .before(~gran_g);\
+	~out_g = \cf3 Group\cf2 .after(~gran_g);\
 	\
-	~gran_in_b = \cf2 Array\cf0 .fill(6, \{ \cf2 Bus\cf0 .audio(s, 1); \});\
-	~gran_out_b = \cf2 Array\cf0 .fill(6, \{ \cf2 Bus\cf0 .audio(s, 1); \});\
+	~gran_in_b = \cf3 Array\cf2 .fill(6, \{ \cf3 Bus\cf2 .audio(s, 1); \});\
+	~gran_out_b = \cf3 Array\cf2 .fill(6, \{ \cf3 Bus\cf2 .audio(s, 1); \});\
 	\
-	~in_s = \cf2 Array\cf0 .fill(6, \{ \cf2 arg\cf0  i; \cf2 Synth\cf0 .new(\cf3 \\adc\cf0 , [\cf3 \\in\cf0 , 1, \cf3 \\out\cf0 , ~gran_in_b[i].index], ~in_g); \});\
-	~out_s = \cf2 Array\cf0 .fill(6, \{ \cf2 arg\cf0  i; \cf2 Synth\cf0 .new(\cf3 \\patch\cf0 , [\cf3 \\in\cf0 , ~gran_out_b[i].index, \cf3 \\out\cf0 , i % 2, \cf3 \\amp\cf0 , 0.0], ~out_g); \});\
+	~in_s = \cf3 Array\cf2 .fill(6, \{ \cf3 arg\cf2  i; \cf3 Synth\cf2 .new(\cf4 \\adc\cf2 , [\cf4 \\in\cf2 , 1, \cf4 \\out\cf2 , ~gran_in_b[i].index], ~in_g); \});\
+	~out_s = \cf3 Array\cf2 .fill(6, \{ \cf3 arg\cf2  i; \cf3 Synth\cf2 .new(\cf4 \\patch\cf2 , [\cf4 \\in\cf2 , ~gran_out_b[i].index, \cf4 \\out\cf2 , i % 2, \cf4 \\amp\cf2 , 0.0], ~out_g); \});\
 	\
-	~gran = \cf2 Array\cf0 .fill (6, \{ \cf2 arg\cf0  i;\
-		\cf2 Grandel\cf0 .new(s, ~gran_in_b[i].index, ~gran_out_b[i].index, ~gran_g, \cf3 \\addToTail\cf0 );\
+	~gran = \cf3 Array\cf2 .fill (6, \{ \cf3 arg\cf2  i;\
+		\cf3 Grandel\cf2 .new(s, ~gran_in_b[i].index, ~gran_out_b[i].index, ~gran_g, \cf4 \\addToTail\cf2 );\
 	\});\
 	\
 	0.01.wait;\
@@ -96,88 +96,64 @@ s.waitForBoot \{ \cf2 Routine\cf0  \{\
 	~gran[5].release = 0.25;\
 	~gran[5].deltime = 0.5;\
 \
-	~fb = \cf2 Array\cf0 .fill(6, \{ \cf2 arg\cf0  i;\
-		\cf2 Synth\cf0 .new(\cf3 \\fb_rlpf\cf0 , [\
-			\cf3 \\in\cf0 , ~gran_out_b[i].index,\
-			\cf3 \\out\cf0 , ~gran_in_b[(i+1) % 6].index,\
-			\cf3 \\amp\cf0 , 0.0,\
-			\cf3 \\amplag\cf0 , 4.0,\
-			\cf3 \\rqlag\cf0 , i + 1,\
-			\cf3 \\hzlag\cf0 , (i*2) + 1,\
-			\cf3 \\hz\cf0 , 800 * (1.5 ** i),\
-			\cf3 \\rq\cf0 , 0.4\
-		], ~in_g, \cf3 \\addBefore\cf0 );\
+	~fb = \cf3 Array\cf2 .fill(6, \{ \cf3 arg\cf2  i;\
+		\cf3 Synth\cf2 .new(\cf4 \\fb_rlpf\cf2 , [\
+			\cf4 \\in\cf2 , ~gran_out_b[i].index,\
+			\cf4 \\out\cf2 , ~gran_in_b[(i+1) % 6].index,\
+			\cf4 \\amp\cf2 , 0.0,\
+			\cf4 \\amplag\cf2 , 4.0,\
+			\cf4 \\rqlag\cf2 , i + 1,\
+			\cf4 \\hzlag\cf2 , (i*2) + 1,\
+			\cf4 \\hz\cf2 , 800 * (1.5 ** i),\
+			\cf4 \\rq\cf2 , 0.4\
+		], ~in_g, \cf4 \\addBefore\cf2 );\
 	\});\
 	\
 	\
-	~fb.do(\{\cf2 arg\cf0  syn;\
-		syn.set(\cf3 \\amp\cf0 , -24.dbamp);\
-		syn.set(\cf3 \\rq\cf0 , 0.8);\
+	~fb.do(\{\cf3 arg\cf2  syn;\
+		syn.set(\cf4 \\amp\cf2 , -24.dbamp);\
+		syn.set(\cf4 \\rq\cf2 , 0.8);\
 	\});\
 	\
 	\
-	\cf4 ///////// hid and gui\cf0 \
-	\cf2 Routine\cf0  \{\
-	w = \cf2 SCWindow\cf0 .new(\cf5 "_"\cf0 );\
+	\cf5 ///////// hid and gui\cf2 \
+	\cf3 Routine\cf2  \{\
+	w = \cf3 SCWindow\cf2 .new(\cf6 "_"\cf2 );\
 	w.front;\
 	\
 	~switch = 0;\
-	~switchtap = \cf2 CfTapper\cf0 .new;\
+	~switchtap = \cf3 CfTapper\cf2 .new;\
 	\
-	\cf2 GeneralHID\cf0 .buildDeviceList;\
-	~hid_dev  = \cf2 GeneralHID\cf0 .deviceList;\
-	\cf2 GeneralHID\cf0 .postDevices;\
-			\
-	~pad = \cf2 GeneralHID\cf0 .open( \cf2 GeneralHID\cf0 .findBy(0x07B5) );\
-	~pad.debug_( \cf2 true\cf0  );\
-	 \
-	 0.1.wait;\
-	 postln(\cf5 "yah"\cf0 );\
-	 \
-	 ~pad.makeGui;\
-	 \
-	~pad_spec = \cf2 GeneralHIDSpec\cf0 .new( ~pad );\
-	~pad_spec.add(\cf3 \\switch\cf0 , [1, 7]);\
-	\
-	~pad_spec.map.postcs;\
-	\
-	~pad_spec;\
-	\
-	~pad_spec.action_(\cf3 \\switch\cf0 , \{ \cf2 arg\cf0  slot; \
-		\cf5 "footswitch"\cf0 .postln;\
-		if(slot.value > 0, \{\
-			postln(\cf5 "press"\cf0 );\
+	~switch_func = \cf3 arg\cf2  val; \
+		\cf6 "footswitch"\cf2 .postln;\
+		if(val > 0, \{\
+			postln(\cf6 "press"\cf2 );\
 			~switchtap.tap;\
 		\}, \{\
-			postln(\cf5 "lift"\cf0 );\
+			postln(\cf6 "lift"\cf2 );\
 			if(~switch > 0, \{\
-				postln(\cf5 "turning off"\cf0 );\
-				~out_s.do(\{ \cf2 arg\cf0  syn;\
-					syn.set(\cf3 \\amplag\cf0 , ~switchtap.now);\
-					syn.set(\cf3 \\amp\cf0 , 0.0);\
-				\});\
+				postln(\cf6 "turning off"\cf2 );\
+				~out_g.set(\cf4 \\amplag\cf2 , ~switchtap.now);\
+				~out_g.set(\cf4 \\amp\cf2 , 0.0);\
 				~switch = 0;\
-				\{ w.view.background = \cf2 Color\cf0 .black; \}.defer;\
+				\{ w.view.background = \cf3 Color\cf2 .black; \}.defer;\
 			\}, \{\
-				postln(\cf5 "turning on"\cf0 );\
-				~out_s.do(\{ \cf2 arg\cf0  syn;\
-					syn.set(\cf3 \\amplag\cf0 , ~switchtap.now);\
-					syn.set(\cf3 \\amp\cf0 , 0.2);\
-				\});\
+				postln(\cf6 "turning on"\cf2 );\
+				~out_g.set(\cf4 \\amplag\cf2 , ~switchtap.now);\
+				~out_g.set(\cf4 \\amp\cf2 , 0.2);\
 				~switch = 1;\
-				\{ w.view.background = \cf2 Color\cf0 .red; \}.defer;\
+				\{ w.view.background = \cf3 Color\cf2 .red; \}.defer;\
 			\});\
 		\});\
 	\});\
-	\
-	\cf2 GeneralHID\cf0 .startEventLoop;\
-	\}.play(\cf2 AppClock\cf0 );\
-	\cf4 //////\cf0 \
+\
+	\}.play(\cf3 AppClock\cf2 );\
+	\cf5 //////\cf2 \
 	\
 \}.play; \};	\
 \
 \
-\cf4 /*\
+\cf5 /*\
 ~gran_in_b[0].scope;\
 ~gran_out_b[0].scope;\
 */}
