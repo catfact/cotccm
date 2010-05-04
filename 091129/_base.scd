@@ -107,6 +107,7 @@ s.waitForBoot { Routine {
 		arg buf, i;
 		buf.sine3Msg(~vbufdata[i][0], ~vbufdata[i][1], ~vbufdata[i][2], normalize:false, asWavetable:true);
 	});
+	
 	s.sync;
 	
 	////// output
