@@ -3,7 +3,7 @@ x = { |p| this.executeFile(~basepath++p); };
 
 
 //s = Server.default;
-//s.options.memSize = 8192 * 4;
+s.options.memSize = 8192 * 4;
 s.waitForBoot {
 
 //s.freeAll;

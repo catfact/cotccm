@@ -1,5 +1,4 @@
 //s = Server.internal;
-
 //s.waitForBoot{
 
 SynthDef.new(\limit_insert_s, { arg bus=0, mix=1.0, controlin = -1, mixlag=0.01, limthresh=0.4, amp=0.08, preamp=1.0;
@@ -321,6 +320,24 @@ SynthDef.new(\bufd_killattack, {
 	LocalOut.ar(delay);
 	Out.ar(out, delay * amp);
 }).load(s);
+
+
+SynthDef.new(\bufd_killattack, {
+	arg in=0, out=0, buf=0, time=1.0, amp=1.0, fbamp=0.0, inamp=1.0, amplag=1.0,
+		attack = 2.0, release=0.2, thresh = -24.dbamp, shorttime=0.13, shortamp=0.4;
+	var input = SoundIn.ar(in) + (LocalIn.ar(1) * fbamp);
+	var delay;
+	var theamp;
+	amp = Lag.kr(amp, amplag);
+	
+	theamp = Amplitude.kr(input);
+	theamp = LagUD.kr(InRange.kr(theamp, thresh), attack, release);
+	
+	delay = BufDelayC.ar(buf, input*inamp * theamp, time);
+	delay = delay + (DelayN.ar(delay, 1.0, shorttime) * shortamp);
+	LocalOut.ar(delay);
+	Out.ar(out, delay * amp);
+}).store(s);
 
 
 SynthDef.new(\bufdb, {arg in=0, out=0, buf=0, time=1.0, amp=1.0, fbamp=0.0, inamp=1.0, amplag=1.0;
@@ -826,10 +843,6 @@ SynthDef.new(\bufgrain_pan, {
 	
 	Out.ar(out, Pan2.ar(grains * amp * env, pan));
 }).load(s);
-
-
-
-
 
 
 //////

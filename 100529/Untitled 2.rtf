@@ -1,0 +1,35 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 s = \cf3 Server\cf2 .default;\
+s.boot;\
+\
+\cf3 SynthDef\cf2 .new(\cf4 \\sines4\cf2 , \{\
+	\cf3 arg\cf2  out=0, amp=0.062797160787739,\
+		hz=#[220, 221, 222, 223],\
+		pan=#[-0.4, -0.4, 0.4, 0.8],\
+		panlag=4.0,\
+		hzlag = #[0, 2, 4, 6];\
+	pan = \cf3 Lag\cf2 .kr(pan, panlag);\
+	hz = \cf3 Lag\cf2 .kr(hz, hzlag);\
+	\cf3 Out\cf2 .ar(out, amp * \cf3 Mix\cf2 .new(\cf3 Pan2\cf2 .ar(\cf3 SinOsc\cf2 .ar(hz), pan)));\
+\}).store;\
+\
+x = \cf3 Synth\cf2 .new(\cf4 \\sines4\cf2 , [\cf4 \\hz\cf2 , 220 + #[2, 4, 6, 8], \cf4 \\pan\cf2 , [-1, -0.5, 0.5, 1] ]);\
+\
+x.trace;\
+x.free;\
+\
+~hz = \cf3 Array\cf2 .geom(4, 1.0, 13/11) * 220;\
+x.set(\cf4 \\hz\cf2 , ~hz);\
+\
+~pan = \cf3 Array\cf2 .fill(4, \{1.0.rand2\}); x.set(\cf4 \\pan\cf2 , ~pan); ~pan.postln;\
+\
+x.free;\
+\
+x = \cf3 SynthDef\cf2 .new(\cf4 \\panarrtest\cf2 , \{\
+	\cf3 Out\cf2 .ar(0, 0.25 * \cf3 Mix\cf2 .new(\cf3 Pan2\cf2 .ar(\cf3 SinOsc\cf2 .ar(#[220, 330, 500, 750]), #[-1, -1, -1, 0.8])));\
+\}).play;}

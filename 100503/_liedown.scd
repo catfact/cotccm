@@ -77,5 +77,6 @@ s.sync;
 ~liedown_vla.set(\deldown, 2.5);
 ~liedown_vla.set(\delup, 1.25);
 ~liedown_vla.set(\deldry, 1.0);
-//~liedown_vox.set(\amp, 2.dbamp);
+~liedown_vox.set(\amp, 8.dbamp);
+//~god_vox.set(\amp, 4.dbamp);
 }.play; };

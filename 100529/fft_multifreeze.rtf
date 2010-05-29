@@ -1,0 +1,80 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 s = \cf2 Server\cf0 .internal;\
+s.boot;\
+s.waitForBoot \{\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 SynthDef\cf0 .new(\cf3 \\specfreeze_shift_8\cf0 , \{\
+	\cf2 arg\cf0  in=0, out=0, buf=0,\
+		proc_buf 			= #[1, 2, 3, 4, 5, 6, 7, 8],\
+		freeze 		= #[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],\
+		amp 			= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],\
+		amplag 		= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],\
+		stretch		= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],\
+		shift		= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],\
+		stretchlag 	= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],\
+		shiftlag 		= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],\
+		pan 			= #[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],\
+		panlag 		= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+		\
+	\cf2 var\cf0  input, output, inputchain, outputchain;\
+	\
+	stretch = \cf2 Lag\cf0 .kr(stretch, stretchlag);\
+	shift = \cf2 Lag\cf0 .kr(shift, shiftlag);\
+	input = \cf2 In\cf0 .ar(in);\
+	inputchain = \cf2 FFT\cf0 (buf, input);\
+	outputchain = \cf2 PV_Copy\cf0 (inputchain, proc_buf);\
+	outputchain = \cf2 PV_Freeze\cf0 (outputchain, freeze);\
+	outputchain = \cf2 PV_BinShift\cf0 (outputchain, stretch, shift);\
+	output = \cf2 IFFT\cf0 (outputchain);\
+	amp = \cf2 Lag\cf0 .kr(amp, amplag);\
+	pan = \cf2 Lag\cf0 .kar(pan, panlag);\
+	output = \cf2 Mix\cf0 .new(\cf2 Pan2\cf0 .ar(output*amp, pan));\
+	\cf2 Out\cf0 .ar(out, output);\
+\}).store;\
+\
+\
+~in_b = \cf2 Bus\cf0 .audio(s, 1);\
+~in_s = \{\cf2 Out\cf0 .ar(~in_b.index, \cf2 SoundIn\cf0 .ar(0));\}.play(s);\
+\
+~in_b.scope;\
+\
+~fft_in_buf = \cf2 Buffer\cf0 .alloc(s, 2048);\
+~fft_proc_buf = \cf2 Array\cf0 .fill(8, \cf2 Buffer\cf0 .alloc(s, 2048));\
+\
+\
+~freeze 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+~amp 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] * (-24.dbamp);\
+~amplag 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+~stretch		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+//~shift		= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];\
+~shift		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+~stretchlag 	= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+~shiftlag 	= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+~pan 		= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];\
+~panlag 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];\
+\
+~freezer_s = \cf2 Synth\cf0 .new(\cf3 \\specfreeze_shift_8\cf0 , [\
+	\cf3 \\in\cf0 , ~in_b.index,\
+	\cf3 \\buf\cf0 , ~fft_in_buf.bufnum,\
+	\cf3 \\proc_buf\cf0 , \cf2 Array\cf0 .fill(8, \{\cf2 |i|\cf0  ~fft_proc_buf[i].bufnum \}),\
+	\cf3 \\freeze\cf0 , ~freeze,\
+	\cf3 \\amp\cf0 , ~amp,\
+	\cf3 \\amplag\cf0 , ~amplag,\
+	\cf3 \\strech\cf0 , ~stretch,\
+	\cf3 \\shift\cf0 , ~shift,\
+	\cf3 \\stretchlag\cf0 , ~stretchlag,\
+	\cf3 \\shiftlag\cf0 , ~shiftlag,\
+	\cf3 \\pan\cf0 , ~pan,\
+	\cf3 \\panlag\cf0 , ~panlag\
+], ~in_s, \cf3 \\addAfter\cf0 );\
+\
+~snapshot = \{ \cf2 arg\cf0  which; \cf2 Routine\cf0  \{\
+	~freeze[which] = 0; ~freezer_s.set(\cf3 \\freeze\cf0 , ~freeze);\
+	0.1.wait;\
+	~freeze[which] = 1; ~freezer_s.set(\cf3 \\freeze\cf0 , ~freeze);\
+\}.play; \};}

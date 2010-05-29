@@ -1,0 +1,37 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 ~freezer_s.free;\
+\
+~freezer_s.set(\\shift, ~shift);\
+\
+~amplag = \cf3 Array\cf2 .fill(8, 4.0); ~freezer_s.set(\cf4 \\amplag\cf2 , ~amplag);\
+~amp = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] * (-12.dbamp); ~freezer_s.set(\cf4 \\amp\cf2 , ~amp);\
+\
+~win = \cf3 SCWindow\cf2 .new;\
+~win.view.keyDownAction = \{\
+	\cf3 arg\cf2  view, char, unicode, keycode; \
+	\cf3 var\cf2  which = \cf3 nil\cf2 ;\
+	which = char.switch(\
+		$1, 1,\
+		$2, 2,\
+		$3, 3,\
+		$4, 4,\
+		$5, 5,\
+		$6, 6,\
+		$7, 7,\
+		$8, 8\
+	);\
+	postln(which);\
+	if(which.notNil, \{\
+		~snapshot.value(which);\
+	\});\
+\};\
+~win.front;\
+\
+~panlag = \cf3 Array\cf2 .fill(8, \{2.0 + 4.0.rand\}); ~freezer_s.set(\cf4 \\panlag\cf2 , ~panlag);\
+~pan = \cf3 Array\cf2 .fill(8, \{1.0.rand2\}); ~freezer_s.set(\cf4 \\pan\cf2 , ~pan);\
+~pan = \cf3 Array\cf2 .series(8, -0.75, 1.5/7); ~freezer_s.set(\cf4 \\pan\cf2 , ~pan); }
