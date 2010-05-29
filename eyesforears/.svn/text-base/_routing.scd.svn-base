@@ -1,0 +1,104 @@
+
+////////////////////////
+////////////////////////
+// -- channel indices
+~input_map = Dictionary[
+	\vla->0,
+	\mic->1,
+	\key->4,
+	\bbox->5,
+	\fxloop->6
+];
+
+~output_map = Dictionary[
+	\main->0,
+	\fxloop->2,
+	\bbox->4
+];
+////////////////////////
+////////////////////////
+
+
+s.waitForBoot {
+Routine {
+
+// -- synthdefs
+SynthDef.new(\patch, { arg in = 0, out=0, amp = 1.0, amplag = 0.01;	Out.ar(out, In.ar(in) * Lag.kr(amp, amplag));
+}).send(s);
+
+SynthDef.new(\adc_patch, {arg in=0, out=0, amp=1, amplag = 0.01;
+	var sig;
+	amp = Lag.kr(amp, amplag);
+	sig = SoundIn.ar(in);
+	Out.ar(out, sig * amp);
+}).send(s);
+
+s.sync;
+
+// -- global group creation
+~ig = Group.new(s);		// anything that reads HW here
+~xg = Group.after(~ig);		// anything that requires HW input here
+~og = Group.after(~xg);		// anything that writes to HW here
+
+//-- busses
+~ib = ~input_map.collect({arg channel, key;
+	Bus.audio(s, 1);
+});
+
+// output busses are stereo!
+~ob = ~output_map.collect({arg channel, key;
+	Bus.audio(s, 2);
+});
+
+// -- synths
+~is = ~input_map.collect({arg channel, key;
+	Synth.new(\adc_patch,  [\in, channel, \out, ~ib.[key].index], ~ig); 
+});
+
+// output busses are stereo!
+~os = ~output_map.collect({arg channel, key;
+	Synth.new(\patch_stereo, [\in, ~ob[key].index, \out, channel], ~og);
+});
+
+
+// and here are the actual patching synths....
+p = Dictionary.new;
+
+p.add(\key_main -> Synth.new(\patch_pan, [
+		\in, ~ib[\key],
+		\out, ~ob[\main]
+	],~og, \addBefore)
+);
+
+p.add(\key_fxloop -> Synth.new(\patch_pan, [
+		\in, ~ib[\key],
+		\out, ~ob[\fxloop]
+	],~og, \addBefore)
+);
+
+p.add(\vla_fx -> Synth.new(\patch_pan, [
+		\in, ~ib[\vla],
+		\out, ~ob[\fxloop]
+	],~og, \addBefore)
+);
+
+p.add(\fxloop_main -> Synth.new(\patch_pan, [
+		\in, ~ib[\fxloop],
+		\out, ~ob[\main]
+	],~og, \addBefore)
+);
+
+p.add(\bbox_main -> Synth.new(\patch_pan, [
+		\in, ~ib[\bbox],
+		\out, ~ob[\main]
+	],~og, \addBefore)
+);
+
+p.add(\key_bbox -> Synth.new(\patch_pan, [
+		\in, ~ib[\key],
+		\out, ~ob[\bbox]
+	],~og, \addBefore)
+);
+
+}.play; // sync routine
+}; // waitforboot;

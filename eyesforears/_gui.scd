@@ -1,0 +1,70 @@
+{
+
+w = Window.new("EYES FOR EARS", Rect(0, 0, 800, 600));
+w.front;
+
+/*
+~iobut = ~input_map.collect({arg channel, key, which;
+	Button(w, Rect(0, 10 + (channel * 76), 50, 50)).states_([
+		[key, Color
+	]);
+});
+*/
+
+~uiflags = Dictionary.new;
+~uiflags.add(\vla_fxloop -> true;);
+~uiflags.add(\chimes -> false);
+~uiflags.add(\vla_grains -> false);
+
+
+~buts = Dictionary[
+	\vla_fxloop -> Button(w, Rect(0, 0, 266, 600)).states_([["", Color.black, Color.black],["VLAFX", Color.black, Color.white]]).value_(1).canFocus_(false),
+	\chimes -> Button(w, Rect(266, 0, 266, 600)).states_([["", Color.black, Color.black],["CHIMES", Color.black, Color.red]]).value_(0).canFocus_(false),
+	\vla_grains -> Button(w, Rect(532, 0, 268, 600)).states_([["", Color.black, Color.black],["VLASUST", Color.black, Color.blue]]).value_(0).canFocus_(false)
+];
+
+
+w.view.keyDownAction = { arg view, char;
+
+	if (char == $ , {
+		if (~uiflags[\vla_fxloop], {
+			~uiflags[\vla_fxloop] = false;
+			p[\vla_fxloop].set(\amp, 0.0);
+			~buts[\vla_fxloop].valueAction_(0);
+		}, {
+			~uiflags[\vla_fxloop] = true;
+			p[\vla_fxloop].set(\amp, 1.0);
+			~buts[\vla_fxloop].valueAction_(1);
+		});
+	});
+	
+	if (char == $\r, {
+		if (~uiflags[\chimes], {
+			~uiflags[\chimes] = false;
+			~chimes_1.set(\amplag, 720.0);
+			~chimes_1.set(\amp, 0.0);
+			~buts[\chimes].valueAction_(0);
+		}, {
+			~uiflags[\chimes] = true;
+			~chimes_1.set(\amplag, 360.0);
+			~chimes_1.set(\amp, -11.dbamp);
+			~buts[\chimes].valueAction_(1);
+		});
+	});
+	
+	if (char == $s, {
+		if (~uiflags[\vla_grains], {
+			~uiflags[\vla_grains] = false;
+			~vla_grain_s.set(\amp, 0.0);
+			~vla_grain_s_2.set(\amp, 0.0);
+			~buts[\vla_grains].valueAction_(0);
+		}, {
+			~uiflags[\vla_grains] = true;
+			~vla_grain_s.set(\amp, 1.0);
+			~vla_grain_s_2.set(\amp, 1.0);
+			~buts[\vla_grains].valueAction_(1);
+		});
+	});
+};
+
+}.defer;

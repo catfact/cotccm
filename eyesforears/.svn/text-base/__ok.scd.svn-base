@@ -1,0 +1,42 @@
+x = {arg path; this.executeFile('/Users/e/_svn/cotccm/eyesforears/'++path); }; 
+
+s = Server.internal;
+s.waitForBoot {
+
+Routine {
+// MOTU hardware routing
+x.value("_routing.scd");
+x.value("_midi.scd");
+"routing.\n.".postln;
+1.0.wait;
+
+// sample playback
+x.value("_sample.scd");
+"sample.\n.".postln;
+
+// remains
+~vla_remains = CfRemains.new(s);
+0.05.wait;
+~vla_remains.setinputchannel(~input_map[\vla]);
+0.05.wait;
+~vla_remains.setamplag(90.0);
+0.05.wait;
+~vla_remains.setvoscamp(-16.dbamp);
+0.05.wait;
+~vla_remains.amp_thresh = -48.dbamp;
+0.05.wait;
+~vla_remains.mintimeunit = 1.5;
+
+"remains.\n.".postln;
+
+// vla grains
+x.value("__vla_grains_oh.scd");
+1.0.wait;
+
+// gui
+x.value("_gui.scd");
+
+// remains ?
+
+}.play;
+};
