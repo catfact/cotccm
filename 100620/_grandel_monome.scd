@@ -40,8 +40,8 @@ s.waitForBoot { Routine {
 	~gran_in_b = Array.fill(8, { Bus.audio(s, 1); });
 	~gran_out_b = Array.fill(8, { Bus.audio(s, 1); });
 
-//	~gran_in0_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 0, \out, ~gran_in_b[i].index], ~gran_in_g); });
-	~gran_in_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 1, \out, ~gran_in_b[i].index, \amp, 0.0], ~gran_in_g); });
+	~gran_in1_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 1, \out, ~gran_in_b[i].index], ~gran_in_g); });
+	~gran_in_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 0, \out, ~gran_in_b[i].index, \amp, 0.0], ~gran_in_g); });
 	~gran_out_s = Array.fill(8, { arg i; Synth.new(\patch, [\in, ~gran_out_b[i].index, \out, i % 2, \amp, 0.0], ~gran_out_g); });
 	
 	~gran = Array.fill (8, { arg i;

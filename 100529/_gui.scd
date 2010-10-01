@@ -171,7 +171,7 @@ Routine {
 			Pen.addRect(Rect(i*(~win.bounds.width - 100 / (~amp.size - 1)), ~win.bounds.height*0.5 - 50, 100, 100));
 			Pen.perform(\fill);
 		});
-		(""++Date.localtime++"").drawCenteredIn(Rect(0, 0, 200, 40), Font("Arial", 9), Color.white);
+		(""++Date.localtime++"").drawCenteredIn(Rect(0, 0, 200, 40), Font("Arial", 19), Color.white);
 	};
 	
 	~refresh = Routine {inf.do({
@@ -198,7 +198,7 @@ Routine {
 	
 	~win.view.background = Color.black;
 	
-	~win.fullScreen;
+//	~win.fullScreen;
 
 	~win.front;
 }.play(AppClock);

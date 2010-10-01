@@ -131,11 +131,10 @@ SynthDef.new(\specfreeze_shift_8, {
 ~amp 		= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 ~amplag 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 ~stretch		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-//~shift		= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 ~shift		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 ~stretchlag 	= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 ~shiftlag 	= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-~pan 		= Array.series(8, -1, (2/7)); //[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+~pan 		= Array.series(8, -1, (2/7));
 ~panlag 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 
 ~freezer_s = Synth.new(\specfreeze_shift_8, [
@@ -163,7 +162,7 @@ SynthDef.new(\specfreeze_shift_8, {
 
 
 	x.value("_gui.scd");
-	
+//	x.value("_monome_gui.scd");	
 
 // }.play;
 	
