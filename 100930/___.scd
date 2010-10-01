@@ -28,8 +28,9 @@ s = Server.local.waitForBoot { Routine {
 		syn.set(\out, ~vla_del_b.index);
 	});
 	
+	
 	// output that bus to dac channel 0
-	~vla_del_out_s = Synth.new(\patch, [\in, ~vla_del_b, \out, 0], ~out_g);
+	~vla_del_out_s = Synth.new(\patch, [\in, ~vla_del_b.index, \out, 0], ~out_g);
 	
 	// allocate sampling buffer, approximate length of "war"
 	~vla_samp_len = 100.0;
@@ -38,10 +39,10 @@ s = Server.local.waitForBoot { Routine {
 	0.1.wait;
 	
 	// initial delay state (mild echo)
-	~vla_del4.del_s[0].set(\delaytime, 0.16);
-	~vla_del4.del_s[1].set(\delaytime, 0.20);
-	~vla_del4.del_s[2].set(\delaytime, 0.25);
-	~vla_del4.del_s[3].set(\delaytime, 0.3);
+	~vla_del4.del_s[0].set(\delaytime, 0.48);
+	~vla_del4.del_s[1].set(\delaytime, 0.24);
+	~vla_del4.del_s[2].set(\delaytime, 0.16);
+	~vla_del4.del_s[3].set(\delaytime, 0.32);
 	~vla_del4.del_s[0].set(\fb, 0.3);
 	~vla_del4.del_s[1].set(\fb, 0.2);
 	~vla_del4.del_s[2].set(\fb, 0.1);
@@ -51,10 +52,42 @@ s = Server.local.waitForBoot { Routine {
 	~vla_del4.del_s[2].set(\amp, 0.1);
 	~vla_del4.del_s[3].set(\amp, 0.05);
 	
-	SynthDef.new(\rec, { arg in, buf;
-		RecordBuf.ar(In.ar(in, 1), buf, loop:0, doneAction:2);
-	}).store;
-	0.01.wait;
+	
+	/////// similar echo stuff for vox
+	
+	// vox delay output bus
+	~vox_del_b = Bus.audio(s, 1);
+	
+	// vox delay synths
+	~vox_del4 = CfDelay4.new(s, ~del_g);
+	// vox is adc channel 1
+	~vox_del4.del_in_s.set(\in, 1);
+	
+	// sum them all to the same bus
+	~vox_del4.del_s.do({arg syn;
+		syn.set(\out, ~vox_del_b.index);
+	});
+	
+	// output that bus to dac channel 0
+	~vox_del_out_s = Synth.new(\patch, [\in, ~vox_del_b.index, \out, 0], ~out_g);
+	
+	// initial delay state (mild echo)
+	~vox_del4.del_s[0].set(\delaytime, 0.48);
+	~vox_del4.del_s[1].set(\delaytime, 0.24);
+	~vox_del4.del_s[2].set(\delaytime, 0.16);
+	~vox_del4.del_s[3].set(\delaytime, 0.32);
+	~vox_del4.del_s[0].set(\fb, 0.3);
+	~vox_del4.del_s[1].set(\fb, 0.2);
+	~vox_del4.del_s[2].set(\fb, 0.1);
+	~vox_del4.del_s[3].set(\fb, 0.1);
+	~vox_del4.del_s[0].set(\amp, 0.5);
+	~vox_del4.del_s[1].set(\amp, 0.3);
+	~vox_del4.del_s[2].set(\amp, 0.1);
+	~vox_del4.del_s[3].set(\amp, 0.05);
+	
+	
+	
+	SynthDef.new(\rec, {arg in=0, buf=0; RecordBuf.ar(In.ar(in), buf, loop:0, doneAction:2);  }).load(s);
 	
 	// beginning of "war"
 	~war1_func = {
@@ -71,7 +104,9 @@ s = Server.local.waitForBoot { Routine {
 		~vla_del4.del_s[2].set(\amp, 0.5);
 		~vla_del4.del_s[3].set(\amp, 0.5);
 		// start sampling the vla delay output bus
-		~vla_samp_s = Synth.new(\rec, [\in, ~vla_del_b.index, \buf, ~vla_samp_buf.bufnum], s, \addToTail);
+//		~vla_samp_s = Synth.new(\rec, [\in, ~vla_del_b.index, \buf, ~vla_samp_buf.bufnum], ~samp_g);
+		// somethings fucked... ? try sampling the hardware output perhaps.. bizarre
+		~vla_samp_s = Synth.new(\rec, [\in, 0, \buf, ~vla_samp_buf.bufnum], s, \addToTail);
 		
 		// wait to start next section
 		postln("WAR1");
@@ -87,19 +122,34 @@ s = Server.local.waitForBoot { Routine {
 		output = TGrains.ar(2, Impulse.kr(grainrate), buf, 1.0, pos, graindur);
 		output = RLPF.ar(output, hz, rez);
 		Out.ar(out, Mix.new(output) * amp);
-	}).store;
+	}).load(s);
 	
 	// ending of "war"
 	~war2_func = {
+		Routine {
+			~vla_del4.del_s[0].set(\amplag, 18.0);
+			~vla_del4.del_s[1].set(\amplag, 18.0);
+			~vla_del4.del_s[2].set(\amplag, 18.0);
+			~vla_del4.del_s[3].set(\amplag, 18.0);
+			~vla_del4.del_s[0].set(\amp, 0.0);
+			~vla_del4.del_s[1].set(\amp, 0.0);
+			~vla_del4.del_s[2].set(\amp, 0.0);
+			~vla_del4.del_s[3].set(\amp, 0.0);
+			
+			18.0.wait;
+			
+			~vla_del4.del_s[0].set(\amp, 1.0);
+			~vla_del4.del_s[1].set(\amp, 1.0);
+			~vla_del4.del_s[2].set(\amp, 0.5);
+			
 		// very long delays, no feedback
-		~vla_del4.del_s[0].set(\delaytime, 120.0);
-		~vla_del4.del_s[1].set(\delaytime, 60.0);
-		~vla_del4.del_s[2].set(\delaytime, 30.0);
-		~vla_del4.del_s[2].set(\amp, 0.6);
-		~vla_del4.del_s[3].set(\amp, 0.0);
-		~vla_del4.del_s[0].set(\fb, 0.0);
-		~vla_del4.del_s[1].set(\fb, 0.0);
-	
+			~vla_del4.del_s[0].set(\delaytime, 120.0);
+			~vla_del4.del_s[1].set(\delaytime, 60.0);
+			~vla_del4.del_s[2].set(\delaytime, 30.0);
+			~vla_del4.del_s[2].set(\amp, 0.6);
+			~vla_del4.del_s[0].set(\fb, 0.0);
+			~vla_del4.del_s[1].set(\fb, 0.0);
+		}.play;	
 		// stop vla delay sampling
 		// frees self
 //		~vla_samp_s.free;
@@ -129,7 +179,7 @@ s = Server.local.waitForBoot { Routine {
 			if (val > 0, {
 				postln("hid tappin");
 				~hidtapper.tap;
-				~timelist	[~time_i] = ~hidtapper.time;
+				~timelist	[~time_i] = ~hidtapper.time.min(32.0);
 				~time_i = ~time_i + 1;
 				if(~time_i >= ~numtimes, {
 					~time_i = 0;
@@ -173,7 +223,8 @@ s = Server.local.waitForBoot { Routine {
 		
 		stretch = Lag.kr(stretch, stretchlag);
 		shift = Lag.kr(shift, shiftlag);
-		input = SoundIn.ar(in);
+//		input = Normalizer.ar(SoundIn.ar(in));
+		input = Normalizer.ar(Mix.new(SoundIn.ar([0, 1])));
 		inputchain = FFT(buf, input);
 		outputchain = PV_Copy(inputchain, proc_buf);
 		outputchain = PV_Freeze(outputchain, freeze);
@@ -213,9 +264,7 @@ s = Server.local.waitForBoot { Routine {
 		\shift, ~shift,
 		\stretchlag, ~stretchlag,
 		\shiftlag, ~shiftlag,
-		\pan, ~pan,
-		\panlag, ~panlag
-	], ~in_s, \addAfter);
+	], s, \addToTail);
 	
 	~snapshot = { arg which; Routine {
 		~freeze[which] = 0; ~freezer_s.set(\freeze, ~freeze);
@@ -242,11 +291,11 @@ s = Server.local.waitForBoot { Routine {
 	// def for sines
 	SynthDef.new(\sine_1shot, {arg out=0, hz=440.0, amp=0.1, attacktime=1, sustaintime=1, releasetime=1;
 		var env, envgen;
-		env = Env.asr(attacktime, sustaintime, releasetime);
+		env = Env.linen(attacktime, sustaintime, releasetime);
 		// free when done
-		envgen = EnvGen.ar(env, doneAction:2);
+		envgen = EnvGen.kr(env, 1.0, doneAction:2);
 		Out.ar(out, SinOsc.ar(hz) * envgen * amp);
-	}).store;
+	}).load(s);
 	
 	
 	~sine_r = Routine({ inf.do({ arg i;
@@ -255,15 +304,15 @@ s = Server.local.waitForBoot { Routine {
 			\attacktime, ~timelist[i % ~numtimes] * 0.5,
 			\sustaintime, ~timelist[(i+1) % ~numtimes] * 0.5,
 			\releasetime, ~timelist[(i+2) % ~numtimes] * 0.5,
-			\amp, (-30.dbamp);
+			\amp, (-36.dbamp);
 		]);
 		postln("sined " ++ ~timelist[(i+3)%~numtimes]);
 		~timelist[(i+3) % ~numtimes].wait;
 	}); });
 	
 	~freeze_r = Routine({ inf.do({ arg i;
-		// freeze the spectrum
-		~snapshot.value(i % 8);
+		// freeze the spectrum, probably
+		if ((i%4)>0, { ~snapshot.value(i % 8); });
 		// sometimes a long attack
 		if ((i % 5)%2 == 0, {
 			~amplag[i % 8] = 0.01;
@@ -271,14 +320,14 @@ s = Server.local.waitForBoot { Routine {
 			~freezer_s.set(\amplag, ~amplag);
 			~freezer_s.set(\amp, ~amp);
 			~amplag[i % 8] = ~timelist[i % ~numtimes] * 0.5;
-			~amp[i % 8] = -24.dbamp;
+			~amp[i % 8] = -4.dbamp;
 			~freezer_s.set(\amplag, ~amplag);
 			~freezer_s.set(\amp, ~amp);
 		});
 		// sometimes a long decay
 		if ((i % 5)%2 == 1, {
 			~amplag[i % 8] = 0.01;
-			~amp[i % 8] = -24.dbamp;
+			~amp[i % 8] = -4.dbamp;
 			~freezer_s.set(\amplag, ~amplag);
 			~freezer_s.set(\amp, ~amp);
 			~amplag[i % 8] = ~timelist[i % ~numtimes] * 0.5;
