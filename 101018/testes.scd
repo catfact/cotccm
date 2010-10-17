@@ -1,5 +1,7 @@
 ~buffer_a.plot; 
 ~buffer_a.bufnum;
+
+
 x = Synth.new(\grain1shot, [\buf, ~buffer_a.bufnum, \out, 1], s);
 y = Synth.new(\grain1shot, [\buf, ~buffer_a.bufnum, \out, 0], s);
 z = {SinOsc.ar}.play(s);
@@ -24,3 +26,11 @@ t.set(\period, 60.0/70.0);
 t.set(\delWidth, 0.0005);
 t.set(\delBase, 0.02);
 t.free;
+
+~trem_s.set(\lfoAttack, 0.001);
+~trem_s.set(\lfoWidth, 0.5);
+
+
+s.freeAll;
+
+~churchkey_func_a.value;
