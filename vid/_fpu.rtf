@@ -1,0 +1,89 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 /// number of masses\cf0 \
+n = 65;\
+\cf2 // nonlinear paramtere \cf0 \
+a = 0.5;\
+\cf2 // time step of simulation\cf0 \
+~dt = 0.02;\
+\cf2 // force constant\cf0 \
+k = 1.0;\
+\cf2 // damping coefficient\cf0 \uc0\u8232 d = 0.98;\
+\
+\cf2 // mass positions\cf0 \
+~pos = \cf3 Array\cf0 .fill(n, \{0.0\});\
+\cf2 // mass velocities\cf0 \
+~vel = \cf3 Array\cf0 .fill(n, \{0.0\});\
+\cf2 // mass accelerations\cf0 \
+~acc = \cf3 Array\cf0 .fill(n, \{0.0\});\
+\
+~iter = \{\
+	n.do(\{\
+		\cf3 arg\cf0  i;\
+		\cf3 var\cf0  dist;\
+		\cf2 /*\
+		var pos, pos1, pos_1;\
+		// intermediate vars\
+		pos = ~pos[i];\
+		pos1 = ~pos[(i+1).wrap(0, n-1)] - pos;\
+		pos_1 = ~pos[(i-1).wrap(0, n-1)] - pos;\
+		*/\
+		\cf0 \
+		\cf2 /*\
+		// update acceleration from neighbor positions\
+		~acc[i] = k*(pos1 - pos_1 - (2.0 * pos))*(1 + a*(pos1 - pos_1));\
+		*/\cf0 \
+		\cf2 // alternately:     F(x) = -k x + b x3 \cf0 \
+		\cf2 // displacement distance:\cf0 \
+		dist = ~pos[(i+1).wrap(0, n-1)] - ~pos[i];\
+		dist = dist + ~pos[(i-1).wrap(0, n-1)] - ~pos[i];\
+		\
+		~acc[i] = -1* k * dist + (a * dist * dist * dist);\
+		\
+		\cf2 // update velocity from acceleration\cf0 \
+		~vel[i] = ~vel[i] + (~acc[i] * ~dt);\
+		\cf2 // damping\cf0 \
+		~vel[i] = ~vel[i] * d;\
+		\
+		\cf2 // update position from velocity\cf0 \
+		~pos[i] = ~pos[i] + (~vel[i] * ~dt);\
+		~pos[i] = ~pos[i].wrap(-1.0, 1.0);\
+	\});\
+\};\
+\
+\cf2 //~iter.value;\cf0 \
+\
+w = \cf3 SCWindow\cf0 (\cf4 "_"\cf0 , \cf3 Rect\cf0 (100, 100, 400, 200));\
+~graph = \cf3 SCMultiSliderView\cf0 (w, \cf3 Rect\cf0 (0, 0, 400, 200));\
+w.front;\
+w.refresh;\
+~graph.indexThumbSize_(395 / n);\
+~graph.valueThumbSize = 2.0;\
+~graph.value = ~pos * 0.5 + 0.5;\
+\
+w.onClose = \{r.stop; \cf3 AppClock\cf0 .clear; \cf3 SystemClock\cf0 .clear; \};\
+\
+\
+~wait = 0.01;\
+\
+r = \cf3 Routine\cf0 (\{ \cf3 inf\cf0 .do(\{ \cf3 |i|\cf0 \
+	~iter.value;\
+	\{ ~graph.value = ~pos * 0.5 + 0.5;\
+	w.refresh;\
+	\}.defer;\
+	~pos.postln;\
+	~wait.wait;\
+\})\});\
+	\
+r.play;\
+r.stop;\
+\
+~pos[n / 2] = 0.2;\
+n.do(\{ \cf3 |i|\cf0  ~pos[i] = 0.6.rand2; \});\
+\
+r.stop;\
+}
