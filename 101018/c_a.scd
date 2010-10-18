@@ -47,7 +47,7 @@ Routine {
  
  	
 	//// crazy shaped echo
-	~guit_echo_s = SynthDef.new(\caEcho, { arg in=~guit_in, out=0, level=1.25;
+	~guit_echo_s = SynthDef.new(\caEcho, { arg in=~guit_in, out=0, level=0.5;
 		var input, del;
 		input = SoundIn.ar(in); 
 		// multichannel delay
@@ -61,8 +61,8 @@ Routine {
 		
 		del = Compander.ar(del, del,
 			// each of these is length of delay structure
-			[0.18, 0.07, 0.06, 0.08],
-			[10, 50, 200, 1000],
+			[0.05, 0.03, 0.02, 0.004],
+			[1, 2, 3, 4],
 			[0.01, 0.05, 0.1, 0.2],
 			( [0.01, 0.05, 0.1, 0.2] * 5).reverse
 		);
@@ -136,7 +136,12 @@ Routine {
 				},  
 				10, { // play 2nd chord
 					~guit_play_func.value(1); 
-					
+					// also, start putting the viola signal into the grain
+					~vla_rec = {	RecordBuf.ar(~guit_chord_buf[2].bufnum, SoundIn.ar(~vla_in),
+							loop:1,
+							preLevel:0.5;
+						);
+					}.play(s);
 				}
 			);
 		}, { 
@@ -169,8 +174,10 @@ Routine {
 				9, { 
 					~guit_stop_playing_func.value;
 				},  
-				10, { 
-					~guit_stop_playing_func.value;
+				10, {  
+					~guit_play_s.set(\release, 24.0);
+					~guit_stop_playing_func.value; 
+					~vla_rec.free;
 				}
 			); 
 			// advance status on pedal lift
