@@ -1,7 +1,20 @@
 ~buffer_a.plot; 
 ~buffer_a.bufnum;
 
+s = Server.internal.boot; 
 
+b = Buffer.alloc(s, s.sampleRate * 10.0, 1);
+r = SynthDef.new(\recAdc1shot, { arg in, buf;
+				RecordBuf.ar(SoundIn.ar(in), buf, loop:0, doneAction:2);
+			}).play(s, [\buf, b.bufnum, \in, 0]); 
+			
+
+b.plot;
+ 
+x = Synth.new(\grain1shot, [\buf, b.bufnum, \out, 0, \dur, 2.0], s);
+y = Synth.new(\grain1shot, [\buf, b.bufnum, \out, 0, \dur, 2.0, \start, 1.0], s);
+ 
+ 
 x = Synth.new(\grain1shot, [\buf, ~buffer_a.bufnum, \out, 1], s);
 y = Synth.new(\grain1shot, [\buf, ~buffer_a.bufnum, \out, 0], s);
 z = {SinOsc.ar}.play(s);
@@ -34,3 +47,22 @@ t.free;
 s.freeAll;
 
 ~churchkey_func_a.value;
+
+
+~guit_echo_s.set(\level, 1.0); 
+
+~guit_loop_buf.plot 
+~guit_loop_s.trace 
+
+~dur.postln;
+~guit_loop_buf.duration 
+
+
+~guit_chord_buf[0].plot
+
+~guit_chord_s = Synth.new(\drifter, [\buf, ~guit_chord_buf[0].bufnum], s); 
+~guit_chord_s.set(\gate, 0);
+~guit_chord_s.free; 
+ x = Synth.new(\grain1shot, [\buf, ~guit_chord_buf[0].bufnum, \out, 0], s);
+
+~guit_chord_s.trace

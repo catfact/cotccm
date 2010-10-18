@@ -10,14 +10,38 @@ Routine {
 	~beat = 60.0/100.0; 
  
  
- 	SynthDef.new(\grain1shot, {  
-		arg out=0, buf, level=1.0, start=0.0, dur=2.0, attack=0.001, release=0.001; 
-		var amp, play, ratescale, sr; 
-		ratescale = BufRateScale.kr(buf);
-		sr = BufSampleRate.kr(buf);
-		amp = EnvGen.ar(Env.linen(attack, (dur-attack)-release, release), gate:1, doneAction:2) * level; 
-		play = BufRd.ar(1, buf, Line.ar(start * sr, (start + dur)*sr, dur / ratescale));
-		Out.ar(out, play);
+ 	SynthDef.new(\drifter, {  
+		arg out=0, buf, level=1.0, start=0.0, gate=1, attack=1.0, release=8.0, grainrate=(10/3), graindur=1.2, posrate = 3/5, posround=0.6; 
+		var amp, play, dur, ratescale, sr; 
+//		ratescale = BufRateScale.kr(buf); 
+//		sr = BufSampleRate.kr(buf); 
+		dur = BufDur.kr(buf);
+		amp = EnvGen.ar(Env.asr(attack, 1.0, release), gate:gate, doneAction:2) * level; 
+//		play = BufRd.ar(1, buf, Line.ar(start * sr, (start + dur)*sr, dur / ratescale));   
+		play = PlayBuf.ar(1, buf, [1.0, 0.5, 2.0],  
+			trigger: (Impulse.kr(grainrate)),
+			startPos: [
+				(LFNoise2.kr(posrate) * dur).round(posround),
+				(LFNoise2.kr(posrate) * dur).round(posround),
+				(LFNoise2.kr(posrate) * dur).round(posround) 
+			],
+			loop:1
+		);
+		/*
+		play = Mix.new( 
+			TGrains.ar( 
+				2,  
+				LFPulse.kr(grainrate),  
+				buf,  
+				1.0, 		// rate
+				LFTri.kr(1.0 / dur) * dur,   // centerPos
+				0.00,		// pan 
+				1.0			// amp
+			);		 
+		); 
+		*/
+		Out.ar(out, Mix.new(play) * amp);
+//		Out.ar(out, play);
 	}).send(s);
 	  
  
@@ -48,56 +72,111 @@ Routine {
 			// each of these is length of delay structure
 			41.midicps * [2, 6, 4, 1] * 1,
 			[2, 3, 3, 3.5]
-		);
-			 
-		del = del + del.distort.distort;	 
+		);	 
+ 	
+ 		del = del + del.distort.distort;	 
 		Out.ar(out, Mix.new(del) * level);
 	}).play(s);
-		
-	/*	
-	~dur = ~beat * 2 * 4 * 5; // one chord
-	~dur = ~dur * 2 * 2; // the first two verse-cycles : Eb Cm Eb Cm 
-	// bridge : Eb, Ab, Eb
-	~dur = ~dur + ((~beat * 2 * 4)  * 3) + ((~beat * 2 * 4) * 4) + ((~beat * 2 * 4) * 3) ; 
-	~dur = ~dur + ((~beat * 2 * 4) * 8); // a long time for the final Cm 
-
-	~dur.postln;
-	*/
-	 
-	 ~dur = 182.4;	
-	
-	/// loop is a single very long echo
-	~guit_loop_buf = Buffer.alloc(s, s.sampleRate * (~dur+1), 1);
-	 
-	 
-	~del_stop_func = { 
-		~guit_loop_s.free;
-		~switch_func = { arg val; if(val>0, { ~del_start_func.value; }, { }); }; 
-	}; 
-	
-	SynthDef.new(\bufDelay, {
-		arg in=0, buf, out=0, level=1.0, delaytime=182.4;
-		Out.ar(out, BufDelayN.ar(buf, SoundIn.ar(in), delaytime) * level);
-	}).send(s);
-	
-	~del_start_func = {  
+ 
+ 
+ 	~guit_chord_buf = Array.fill(3, { 
+ 		Buffer.alloc(s, s.sampleRate * ~beat*2*4*5, 1);
+ 	});
+ 		
+	~guit_rec_func = {arg which;
+		if(~guit_rec_s.notNil, {~guit_rec_s.free; });
 		~rec_s = SynthDef.new(\recAdc1shot, { arg in, buf;
 			RecordBuf.ar(SoundIn.ar(in), buf, loop:0, doneAction:2);
-		}).play(s, [\buf, ~guit_loop_buf.bufnum, \in, 0]); 
-		SystemClock.sched(~dur, {
-			~guit_loop_s = Synth.new(\grain1shot,  
-			[	\buf, ~guit_loop_buf.bufnum,  
-				\start, 0.0,
-				\dur, ~dur
-			], s); 	 
-		nil });
-		 postln("echo engaged");
-		 ~switch_func = { arg val; if(val>0, { ~del_stop_func.value; }, { }); }; 
-
-	}; 
+		}).play(s, [\buf, ~guit_chord_buf[which].bufnum, \in, ~guit_in]); 
+	};  
 	
+	~guit_play_func = { arg which; 
+		~guit_play_s = Synth.new(\drifter, [\buf, ~guit_chord_buf[which].bufnum]);
+	};
 	
-	~switch_func = ~del_start_func;
-	
+	~guit_stop_playing_func = {
+		~guit_play_s.set(\gate, 0);		
+	};
+	 
+	 // hhacckky little variable
+	~status = 0;
+	~switch_func = { arg val; 
+		if (val>0, {
+			postln("press " ++ ~status);
+			~status.switch( 
+				0, { // recording 1st chord
+					~guit_rec_func.value(0);
+				},
+				1, { // recording 2nd chord 
+					~guit_rec_func.value(1);
+				},
+				2, { // recording 3rd chord
+					~guit_rec_func.value(2);
+				},  
+				3, { // play 1st chord
+					~guit_play_func.value(0);
+				},  
+				4, { // play 2nd chord
+					~guit_play_func.value(1);
+				},  
+				5, { // play 1st chord
+					~guit_play_func.value(0);
+				},  
+				6, { // play 2nd chord
+					~guit_play_func.value(1);
+				},  
+				7, { // play 1st chord
+					~guit_play_func.value(0);
+				},  
+				8, { // play 3rd chord
+					~guit_play_func.value(2);
+				},  
+				9, { // play 1st chord
+					~guit_play_func.value(0);
+				},  
+				10, { // play 2nd chord
+					~guit_play_func.value(1); 
+					
+				}
+			);
+		}, { 
+			postln("lift " ++ ~status);
+			~status.switch( 
+				0, { // recording 1st chord
+				},
+				1, { // recording 2nd chord 
+				},
+				2, { // recording 3rd chord
+				},  
+				3, { // stop playing
+					~guit_stop_playing_func.value;
+				},  
+				4, { 
+					~guit_stop_playing_func.value;
+				},  
+				5, { 
+					~guit_stop_playing_func.value;
+				},  
+				6, { 
+					~guit_stop_playing_func.value;
+				},  
+				7, { 
+					~guit_stop_playing_func.value;
+				},  
+				8, { 
+					~guit_stop_playing_func.value;
+				},  
+				9, { 
+					~guit_stop_playing_func.value;
+				},  
+				10, { 
+					~guit_stop_playing_func.value;
+				}
+			); 
+			// advance status on pedal lift
+			~status = ~status + 1; 
+			if (~status > 10, {~status = 3; });
+		}); // button state test
+	}; // swirch function
 }.play; 
 };

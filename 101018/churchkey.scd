@@ -1,4 +1,4 @@
-s = Server.internal; 
+s = Server.internal.boot; 
 // for remote control...
 // ~bunny_server_addr = NetAddr.new("192.168.1.80", 57110);
 // s = Server.new("bunny", ~bunny_server_addr);
@@ -17,9 +17,7 @@ s.waitForBoot {
 		ratescale = BufRateScale.kr(buf);
 		sr = BufSampleRate.kr(buf);
 		amp = EnvGen.ar(Env.linen(attack, (dur-attack)-release, release), gate:1, doneAction:2) * level; 
- //		play = PlayBuf.ar(1, buf, BufRateScale.kr(buf), startPos:start); 
 		play = BufRd.ar(1, buf, Line.ar(start * sr, (start + dur)*sr, dur / ratescale));
-		//Out.ar(out, play*amp);  
 		Out.ar(out, play);
 	}).send(s);
 	  
