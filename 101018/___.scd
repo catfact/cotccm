@@ -1,15 +1,22 @@
-///		c/A
+~basepath = Document.current.dir ++"/";
+x = { |p| this.executeFile(~basepath++p); }; 
+ 
+x.value("_hid.scd");
+  
+ ///		c/A
 
+x.value("c_A.scd");		 // boots
+x.value("vox_echo.scd");
 
 ///		churchkey
-
-
-///		the sun
-
-
-
+s.freeAll; 
+x.value("churchkey.scd");
+ 
+//// lie down 
+s.freeAll;
+x.value("liedown.scd");
+x.value("grandel.scd");
 ///		anchor
-
 
 
 ///		

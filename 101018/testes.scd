@@ -65,4 +65,10 @@ s.freeAll;
 ~guit_chord_s.free; 
  x = Synth.new(\grain1shot, [\buf, ~guit_chord_buf[0].bufnum, \out, 0], s);
 
-~guit_chord_s.trace
+~guit_chord_s.trace 
+ 
+ 
+~grain_out_dist_s = Synth.new(\churchdist, [\in, ~grain_b.index, \out, 0], ~grain_g, \addAfter);
+ 
+ ~grain_out_dist_s.free;
+~grain_out_dist_s.set(\level, 0.35);
