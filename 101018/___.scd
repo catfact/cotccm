@@ -1,5 +1,3 @@
-~basepath = Document.current.dir ++"/";
-x = { |p| this.executeFile(~basepath++p); }; 
  
 x.value("_hid.scd");
   
