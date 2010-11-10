@@ -1,6 +1,6 @@
 s = Server.local.waitForBoot {
 	
-	~spiral = PrimeSpiral.new(s);
+	~spiral = PrimeSpiralSine.new(s);
 	
 	~spiral.factorList = List[
 		19, 4/3, 19, 4/3, 19, 4/3, 19, 4/3, 19, 4/3, 
