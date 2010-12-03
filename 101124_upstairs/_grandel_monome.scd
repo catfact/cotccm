@@ -40,8 +40,8 @@ s.waitForBoot { Routine {
 	~gran_in_b = Array.fill(8, { Bus.audio(s, 1); });
 	~gran_out_b = Array.fill(8, { Bus.audio(s, 1); });
 
-	~gran_in1_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 1, \out, ~gran_in_b[i].index], ~gran_in_g); });
-	~gran_in_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 0, \out, ~gran_in_b[i].index, \amp, 0.0], ~gran_in_g); });
+//	~gran_in0_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 0, \out, ~gran_in_b[i].index], ~gran_in_g); });
+	~gran_in_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 1, \out, ~gran_in_b[i].index, \amp, 0.0], ~gran_in_g); });
 	~gran_out_s = Array.fill(8, { arg i; Synth.new(\patch, [\in, ~gran_out_b[i].index, \out, i % 2, \amp, 0.0], ~gran_out_g); });
 	
 	~gran = Array.fill (8, { arg i;
@@ -50,14 +50,14 @@ s.waitForBoot { Routine {
 	
 	0.01.wait;
 	
-	~gran[0].rate = 0.5;
+	~gran[0].rate = 9/16;
 	~gran[0].dur = 8.0;
 	~gran[0].wait = 1.5;
 	~gran[0].attack = 0.25;
 	~gran[0].release = 0.25;
 	~gran[0].deltime = 2.0;
 
-	~gran[1].rate = 0.5;
+	~gran[1].rate = 13/8;
 	~gran[1].dur = 3.0;
 	~gran[1].wait = 0.25;
 	~gran[1].attack = 0.25;
@@ -71,14 +71,14 @@ s.waitForBoot { Routine {
 	~gran[2].release = 0.25;
 	~gran[2].deltime = 2.0;
 
-	~gran[3].rate = 1.0;
-	~gran[3].dur = 3.0;
+	~gran[3].rate = 0.5;
+ 	~gran[3].dur = 3.0;
 	~gran[3].wait = 0.25;
 	~gran[3].attack = 0.25;
 	~gran[3].release = 0.25;
 	~gran[3].deltime = 0.5;
 	
-	~gran[4].rate = 2.0;
+	~gran[4].rate = 5/4;
 	~gran[4].dur = 8.0;
 	~gran[4].wait = 1.5;
 	~gran[4].attack = 0.25;
@@ -92,14 +92,14 @@ s.waitForBoot { Routine {
 	~gran[5].release = 0.25;
 	~gran[5].deltime = 0.5;
 	
-	~gran[6].rate = 0.25;
+	~gran[6].rate = 3/12;
 	~gran[6].dur = 2.0;
 	~gran[6].wait = 0.25;
 	~gran[6].attack = 0.25;
 	~gran[6].release = 0.25;
 	~gran[6].deltime = 2.5;
 
-	~gran[7].rate = 4.0;
+	~gran[7].rate = 7.0 / 4.0;
 	~gran[7].dur = 4.0;
 	~gran[7].wait = 0.25;
 	~gran[7].attack = 0.25;
@@ -132,7 +132,7 @@ s.waitForBoot { Routine {
 	~gran_out_switch = Array.fill(8, {0});
 	~gran_out_switchtap = Array.fill(8, {CfTapper.new; });
 	
-	~monome.pressFunctions.add('bottom2'->{ arg col, row;
+	~monome.liftFunctions.add('bottom2'->{ arg col, row;
 		if (row==6, {
 			~gran_in_switchtap[col].tap;
 		});
@@ -141,7 +141,7 @@ s.waitForBoot { Routine {
 		});
 	});
 	
-	~monome.liftFunctions.add('bottom2'->{ arg col, row;
+	~monome.pressFunctions.add('bottom2'->{ arg col, row;
 		
 		if(row==6, {
 			if (~gran_in_switch[col] > 0, {
@@ -169,7 +169,7 @@ s.waitForBoot { Routine {
 			}, {
 				~gran_out_switchtap[col].tap;
 				~gran_out_s[col].set(\amplag, ~gran_out_switchtap[col].time);
-				~gran_out_s[col].set(\amp, -10.dbamp);
+				~gran_out_s[col].set(\amp, 0.5);
 				~gran_out_switch[col] = 1;
 				~monome.led(col, 7, 1);
 			});

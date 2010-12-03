@@ -2,6 +2,7 @@
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.default;
+s.options.memSize = 4096 * 4;
 s.waitForBoot { Routine {
 
 	SynthDef.new(\multicomp, {
@@ -49,7 +50,6 @@ s.waitForBoot { Routine {
 	
 	~mic_in_b = Bus.audio(s, 2);
 	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 0, \out, ~mic_in_b.index], ~ig);
-	~mic_in_s.set(\	
 	0.1.wait;
 	
 	~crawl_in_b = Bus.audio(s, 2);

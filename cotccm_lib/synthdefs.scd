@@ -337,7 +337,7 @@ SynthDef.new(\bufd_killattack, {
 	delay = delay + (DelayN.ar(delay, 1.0, shorttime) * shortamp);
 	LocalOut.ar(delay);
 	Out.ar(out, delay * amp);
-}).store(s);
+}).load(s);
 
 
 SynthDef.new(\bufdb, {arg in=0, out=0, buf=0, time=1.0, amp=1.0, fbamp=0.0, inamp=1.0, amplag=1.0;
@@ -826,7 +826,7 @@ SynthDef.new(\bufgrain_pan, {
 }).load(s);
 
 
-SynthDef.new(\bufgrain_pan, {
+SynthDef.new(\bufgrain_pan_1shot, {
 	arg out=0, amp=1.0, amplag = 0.1, buf=0, rate=1.0, dur=1.0, trigrate=6.0, posrate=1.0, pan=0.0, pos_offset = 0.0,
 	attack, sustain, release;
 	var pos, grains, trig, env;

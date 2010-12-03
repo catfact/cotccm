@@ -63,7 +63,7 @@ s.waitForBoot { Routine {
 	~loop_tog_switch = Array.fill(8, {0});
 	~loop_tog_tap = Array.fill(8, {CfTapper.new; });
 	
-	~monome.pressFunctions.add('uppermid'->{ arg col, row;
+	~monome.pressFunctions.add('lowermid'->{ arg col, row;
 		if (row==4, {
 			~loop_tog_tap[col].tap;
 					
@@ -90,7 +90,7 @@ s.waitForBoot { Routine {
 		});
 	}); // press function
 	
-	~monome.liftFunctions.add('uppermid'->{ arg col, row;
+	~monome.liftFunctions.add('lowermid'->{ arg col, row;
 		
 		if(row==4, {
 			if (~loop_tog_switch[col] > 0, {

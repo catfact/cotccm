@@ -1,5 +1,5 @@
 s = Server.default;
-//s.options.memSize = 8192 * 4;
+s.options.memSize = 8192 * 4;
 s.waitForBoot { Routine {
 
 	SynthDef.new(\patch, {arg in, out, amp=1.0, amplag=1.0;
@@ -34,17 +34,16 @@ s.waitForBoot { Routine {
 	s.sync;
 	
 	~gran_g = Group.new(s);
-	~gran_in_g = Group.before(~gran_g);
-	~gran_out_g = Group.after(~gran_g);
+	~in_g = Group.before(~gran_g);
+	~out_g = Group.after(~gran_g);
 	
-	~gran_in_b = Array.fill(8, { Bus.audio(s, 1); });
-	~gran_out_b = Array.fill(8, { Bus.audio(s, 1); });
-
-	~gran_in1_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 1, \out, ~gran_in_b[i].index], ~gran_in_g); });
-	~gran_in_s = Array.fill(8, { arg i; Synth.new(\adc, [\in, 0, \out, ~gran_in_b[i].index, \amp, 0.0], ~gran_in_g); });
-	~gran_out_s = Array.fill(8, { arg i; Synth.new(\patch, [\in, ~gran_out_b[i].index, \out, i % 2, \amp, 0.0], ~gran_out_g); });
+	~gran_in_b = Array.fill(6, { Bus.audio(s, 1); });
+	~gran_out_b = Array.fill(6, { Bus.audio(s, 1); });
 	
-	~gran = Array.fill (8, { arg i;
+	~in_s = Array.fill(6, { arg i; Synth.new(\adc, [\in, 1, \out, ~gran_in_b[i].index], ~in_g); });
+	~out_s = Array.fill(6, { arg i; Synth.new(\patch, [\in, ~gran_out_b[i].index, \out, i % 2, \amp, 0.0], ~out_g); });
+	
+	~gran = Array.fill (6, { arg i;
 		Grandel.new(s, ~gran_in_b[i].index, ~gran_out_b[i].index, ~gran_g, \addToTail);
 	});
 	
@@ -91,23 +90,8 @@ s.waitForBoot { Routine {
 	~gran[5].attack = 0.25;
 	~gran[5].release = 0.25;
 	~gran[5].deltime = 0.5;
-	
-	~gran[6].rate = 0.25;
-	~gran[6].dur = 2.0;
-	~gran[6].wait = 0.25;
-	~gran[6].attack = 0.25;
-	~gran[6].release = 0.25;
-	~gran[6].deltime = 2.5;
 
-	~gran[7].rate = 4.0;
-	~gran[7].dur = 4.0;
-	~gran[7].wait = 0.25;
-	~gran[7].attack = 0.25;
-	~gran[7].release = 0.25;
-	~gran[7].deltime = 3.0;
-
-
-	~fb = Array.fill(8, { arg i;
+	~fb = Array.fill(6, { arg i;
 		Synth.new(\fb_rlpf, [
 			\in, ~gran_out_b[i].index,
 			\out, ~gran_in_b[(i+1) % 6].index,
@@ -126,62 +110,8 @@ s.waitForBoot { Routine {
 		syn.set(\rq, 0.8);
 	});
 	
-	~gran_in_switch = Array.fill(8, {0});
-	~gran_in_switchtap = Array.fill(8, {CfTapper.new; });
 	
-	~gran_out_switch = Array.fill(8, {0});
-	~gran_out_switchtap = Array.fill(8, {CfTapper.new; });
-	
-	~monome.pressFunctions.add('bottom2'->{ arg col, row;
-		if (row==6, {
-			~gran_in_switchtap[col].tap;
-		});
-		if (row==7, {
-			~gran_out_switchtap[col].tap;
-		});
-	});
-	
-	~monome.liftFunctions.add('bottom2'->{ arg col, row;
-		
-		if(row==6, {
-			if (~gran_in_switch[col] > 0, {
-				~gran_in_switchtap[col].tap;
-				~gran_in_s[col].set(\amplag, ~gran_in_switchtap[col].time);
-				~gran_in_s[col].set(\amp, 0.0);
-				~gran_in_switch[col] = 0;
-				~monome.led(col, 6, 0);
-			}, {
-				~gran_in_switchtap[col].tap;
-				~gran_in_s[col].set(\amplag, ~gran_in_switchtap[col].time);
-				~gran_in_s[col].set(\amp, 1.0);
-				~gran_in_switch[col] = 1;
-				~monome.led(col, 6, 1);
-			});
-		});
-		
-		if(row==7, {
-			if (~gran_out_switch[col] > 0, {
-				~gran_out_switchtap[col].tap;
-				~gran_out_s[col].set(\amplag, ~gran_out_switchtap[col].time);
-				~gran_out_s[col].set(\amp, 0.0);
-				~gran_out_switch[col] = 0;
-				~monome.led(col, 7, 0);
-			}, {
-				~gran_out_switchtap[col].tap;
-				~gran_out_s[col].set(\amplag, ~gran_out_switchtap[col].time);
-				~gran_out_s[col].set(\amp, -10.dbamp);
-				~gran_out_switch[col] = 1;
-				~monome.led(col, 7, 1);
-			});
-		});
-
-
-		
-	});
-	
-	
-	/*
-	///////// hid and 
+	///////// hid and gui
 	Routine {
 	~gw = SCWindow.new("_g");
 	~gw.front;
@@ -216,7 +146,7 @@ s.waitForBoot { Routine {
 
 	}.play(AppClock);
 	//////
-	*/
+	
 }.play; };	
 
 

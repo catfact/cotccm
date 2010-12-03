@@ -9,7 +9,7 @@ Routine {
 	0.2.wait; 
 	
 	// vox is adc channel 1
-	~vox_del4.del_in_s.set(\in, 1);
+	~vox_del4.del_in_s.set(\in, 0);
 	
 	0.1.wait;
 	
@@ -28,13 +28,13 @@ Routine {
 	0.1.wait;
 	
 	// initial delay state (mild echo)
-	~vox_del4.del_s[1].set(\delaytime, 0.24);
-	~vox_del4.del_s[2].set(\delaytime, 0.16);
-	~vox_del4.del_s[3].set(\delaytime, 0.32);
-	~vox_del4.del_s[0].set(\fb, 0.4);
-	~vox_del4.del_s[1].set(\fb, 0.3);
-	~vox_del4.del_s[2].set(\fb, 0.2);
-	~vox_del4.del_s[3].set(\fb, 0.1);
+	~vox_del4.del_s[1].set(\delaytime, 0.1);
+	~vox_del4.del_s[2].set(\delaytime, 0.06);
+	~vox_del4.del_s[3].set(\delaytime, 0.032);
+	~vox_del4.del_s[0].set(\fb, 0.0);
+	~vox_del4.del_s[1].set(\fb, 0.0);
+	~vox_del4.del_s[2].set(\fb, 0.0);
+	~vox_del4.del_s[3].set(\fb, 0.0);
 	~vox_del4.del_s[0].set(\hz, 1200);
 	~vox_del4.del_s[1].set(\hz, 3000.0);
 	~vox_del4.del_s[2].set(\hz, 800.0);

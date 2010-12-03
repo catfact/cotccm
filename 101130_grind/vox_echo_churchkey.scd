@@ -8,8 +8,7 @@ Routine {
 	
 	0.2.wait; 
 	
-	// vox is adc channel 1
-	~vox_del4.del_in_s.set(\in, 1);
+	~vox_del4.del_in_s.set(\in, 0);
 	
 	0.1.wait;
 	
