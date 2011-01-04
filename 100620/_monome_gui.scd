@@ -1,6 +1,6 @@
 // gui
  Routine {
-	~monome = CfMonome.new;
+	~monome = Cf40h.new;
 	0.1.wait;
 	~monome.clear;
 	

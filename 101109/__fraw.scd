@@ -2,26 +2,23 @@
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.default;
+s.options.maxNodes = 4096;
 s.waitForBoot { Routine {
 
 	SynthDef.new(\multicomp, {
-		arg in=0, out=0, amp=0.24,
-		mix=1.0;
-		var sig, dry;
+		arg in=0, out=0, amp=1.0;
+		var sig;
 		sig = In.ar(in);
-		
 /*		sig = Normalizer.ar(sig, 1.0, [0.1, 0.15]);
 		sig = Normalizer.ar(sig, 1.0, [0.2, 0.25]);
 		sig = Normalizer.ar(sig, 1.0, [0.3, 0.35]);
-*/		
-		dry = [sig, sig];
-		sig = [LPF.ar(sig, 1000), HPF.ar(sig, 1000)];
-		sig = Compander.ar(sig, sig, thresh:(-24.dbamp), slopeAbove:0.05, slopeBelow:1, clampTime: 0.01, relaxTime: 0.01);
+*/
+//		sig = [LPF.ar(sig, 1000), HPF.ar(sig, 1000)];
+//		sig = Compander.ar(sig, sig, thresh:(-24.dbamp), slopeAbove:0.05, slopeBelow:1, clampTime: 0.01, relaxTime: 0.01);
 		sig = Mix.new(sig);
-		sig = sig * 15.0;
-		sig = Compander.ar(sig, sig, thresh:([-16.dbamp, -18.dbamp]), slopeAbove:0.05, slopeBelow:1, clampTime: [0.01, 0.02], relaxTime: [0.01, 0.02]);
-		sig = sig * 6.0;
-		sig = sig*mix + (dry*(1.0-mix));
+//		sig = sig * 15.0;
+//		sig = Compander.ar(sig, sig, thresh:([-16.dbamp, -18.dbamp]), slopeAbove:0.05, slopeBelow:1, clampTime: [0.01, 0.02], relaxTime: [0.01, 0.02]);
+//		sig = sig * 6.0;
 		Out.ar(out, amp * sig);
 	}).store;
 	
@@ -30,15 +27,15 @@ s.waitForBoot { Routine {
 	}).store;
 	
 	SynthDef.new(\patch_pan, {arg in, out, pan=0.0, level=1.0;
-		Out.ar(out, Pan2.ar(In.ar(in) * level, pan));
+		Out.ar(out, Pan2.ar(In.ar(in), pan));
 	}).store;
 	
 	SynthDef.new(\patch_sum, {arg in, out, level=1.0;
-		Out.ar(out, Mix.new(In.ar(in, 2) * level));
+		Out.ar(out, Mix.new(In.ar(in, 2)));
 	}).store;
 	
 	SynthDef.new(\patch_stereo, {arg in, out, level=1.0;
-		Out.ar(out, In.ar(in, 2) * level);
+		Out.ar(out, In.ar(in, 2));
 	}).store;
 	
 	0.1.wait;
@@ -48,8 +45,7 @@ s.waitForBoot { Routine {
 	~og = Group.after(~og);	
 	
 	~mic_in_b = Bus.audio(s, 2);
-	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 0, \out, ~mic_in_b.index], ~ig);
-	~mic_in_s.set(\	
+	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 0, \out, ~mic_in_b.index], ~ig);	
 	0.1.wait;
 	
 	~crawl_in_b = Bus.audio(s, 2);
@@ -57,7 +53,6 @@ s.waitForBoot { Routine {
 	
 	// nomralizer splits mono to stereo
 	~crawl_norm = Synth.new(\multicomp, [\in, ~mic_in_b.index, \out, ~crawl_in_b.index], ~ig, \addAfter);
-	~crawl_norm.set(\mix, 0.5);
 	
 	~pedals_in_b = Bus.audio(s, 1);
 	~pedals_in_s = [
@@ -69,7 +64,6 @@ s.waitForBoot { Routine {
 	~pedals_output_patch = Synth.new(\patch_pan, [\in, ~pedals_in_b.index, \out, 0], ~og, \addAfter);
 	
 	~crawl_output_patch = Synth.new(\patch_stereo, [\in, ~crawl_out_b.index, \out, 0], ~og);
-	~crawl_output_patch.set(\level, -14.dbamp);
 	~crawl_pedal_patch = Synth.new(\patch_stereo, [\in, ~crawl_out_b.index, \out, 2], ~og);
 	
 	0.1.wait;
@@ -134,7 +128,7 @@ SynthDef.new(\specfreeze_shift_8, {
 ~fft_proc_bufnum.postln;
 
 ~freeze 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
-//~amp 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] * (-12.dbamp);
+~amp 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] * (-12.dbamp);
 ~amp 		= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 ~amplag 		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 ~stretch		= [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
@@ -168,10 +162,8 @@ SynthDef.new(\specfreeze_shift_8, {
 ~freezetaps = Array.fill(8, {CfTapper.new});
 
 
-//	x.value("_gui.scd");
-	x.value("_monome_gui.scd");	
-	0.1.wait;
-	x.value("_grandel_monome.scd");
+	x.value("frawg.scd");
+//	x.value("_monome_gui.scd");	
 
 // }.play;
 	

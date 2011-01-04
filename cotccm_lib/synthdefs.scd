@@ -337,7 +337,7 @@ SynthDef.new(\bufd_killattack, {
 	delay = delay + (DelayN.ar(delay, 1.0, shorttime) * shortamp);
 	LocalOut.ar(delay);
 	Out.ar(out, delay * amp);
-}).store(s);
+}).load(s);
 
 
 SynthDef.new(\bufdb, {arg in=0, out=0, buf=0, time=1.0, amp=1.0, fbamp=0.0, inamp=1.0, amplag=1.0;

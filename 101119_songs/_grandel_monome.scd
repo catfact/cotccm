@@ -169,7 +169,7 @@ s.waitForBoot { Routine {
 			}, {
 				~gran_out_switchtap[col].tap;
 				~gran_out_s[col].set(\amplag, ~gran_out_switchtap[col].time);
-				~gran_out_s[col].set(\amp, -10.dbamp);
+				~gran_out_s[col].set(\amp, 0.25);
 				~gran_out_switch[col] = 1;
 				~monome.led(col, 7, 1);
 			});

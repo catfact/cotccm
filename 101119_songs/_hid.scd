@@ -5,10 +5,9 @@ GeneralHID.buildDeviceList;
 GeneralHID.postDevices;
 		
 //~pad = GeneralHID.open( GeneralHID.findBy(1973, 531, 68157440, 257) );
-//~pad = GeneralHID.open( GeneralHID.findBy(0x07B5) ); 
-~pad = GeneralHID.open( GeneralHID.findBy(1973, 531) );
+~pad = GeneralHID.open( GeneralHID.findBy(0x07B5) );
 ~pad.debug_( true );
-~pad.makeGui;
+ ~pad.makeGui;
  
 ~pad_spec = GeneralHIDSpec.new( ~pad );
 ~pad_spec.add(\switch, [1, 7]);

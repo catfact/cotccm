@@ -1,7 +1,7 @@
-~basepath = Document.current.dir ++"/";
-x = { |p| this.executeFile(~basepath++p); };
+//~basepath = Document.current.dir ++"/";
+//x = { |p| this.executeFile(~basepath++p); };
 
-s = Server.default;
+s = Server.local;
 s.waitForBoot { Routine {
 
 	SynthDef.new(\multicomp, {
@@ -48,8 +48,7 @@ s.waitForBoot { Routine {
 	~og = Group.after(~og);	
 	
 	~mic_in_b = Bus.audio(s, 2);
-	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 0, \out, ~mic_in_b.index], ~ig);
-	~mic_in_s.set(\	
+	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 0, \out, ~mic_in_b.index], ~ig);	
 	0.1.wait;
 	
 	~crawl_in_b = Bus.audio(s, 2);
