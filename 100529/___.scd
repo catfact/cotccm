@@ -44,7 +44,7 @@ s.waitForBoot { Routine {
 	~og = Group.after(~og);	
 	
 	~mic_in_b = Bus.audio(s, 2);
-	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 0, \out, ~mic_in_b.index], ~ig);	
+	~mic_in_s = Synth.new(\patch_adc_mono, [\in, 1, \out, ~mic_in_b.index], ~ig);	
 	0.1.wait;
 	
 	~crawl_in_b = Bus.audio(s, 2);
@@ -163,15 +163,5 @@ SynthDef.new(\specfreeze_shift_8, {
 
 	x.value("_gui.scd");
 //	x.value("_monome_gui.scd");	
-
-// }.play;
-	
-	
-	/////////////==========
-	
-	
-	
-	
-	
 		
 }.play; };
