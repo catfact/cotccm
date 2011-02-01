@@ -1,0 +1,154 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red191\green0\blue0;\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 s = \cf3 Server\cf2 .default;\
+s.boot;\
+s.waitForBoot \{ \cf3 Routine\cf2  \{\
+	\
+	\cf3 SynthDef\cf2 .new(\cf4 \\mapOsc_cubic\cf2 , \{\
+		\cf3 arg\cf2  buf, out=0, level=0.25,\
+			atk=0.001, rel=0.1, gate=0,\
+			hz=110, oct=1, a=3.4,\
+			lpf_hz_mul=1.0, lpf_hz_add=0,\
+			doneAction=0,\
+			slewslope_mul= 0.5;\
+		\cf3 var\cf2  x, y, duty, env, output, slewslope;\
+		\cf5 //duty = SampleRate.ir / hz / oct;\cf2 \
+		duty = 1.0 / (hz * oct);\
+		x = \cf3 Dbufrd\cf2 (buf);\
+		x = (a*x*x*x) + ((1.0-a)*x);\
+		y = \cf3 Dbufwr\cf2 (x, buf);\
+		env = \cf3 EnvGen\cf2 .ar(\cf3 Env\cf2 .asr(atk, 1.0, rel), gate:gate, doneAction:doneAction);\
+		output = \cf3 Duty\cf2 .ar(duty, 0, y);\
+		slewslope = \cf3 SampleRate\cf2 .ir / duty * slewslope_mul;\
+		output = \cf3 Slew\cf2 .ar(output, slewslope, slewslope);\
+		output = \cf3 LPF\cf2 .ar(output, hz * lpf_hz_mul + lpf_hz_add);\
+		\cf3 Out\cf2 .ar(out, (env * output * level).dup);	\
+	\}).send(s);\
+\
+	~nvoices = 4;\
+	~ival = 0.77;\
+\
+	\cf5 ////////// buffers\cf2 \
+	~maposc_buf = \cf3 Array\cf2 .fill(~nvoices, \{\
+		\cf3 Buffer\cf2 .alloc(s, 1, 1);\
+	\});\
+	\
+	0.02.wait;\
+	\
+	~maposc_buf.do(\{ \cf3 arg\cf2  buf; buf.set(0, ~ival); \});\
+\
+	\cf5 ////////// groups\cf2 \
+	~maposc_g = \cf3 Group\cf2 .new(s);\
+	\
+	\cf5 ////////// busses\cf2 \
+	~maposc_b = \cf3 Bus\cf2 .audio(s, 1);\
+	~maposc_out_s = \cf3 SynthDef\cf2 .new(\cf4 \\patch_split\cf2 , \{\cf3 arg\cf2  in,out,amp; \cf3 Out\cf2 .ar(out, (\cf3 In\cf2 .ar(in) * amp).dup); \})\
+		.play(~maposc_g, [\cf4 \\in\cf2 , ~maposc_b.index, \cf4 \\out\cf2 , 0], \cf4 \\addAfter\cf2 );\
+	~maposc_a_b = \cf3 Array\cf2 .fill(~nvoices, \{ \cf3 Bus\cf2 .control(s, 1) \});\
+	~maposc_oct_b = \cf3 Array\cf2 .fill(~nvoices, \{ \cf3 Bus\cf2 .control(s, 1) \});\
+	~maposc_a_b.do(\{\cf3 arg\cf2  bus; bus.set(3.5) \});\
+	~maposc_oct_b.do(\{\cf3 arg\cf2  bus; bus.set(1.0) \});\
+	\
+	\cf5 ////////// synths\cf2 \
+	~maposc_s = \cf3 Array\cf2 .fill(~nvoices, \{\cf3 arg\cf2  i;\
+		\cf3 Synth\cf2 .new(\cf4 \\mapOsc_cubic\cf2 , [\
+			\cf4 \\buf\cf2 , ~maposc_buf[i].bufnum\
+			, \cf4 \\doneAction\cf2 , 0\
+			, \cf4 \\a\cf2 , ~maposc_a_b[i].asMap\
+			, \cf4 \\oct\cf2 , ~maposc_oct_b[i].asMap\
+		])\
+	\});\
+	\
+	~maposc_tuning = [\
+		1.0,\
+		16/15,\
+		9/8,\
+		4/3 * 4/3 * 4/3 / 2,\
+		5/4,\
+		4/3,\
+		7/5,\
+		3/2,\
+		4/3 * 4/3 * 4/3 / 3 * 2,\
+		5/3,\
+		4/3 * 4/3,\
+		15/8\
+	];\
+	\
+	~maposc_base_octave = -2;\
+	~maposc_fundamental = 165.0;\
+	~maposc_offset = 0;\
+		\
+		\
+	\cf5 /////// last-used voice index for each MIDI note!\cf2 \
+	~maposc_voice_index_arr = \cf3 Array\cf2 .newClear(128);\
+	\cf5 //// voice index bag\cf2 \
+	~maposc_voice_index_bag = \cf3 SortedList\cf2 .new;\
+	~nvoices.do(\{\cf3 arg\cf2  i; ~maposc_voice_index_bag.add(i); \});\
+	\
+	\
+	~maposc_on_r = \cf3 NoteOnResponder\cf2 (\{ \cf3 |src,chan,note,vel|\cf2 \
+	\cf5 //	[src,chan,note,vel].postln;\cf2 \
+		\cf3 var\cf2  hz, n, ratio;\
+		n = note + ~maposc_offset;\
+		ratio = ~maposc_tuning[n % 12];\
+		hz = ratio * ~maposc_fundamental * (2**((n / 12).floor + ~maposc_base_octave));\
+		hz.postln;\
+		~maposc_voice_index_arr[note] = ~maposc_voice_index_bag.pop;\
+		(\cf6 "voice index: "\cf2 ++ ~maposc_voice_index_arr[note]).postln;\
+		if (~maposc_voice_index_arr[note].notNil, \{\
+			~maposc_s[~maposc_voice_index_arr[note]].set(\cf4 \\hz\cf2 , hz);\
+			~maposc_s[~maposc_voice_index_arr[note]].set(\cf4 \\gate\cf2 , 1);\
+		\});\
+	\}, \cf3 nil\cf2 , \cf3 nil\cf2 , \cf3 nil\cf2 , \cf3 nil\cf2 );\
+	\
+	~maposc_off_r = \cf3 NoteOffResponder\cf2 (\{ \cf3 |src,chan,note,vel|\cf2 \
+		[src,chan,note,vel].postln;\
+		~maposc_s[~maposc_voice_index_arr[note]].set(\cf4 \\gate\cf2 , 0);\
+		~maposc_voice_index_bag.add(~maposc_voice_index_arr[note]);\
+	\}, \cf3 nil\cf2 , \cf3 nil\cf2 , \cf3 nil\cf2 , \cf3 nil\cf2 );\
+	\
+	\
+	~maposc_a_cc = \cf3 CCResponder\cf2 (\
+		\{	\cf3 arg\cf2  src, chan, num, val;\
+			\cf3 var\cf2  v = (val / 127.0)*2.49 + 1.5;\
+			v.postln;\
+			~maposc_a_b[num-1].set(v);\
+		\}, \
+		\cf3 nil\cf2 , \cf5 // any source\cf2 \
+		\cf3 nil\cf2 , \cf5 // any channel\cf2 \
+		\{ \cf3 |cc|\cf2  (cc > 0) && (cc < 5) \} \cf5 // cc number 1 through 4\cf2 \
+	);\
+	\
+	~maposc_oct_cc = \cf3 CCResponder\cf2 (\
+		\{	\cf3 arg\cf2  src, chan, num, val;\
+			\cf3 var\cf2  v = 2**((val / 127 * 6 - 3).floor);\
+			v.postln;\
+			~maposc_oct_b[num - 5].set(v);\
+		\}, \
+		\cf3 nil\cf2 , \cf5 // any source\cf2 \
+		\cf3 nil\cf2 , \cf5 // any channel\cf2 \
+		\{ \cf3 |cc|\cf2  (cc > 4) && (cc < 9) \} \cf5 // cc number 5 through 8\cf2 \
+	);\
+	\
+	\
+	~maposc_x_cc = \cf3 CCResponder\cf2 (\
+		\{	\cf3 arg\cf2  src, chan, num, val;\
+			\cf3 var\cf2  v = val / 127.0 * 0.9;\
+			[num, v].postln;\
+			if (v > 0, \{ ~maposc_buf[num-13].set(0, v); \});\
+		\}, \
+		\cf3 nil\cf2 , \cf5 // any source\cf2 \
+		\cf3 nil\cf2 , \cf5 // any channel\cf2 \
+		\{ \cf3 |cc|\cf2  (cc > 12) && (cc < 17) \} \cf5 // bottom pads, bank 1\cf2 \
+	);\
+\
+\
+\
+		\
+\}.play; \};\
+\
+}
