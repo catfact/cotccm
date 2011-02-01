@@ -1,0 +1,48 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 x = [1, 3, 7, 11, 17];\
+x = x.pyramid(8);\
+\
+y = [3, 5, 13, 23, 29];\
+y = y.pyramid(7);\
+\
+a = [x, y].lace(32 * 12);\
+\
+\
+\
+a.do(\{\cf2 arg\cf0  n; n.post; $ .post\});\
+\
+~geowrap = \{ \cf2 arg\cf0  in, wrapfactor=2.0;\
+\'a0\'a0\'a0 \cf2 var\cf0  wrapped, wrapit;\
+\'a0\'a0\'a0 wrapped = 1.0;\
+\'a0\'a0\'a0 wrapit = \{ \cf2 arg\cf0  v;\
+\'a0\'a0\'a0 \'a0\'a0\'a0 if (v < wrapfactor, \{\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 wrapped = v;\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \}, \{\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 if ( v < 1.0, \{\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 v = v * wrapfactor;\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 wrapit.value(v);\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 \}, \{\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 v = v / wrapfactor;\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 wrapit.value(v);\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \'a0\'a0\'a0 \});\
+\'a0\'a0\'a0 \'a0\'a0\'a0 \});\
+\'a0\'a0\'a0 \};\
+\'a0\'a0\'a0 wrapit.value(in);\'a0\'a0\'a0 \
+\'a0\'a0\'a0 wrapped\
+\};\'a0\'a0\'a0 \
+\
+b = \cf2 Array\cf0 .new(a.size / 2);\
+a.do(\{\cf2 arg\cf0  n, i; if(i%2 < 1, \{b.add(\
+	~geowrap.value(n * a[i+1], 16.0)\
+) \}) \});\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 "\\n\\n"\cf0 .postln;\
+\
+b.do(\{\cf2 arg\cf0  n; n.post; $, .post\});\
+\
+\cf3 "\\n\\n\\\\\\\\EOF"}
