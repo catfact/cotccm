@@ -18,7 +18,7 @@ s.waitForBoot {
 	
 	~buffer_a 	= Buffer.alloc(s, ~beats_a * ~period_a * s.sampleRate);
 	~buffer_vla 	= Buffer.alloc(s, ~beats_a * ~period_b * 0.25 * s.sampleRate); 
-	~shapebuf		= Buffer.alloc(s, 2048, 1);	
+	//~shapebuf		= Buffer.alloc(s, 2048, 1);	
 	 
 	 ~grain_g = Group.new(s);
 	 ~grain_b = Bus.audio(s, 1);		   
@@ -33,11 +33,11 @@ s.waitForBoot {
 		Out.ar(out, play);
 	}).send(s);
 	 
-	SynthDef.new(\churchdist, { arg in, out, level=0.25, hz=64.midicps, shapebuf;
+	SynthDef.new(\churchdist, { arg in, out, level=0.125, hz=64.midicps, shapebuf;
 		var sig;
 		sig = In.ar(in); 
 		sig = LPF.ar(sig, 8000);
-		sig = sig + PitchShift.ar(sig, 0.25, 0.5) + PitchShift.ar(sig, 2.0, 0.25);
+		sig = sig + PitchShift.ar(sig, 0.5, 0.5) + PitchShift.ar(sig, 2.0, 0.25) + PitchShift.ar(sig, 4.0, 0.5);
 		// sig = sig.distort.distort.distort + DelayN.ar(sig.abs.distort, 0.25, 0.25); 
 		sig = Shaper.ar(shapebuf, sig).distort + sig.distort + sig;
 		sig = MoogFF.ar(sig,  
@@ -149,10 +149,11 @@ s.waitForBoot {
 			// viola looper
 			~vla_loop = {
 				var recrun, looprun, play;
-				recrun = Line.kr(0.0, 1.0, ~beats_a * ~period_b * 0.5) < 1.0;
+				recrun = Line.kr(0.0, 1.0, ~beats_a * ~period_b) < 1.0;
 				// looprun = Line.kr(0.0, 1.0, ~beats_a * ~period_b, doneAction:2);
 				RecordBuf.ar(SoundIn.ar(1), ~buffer_vla.bufnum, preLevel:1.0, run:recrun, loop:1);
 				play = PlayBuf.ar(1, ~buffer_vla.bufnum, loop:1);
+				//play2 = PlayBuf.ar(1, ~buffer_vla.bufnum, startPos: ~beats_a*~period_b * SampleRate.ir, loop:1);
 				Out.ar(0, Pan2.ar(play));
 			}.play(s);
 			

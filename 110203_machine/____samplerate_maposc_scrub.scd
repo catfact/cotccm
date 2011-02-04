@@ -117,3 +117,12 @@ w.front;
 
 x.set(\lpf_hz, 1000);
 
+a = 3.0;
+x.set(\a, a);
+
+a = 2.5;
+x.set(\a, a);
+
+a = 3.5;
+x.set(\a, a);
+
