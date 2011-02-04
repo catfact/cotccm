@@ -4,12 +4,11 @@
 }
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f0\fs18 \cf2 Document\cf3 .current.background_(\cf2 Color\cf3 .white.alpha_(1.0));\
+\f0\fs18 \cf2 Document\cf3 .current.background_(\cf2 Color\cf3 .white.alpha_(0.8));\
 \
 \
 c = \cf2 CfHueMorphCanvas\cf3 .new;\
-\cf4 //c.layers.add(CfTrace2d.new(c.window.view.bounds, 64, 32));\cf3 \
-c.layers.add(\cf2 CfWedgeTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
+c.layers.add(\cf2 CfTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
 \
 \
 n = c.layers[0].n;\
@@ -29,26 +28,17 @@ c.layers[0].model.weights_l.postln;\
 \
 ~slid_l.action = \{ \cf2 arg\cf3  slider;\
 	c.layers[0].model.weights_l = slider.value.collect(\{\cf2 arg\cf3  val; val * 2.0 - 1.0\});\
-\cf4 //	c.layers[0].model.weights_l.postln;\cf3 \
+	c.layers[0].model.weights_l.postln;\
 \};\
 ~slid_r.action = \{ \cf2 arg\cf3  slider;\
 	c.layers[0].model.weights_r = slider.value.collect(\{\cf2 arg\cf3  val; val * 2.0 - 1.0\});\
-\cf4 //	c.layers[0].model.weights_r.postln;\cf3 \
+	c.layers[0].model.weights_r.postln;\
 \};\
-\
-~slid_l.thumbSize_(0.0);\
-~slid_l.drawLines = \cf2 true\cf3 ;\
-~slid_l.elasticMode = 1;\
-~slid_l.reference = \cf2 Array\cf3 .fill(~slid_l.size, \{0.5\});\
-~slid_r.thumbSize_(0.0);\
-~slid_r.drawLines = \cf2 true\cf3 ;\
-~slid_r.elasticMode = 1;\
-~slid_r.reference = \cf2 Array\cf3 .fill(~slid_r.size, \{0.5\});\
 \
 ~swin.front;\
 \
 c.layers[0].model.val = \cf2 Array\cf3 .fill(n, \{ 1.0.rand; \});\
-\cf4 //c.layers[0].model.val.postln;\cf3 \
+c.layers[0].model.val.postln;\
 \
 \
 \
@@ -56,9 +46,6 @@ c.layers[0].model.val = \cf2 Array\cf3 .fill(n, \{ 1.0.rand; \});\
 c.layers[0].alpha_(0.5);\
 c.layers[0].mode_(15);\
 c.dt = 0.25;\
-\
-\cf4 c.layers[0].radius = 30;\cf3 \
-c.layers[0].dphi = 2*pi / n;\
 \
 \cf4 // run\cf3 \
 c.play;}

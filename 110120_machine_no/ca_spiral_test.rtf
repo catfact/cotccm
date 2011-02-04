@@ -9,7 +9,7 @@
 \
 c = \cf2 CfHueMorphCanvas\cf3 .new;\
 \cf4 //c.layers.add(CfTrace2d.new(c.window.view.bounds, 64, 32));\cf3 \
-c.layers.add(\cf2 CfWedgeTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
+c.layers.add(\cf2 CfTriSpiralTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
 \
 \
 n = c.layers[0].n;\
@@ -29,11 +29,11 @@ c.layers[0].model.weights_l.postln;\
 \
 ~slid_l.action = \{ \cf2 arg\cf3  slider;\
 	c.layers[0].model.weights_l = slider.value.collect(\{\cf2 arg\cf3  val; val * 2.0 - 1.0\});\
-\cf4 //	c.layers[0].model.weights_l.postln;\cf3 \
+	c.layers[0].model.weights_l.postln;\
 \};\
 ~slid_r.action = \{ \cf2 arg\cf3  slider;\
 	c.layers[0].model.weights_r = slider.value.collect(\{\cf2 arg\cf3  val; val * 2.0 - 1.0\});\
-\cf4 //	c.layers[0].model.weights_r.postln;\cf3 \
+	c.layers[0].model.weights_r.postln;\
 \};\
 \
 ~slid_l.thumbSize_(0.0);\
@@ -48,7 +48,7 @@ c.layers[0].model.weights_l.postln;\
 ~swin.front;\
 \
 c.layers[0].model.val = \cf2 Array\cf3 .fill(n, \{ 1.0.rand; \});\
-\cf4 //c.layers[0].model.val.postln;\cf3 \
+c.layers[0].model.val.postln;\
 \
 \
 \
@@ -57,8 +57,8 @@ c.layers[0].alpha_(0.5);\
 c.layers[0].mode_(15);\
 c.dt = 0.25;\
 \
-\cf4 c.layers[0].radius = 30;\cf3 \
-c.layers[0].dphi = 2*pi / n;\
+c.layers[0].dr = 0;\
+c.layers[0].dphi = pi / 17;\
 \
 \cf4 // run\cf3 \
 c.play;}
