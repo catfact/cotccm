@@ -19,6 +19,7 @@ s.waitForBoot {
 	~buffer_a 	= Buffer.alloc(s, ~beats_a * ~period_a * s.sampleRate);
 	~buffer_vla 	= Buffer.alloc(s, ~beats_a * ~period_b * 0.25 * s.sampleRate); 
 	~shapebuf		= Buffer.alloc(s, 2048, 1);	
+	~shabeuf.cheby([1.0, 0.5, 0.25, 0.125]);
 	 
 	 ~grain_g = Group.new(s);
 	 ~grain_b = Bus.audio(s, 1);		   

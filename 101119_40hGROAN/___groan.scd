@@ -2,6 +2,8 @@
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.local;
+s.options.outDevice = "Built-in Output";
+//ServerOptions.outDevices
 s.waitForBoot { Routine {
 
 	SynthDef.new(\multicomp, {

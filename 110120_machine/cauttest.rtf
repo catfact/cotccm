@@ -8,7 +8,7 @@
 \
 \
 c = \cf2 CfHueMorphCanvas\cf3 .new;\
-c.layers.add(\cf2 CfTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
+c.layers.add(\cf2 CfGridTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
 \
 \
 n = c.layers[0].n;\
@@ -35,6 +35,15 @@ c.layers[0].model.weights_l.postln;\
 	c.layers[0].model.weights_r.postln;\
 \};\
 \
+~slid_l.thumbSize_(0.0);\
+~slid_l.drawLines = \cf2 true\cf3 ;\
+~slid_l.elasticMode = 1;\
+~slid_l.reference = \cf2 Array\cf3 .fill(~slid_l.size, \{0.5\});\
+~slid_r.thumbSize_(0.0);\
+~slid_r.drawLines = \cf2 true\cf3 ;\
+~slid_r.elasticMode = 1;\
+~slid_r.reference = \cf2 Array\cf3 .fill(~slid_r.size, \{0.5\});\
+\
 ~swin.front;\
 \
 c.layers[0].model.val = \cf2 Array\cf3 .fill(n, \{ 1.0.rand; \});\
@@ -48,4 +57,13 @@ c.layers[0].mode_(15);\
 c.dt = 0.25;\
 \
 \cf4 // run\cf3 \
-c.play;}
+c.play;\
+\
+\
+c.setTargetDt(0.2, 200);\
+\
+\
+c.setColor(\cf2 Color\cf3 .new(0.2, 0.8, 1.0));\
+c.setTargetH(\cf2 Color\cf3 .new(0.3, 0.0, 1.0));\
+c.setBlendFactorH(0.0005);\
+}

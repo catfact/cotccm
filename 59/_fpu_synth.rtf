@@ -1,39 +1,40 @@
-{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf430
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
 {\fonttbl\f0\fnil\fcharset0 Monaco;}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red191\green0\blue0;
-\red0\green115\blue0;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red191\green0\blue0;\red0\green115\blue0;
+}
+\vieww9000\viewh8400\viewkind0
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f0\fs18 \cf2 s = \cf3 Server\cf2 .local;\
-\cf4 //s.boot;\cf2 \
-\cf4 //s.freeAll;\cf2 \
+\f0\fs18 \cf0 s = \cf2 Server\cf0 .local;\
+\cf3 //s.boot;\cf0 \
+\cf3 //s.freeAll;\cf0 \
 \
 s.waitForBoot \{\
 \
-\cf3 SynthDef\cf2 .new(\cf5 \\vosc\cf2 , \{\
-	\cf3 arg\cf2  out=0, hz=110, level=1.0,\
+\cf2 SynthDef\cf0 .new(\cf4 \\vosc\cf0 , \{\
+	\cf2 arg\cf0  out=0, hz=110, level=1.0,\
 		buf=0, numbufs=4, \
 		index=0.0, amplag=0.05, hzlag = 10.0,\
 		gate=1, attack=0.1, release=60.0,\
 		pan=0;\
-	\cf3 var\cf2  osc, ampenv, amp;\
-	hz = \cf3 Lag\cf2 .kr(hz, hzlag);\
-	ampenv = \cf3 Env\cf2 .asr(attack, 1.0, release);\
-	amp = \cf3 EnvGen\cf2 .ar(ampenv, gate:gate, doneAction:2);\
-	index = \cf3 Lag\cf2 .kr(index, amplag);\
-	osc = \cf3 VOsc\cf2 .ar(buf + (index * numbufs), hz);\
-	\cf3 Out\cf2 .ar(out, \cf3 Pan2\cf2 .ar(osc*amp*level, pan));\
+	\cf2 var\cf0  osc, ampenv, amp;\
+	hz = \cf2 Lag\cf0 .kr(hz, hzlag);\
+	ampenv = \cf2 Env\cf0 .asr(attack, 1.0, release);\
+	amp = \cf2 EnvGen\cf0 .ar(ampenv, gate:gate, doneAction:2);\
+	index = \cf2 Lag\cf0 .kr(index, amplag);\
+	osc = \cf2 VOsc\cf0 .ar(buf + (index * numbufs), hz);\
+	\cf2 Out\cf0 .ar(out, \cf2 Pan2\cf0 .ar(osc*amp*level, pan));\
 \}).send(s);\
 \
 	\
-~vosc_bufs = \cf3 Buffer\cf2 .allocConsecutive\
+~vosc_bufs = \cf2 Buffer\cf0 .allocConsecutive\
 (	4, s, 1024, 1,\
-	\{	\cf3 arg\cf2  buf, i;\
-			\cf3 var\cf2  sa;\
-		sa = \cf3 Array\cf2 .fill\
+	\{	\cf2 arg\cf0  buf, i;\
+			\cf2 var\cf0  sa;\
+		sa = \cf2 Array\cf0 .fill\
 		(	i+1,\
-			\{	\cf3 arg\cf2  j;\
-				\cf3 var\cf2  val;\
+			\{	\cf2 arg\cf0  j;\
+				\cf2 var\cf0  val;\
 				if (j<i, \{val=0\}, \{val=1\});\
 				val.postln\
 			\}\
@@ -42,29 +43,29 @@ s.waitForBoot \{\
 	\}\
 );\
 \
-\cf3 SystemClock\cf2 .sched(10.0, \{\
+\cf2 SystemClock\cf0 .sched(1.0, \{\
 \
-~pitches = \cf3 Array\cf2 .fill(64, \{\cf3 |i|\cf2 \
+~pitches = \cf2 Array\cf0 .fill(64, \{\cf2 |i|\cf0 \
 	110 * ((i%7).wrap(1, 4)) / ((i% 8).wrap(1, 6)) + (i % 6) + (i/4096.0);\
 \});\
 \
-~vg = \cf3 Group\cf2 .tail(s);\
+~vg = \cf2 Group\cf0 .tail(s);\
 \
-~voscs = \cf3 Array\cf2 .fill(64, \{\cf3 |i|\cf2 \
-	\cf3 Synth\cf2 .new(\cf5 \\vosc\cf2 , [\cf5 \\level\cf2 , 0.01, \cf5 \\hz\cf2 , ~pitches[i], \cf5 \\attack\cf2 , 30.0], ~vg); \
+~voscs = \cf2 Array\cf0 .fill(64, \{\cf2 |i|\cf0 \
+	\cf2 Synth\cf0 .new(\cf4 \\vosc\cf0 , [\cf4 \\level\cf0 , 0.01, \cf4 \\hz\cf0 , ~pitches[i], \cf4 \\attack\cf0 , 30.0], ~vg); \
 \});\
 \
-\cf4 //~voscs.do(\{arg syn; syn.free;\});\cf2 \
+\cf3 //~voscs.do(\{arg syn; syn.free;\});\cf0 \
 \
-~vg.set(\cf5 \\lag\cf2 , 10.0);\
-~vg.set(\cf5 \\lag\cf2 , 0.1);\
-~vg.set(\cf5 \\index\cf2 , 0.0);\
-~vg.set(\cf5 \\level\cf2 , 0.011);\
+~vg.set(\cf4 \\lag\cf0 , 10.0);\
+~vg.set(\cf4 \\lag\cf0 , 0.1);\
+~vg.set(\cf4 \\index\cf0 , 0.0);\
+~vg.set(\cf4 \\level\cf0 , 0.011);\
 \
-~voscs.do(\{\cf3 |syn, i|\cf2  syn.set(\cf5 \\pan\cf2 , i / 128 - 0.25)\});\
+~voscs.do(\{\cf2 |syn, i|\cf0  syn.set(\cf4 \\pan\cf0 , i / 128 - 0.25)\});\
 \
-\cf4 //~vg.run(true);\cf2 \
+\cf3 //~vg.run(true);\cf0 \
 \
-\cf3 nil\cf2 ; \}); \cf4 // sched\cf2 \
+\cf2 nil\cf0 ; \}); \cf3 // sched\cf0 \
 \
-\}; \cf4 //waitforboot}
+\}; \cf3 //waitforboot}

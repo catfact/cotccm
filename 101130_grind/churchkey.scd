@@ -10,14 +10,17 @@ s.waitForBoot {
 	~period_a = 60.0 / 80.0;  // 80 bpm
 	//~beats_a = (3 + 2 + 3 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
 	~beats_a = (3 + 2 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
+	
 	// test, shorter:
 	// ~beats_a = (3 + 2 + 3 + 5 + 4 + 2 + 3 + 6) * 2; // duration in beats
-	~period_b = 0.5; 			// 120 bpm  
 	
-	~buffer_a = Buffer.alloc(s, ~beats_a * ~period_a * s.sampleRate);
+	~period_b = 0.5; 		// 120 bpm  
 	
-	~buffer_vla = Buffer.alloc(s, ~beats_a * ~period_b * 0.25 * s.sampleRate); 
-	 
+	~buffer_a 	= Buffer.alloc(s, ~beats_a * ~period_a * s.sampleRate);
+	~buffer_vla 	= Buffer.alloc(s, ~beats_a * ~period_b * 0.25 * s.sampleRate); 
+	~shapebuf		= Buffer.alloc(s, 2048, 1);	
+	~shapebuf.cheby([1, 0.5, 0.25, 0.125]);
+		 
 	 ~grain_g = Group.new(s);
 	 ~grain_b = Bus.audio(s, 1);		   
 	 
@@ -31,16 +34,16 @@ s.waitForBoot {
 		Out.ar(out, play);
 	}).send(s);
 	 
-	SynthDef.new(\churchdist, { arg in, out, level=0.5, shapebuf;
+	SynthDef.new(\churchdist, { arg in, out, level=0.25, hz=64.midicps, shapebuf;
 		var sig;
 		sig = In.ar(in); 
 		sig = LPF.ar(sig, 8000);
 		sig = sig + PitchShift.ar(sig, 0.25, 0.5) + PitchShift.ar(sig, 2.0, 0.25);
 		// sig = sig.distort.distort.distort + DelayN.ar(sig.abs.distort, 0.25, 0.25); 
-		sig = Shaper.ar(shapebuf, sig).distort;
+		sig = Shaper.ar(shapebuf, sig).distort + sig.distort + sig;
 		sig = MoogFF.ar(sig,  
-			LFSaw.ar([0.5, 0.25, 1.0], 0, 0.5, 0.5) * 64.midicps * 2 + 64.midicps,
-			LFSaw.ar([0.2, 0.1], 0, 1.0, 2.0) 
+			LFSaw.ar([0.5, 0.25, 1.0], 0, 0.5, 0.5) * hz * 2 + hz,
+			LFSaw.ar([0.2, 0.1], 0, 1.0, 2.0)
 		) + sig;
 		sig = Mix.new(sig);
 		Out.ar(out, sig*level);
@@ -85,11 +88,15 @@ s.waitForBoot {
 			(~period_a * 7).wait;
 		
 			// schedule record
+			
+			//// ADC input:
 			/*
 			~rec_s = SynthDef.new(\recAdc1shot, { arg in, buf;
 				RecordBuf.ar(SoundIn.ar(in), buf, loop:0, doneAction:2);
 			}).play(s, [\buf, ~buffer_a.bufnum, \in, 0]);
 			*/
+			
+			///// bus input:
 			~rec_s = SynthDef.new(\rec1shot, { arg in, buf;
 				RecordBuf.ar(In.ar(in), buf, loop:0, doneAction:2);
 			}).play(~sinegroup, [\buf, ~buffer_a.bufnum, \in, ~sinebus.index], \addAfter);
@@ -98,6 +105,9 @@ s.waitForBoot {
 			
 			// ~beats_a * ~period_a.wait;			
 			// ~churchkey_func_b.value; 
+			
+			
+			//// MIDI:
 			~funcA_r.remove;
 			~funcB_r = CCResponder({
 					arg src, chan, num, val;
@@ -107,10 +117,11 @@ s.waitForBoot {
 				},
 				nil, // any source
 				nil, // any channel
-				16, // last pad, first banmk
+				16, // last pad, first bank on MPK mini
 				nil // any value
 			)
 
+			//// HID:
 			//~switch_func = { arg val; if (val>0, {~churchkey_func_b.value; }, {}); };
 			
 		}).play;
@@ -161,10 +172,14 @@ s.waitForBoot {
 		}).play(SystemClock);	
 		
 		~grain_out_s = { Out.ar(0, In.ar(~grain_b.index)) }.play(~grain_g, \addAfter);
+		
+		
+		/////// hhhaaa hhaaa
+		
 		~grain_out_dist_s = Synth.new(\churchdist, [\in, ~grain_b.index, \out, 0, \shapebuf, ~shapebuf.bufnum], ~grain_g, \addAfter);
 	}; 
 	 
-//	 ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); };
+	///// MIDI:
 	~funcA_r = CCResponder({
 			arg src, chan, num, val;
 			if (val > 0, {
@@ -176,7 +191,9 @@ s.waitForBoot {
 		nil, // any channel
 		16, // last pad, first banmk
 		nil // any value
-	)
+	);
 
+	////// HID:
+//	 ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); };
 	 
 }; // waitForBoot
