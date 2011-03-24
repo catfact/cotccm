@@ -1,5 +1,5 @@
 ~basepath = Document.current.dir ++"/";
-x = { |p| this.executeFile(~basepath++p); };
+x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.default;
 s.options.memSize = 8192 * 64;

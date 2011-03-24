@@ -115,9 +115,6 @@ SynthDef.new(\chopgrain_1shot, {
 }).send(s);
 
 
-
-
-
 SynthDef.new(\echo, {
 	arg in, out, time, maxtime=1.0, amp=1.0;
 	Out.ar(out, DelayL.ar(In.ar(in), maxtime, time) * amp);
