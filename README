@@ -1,0 +1,11 @@
+don't say i didn't warn you. this is the pile of shit that i use to play shows. it is here mainly for my own convenience in case my computer sneaks out of a motel room or is smashed to pieces in a drunken rage.
+
+i'm not even going to really try and explain how to use this crap. most of these programs were written in a couple hours and do something fairly trivial. some of them were written in a couple days and do something ratheer complicated, the ratio of slapdash hackage increasing nonlinearly with the complexity of the program. so yeah, i'm not even gonna try; maybe some of these fragments will be interesting or educational or simply a stern warning to never become a huge god damn nerd like me.
+
+so yeah. as a bare minimum, you'd need to install SuperCollider. then you'd need to grab my extensions from the repository called "catfact" and install them in ~/Library/Application Support/SuperCollider/Extensions on your mac (or the equivalent system-wide app support folder). if you're running SC on linux, you figure it out (hint : .sclang.conf). nerd.
+
+thanks
+
+-ezra buchla, 2/7/2011
+
+
