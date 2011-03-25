@@ -1,0 +1,53 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red191\green0\blue0;\red0\green115\blue0;}
+\deftab560
+\pard\pardeftab560\ql\qnatural
+
+\f0\fs18 \cf2 \
+ \cf3 var\cf2  name, func, specs, componentType, componentSubtype, builder;\
+\
+name = \cf4 "magAbove"\cf2 ; \cf5 // name of your plugin\cf2 \
+func =  \{\
+	\cf3 arg\cf2  thresh, blend;\
+	\cf3 var\cf2  in, buf, chain, out;\
+	\
+	buf = \cf3 LocalBuf\cf2 ([2048, 2048]);\
+	in = \cf3 AudioIn\cf2 .ar([1,2]);\cf5 //Input from AU  host\cf2 \
+	\
+   	\
+   	chain = \cf3 FFT\cf2 (buf, in);\
+	chain = \cf3 PV_MagAbove\cf2 (chain, thresh); \
+   	\
+   	out = \cf3 IFFT\cf2 (chain)*blend + (1.0 - blend)*in;\
+	\cf3 Out\cf2 .ar(0, out);\cf5 //Output to AU host\cf2 \
+\};\
+\
+specs =  #[ \
+	[0, 2047, \cf6 \\Linear\cf2 , 0, 
+\fs20 \cf6 \\Generic
+\fs18 \cf2  ],\
+	[0, 1.0, \cf6 \\Linear\cf2 , 1.0, 
+\fs20 \cf6 \\LinearGain
+\fs18 \cf2  ]\
+];	\
+	\
+	\
+\cf5 // this must be a four chars code. Either \\aufx (effect) or \\aumf (music effect).\cf2 \
+\cf5 // music effects may receive MIDI but some applications won't recognize them\cf2 \
+\cf5 // default is \\aumf	\cf2 \
+\
+componentType = \cf6 \\aufx\cf2 ;\
+	\
+	\
+\cf5 // this must be a four chars code. It sould be unique in your system within all SuperColliderAU plugins.	\cf2 \
+componentSubtype = \cf6 \\MAGA\cf2 ; \
+\
+\
+builder = \cf3 AudioUnitBuilder\cf2 .new(name, componentSubtype,func, specs, componentType);\
+\
+\cf5 //build and install into ~/Library/Audio/Plug-Ins/Components\cf2 \
+builder.makeInstall; \
+\
+}
