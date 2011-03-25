@@ -176,8 +176,11 @@ s.waitForBoot {
 				postln(i*(~period_a*~chopgrain));
 			});
 			
-			(~beats_a * ~period_b * 0.5).wait;
 			
+		x.value("vla_echo_churchkey.scd");
+			
+			(~beats_a * ~period_b * 0.5).wait;
+			~vla_loop.free;
 			 
 		}).play(SystemClock);	
 		

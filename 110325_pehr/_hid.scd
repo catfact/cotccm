@@ -5,8 +5,8 @@ GeneralHID.buildDeviceList;
 GeneralHID.postDevices;
 		
 //~pad = GeneralHID.open( GeneralHID.findBy(1973, 531, 68157440, 257) );
-//~pad = GeneralHID.open( GeneralHID.findBy(0x07B5) );
-GeneralHID.open( GeneralHID.findBy("USB 2-Axis 8-Button Gamepad") );
+~pad = GeneralHID.open( GeneralHID.findBy(0x07B5) );
+// GeneralHID.open( GeneralHID.findBy("USB 2-Axis 8-Button Gamepad") );
 ~pad.debug_( true );
  ~pad.makeGui;
  

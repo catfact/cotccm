@@ -113,7 +113,7 @@ s.sync;
 		~notify.value("fade out vla grains, modulate loop");
 		~vla_grain1_play.set(\gate, 0);
 		x.value("_moveloops.scd");
-	}
+	},
 	
 	//// part 2
 	{
