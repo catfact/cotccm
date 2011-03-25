@@ -51,8 +51,8 @@ SynthDef.new(\sine_shaper, {
 ~sine_out_s = { Out.ar(0, In.ar(~sinebus.index, 2)) }.play(~sinegroup, \addAfter);
 
 ~sine_on_r = NoteOnResponder({ |src,chan,note,vel|
-//	[src,chan,note,vel].postln;
 	var hz, n, ratio;
+	[src,chan,note,vel].postln;
 	n = note + ~sineoffset;
 	ratio = ~sinetuning[n % 12];
 	hz = ratio * ~sinefundamental * (2**((n / 12).floor + ~sineoctave));

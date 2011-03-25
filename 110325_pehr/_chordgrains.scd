@@ -127,6 +127,12 @@
 
 ~chordgrains_r = Routine { inf.do({ arg i; ~ratios.do({ arg rats;
 	rats.postln;
+	
+	8.do({ arg i;
+		~jl_play_s[i].set(\ratelag, 0.1 + 0.1.rand);
+		~jl_play_s[i].set(\rate, rats[i % (rates.size)] * ~interval_1);
+	});
+	
 	~grains1.value(rats * ~interval_1);
 	
 	if (i > 31, {~grains2.value(rats * ~interval_2)});
@@ -136,6 +142,14 @@
 ~tempo = 1.0;
 ~vla_delay.set(\time, 2 * 4 * 4);
 ~vox_delay2.set(\time, 2 * 4 * 4);
+
+~vla_delay2 = Synth.new(\echo, [\in, ~vla_in_b.index, \buf, \maxtime, 4*4*5, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);
+
+~vla_delay3 = Synth.new(\echo, [\in, ~vla_in_b.index, \buf, \maxtime, 4*4*9, \time, 4*4*8, \out, 0, \amp, -6.dbamp], ~xg);
+
+~vox_delay3 = Synth.new(\echo, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \maxtime, 4*4*5, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);
+
+
 
 /*
 ~grains1.value(~ratios[0]);

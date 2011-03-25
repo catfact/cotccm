@@ -24,6 +24,7 @@ s.sync;
 
 ~vox_echo1_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
 ~vox_echo2_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
+~vla_echo_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
 
 ////// groups
 ~ig = Group.new(s);
@@ -89,7 +90,7 @@ s.sync;
 	},
 	{	
 		arg val, time;
-		~notify.value("play, fadeout [viola grain 1]");
+		~notify.value("play [viola grain 1]");
 		~vla_loop1_play.set(\rel, 4.0);
 		~vla_loop1_play.set(\gate, 0);
 		~vla_grain1_rec.run(false);
@@ -105,8 +106,14 @@ s.sync;
 				\level, (i * -4).dbamp * 0.6
 			], ~vla_grain1_play);
 		});
-		SystemClock.sched(time, { ~vla_grain1_play.set(\gate, 0); nil});
 	},
+	
+	// modulate to d
+	{
+		~notify.value("fade out vla grains, modulate loop");
+		~vla_grain1_play.set(\gate, 0);
+		x.value("_moveloops.scd");
+	}
 	
 	//// part 2
 	{
@@ -119,7 +126,7 @@ s.sync;
 		~notify.value("recording [viola loop 2]", Color.red);
 	},
 	{	arg val, time;
-		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, ~tempo * 4 * 9], ~xg);
+		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, ~tempo * 4 * 16], ~xg);
 		~notify.value("playback [viola loop 2]", Color.green);
 	},
 	{
@@ -128,8 +135,8 @@ s.sync;
 		~vox_echo_pre = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		~vox_echo_out = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, 0, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		
-		~vox_delay2 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -12.dbamp], ~xg);
-		~vox_delay.set(\amp, -12.dbamp);
+		~vox_delay2 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
+		~vox_delay.set(\amp, -8.dbamp);
 		~vox_del_switch = Routine({ inf.do({
 			arg i;
 			~vox_delay.set(\time, ~tempo * ((i+1) * 4).wrap(1, 7) / 4);
@@ -141,7 +148,7 @@ s.sync;
 		//~vox_echo_pre.set(\in, ~vla_in_b.index);
 		//~vla_loop2_rec.run(true);
 		//~vla_loop2_rec.set(\prelevel, 0.0);
-		~vla_delay = Synth.new(\echo, [\in, ~vla_in_b.index, \time, ~tempo * 4 * 3, \maxtime, ~tempo * 4 * 9, \out, 0, \amp, -12.dbamp], ~xg);
+		~vla_delay = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
 	},
 	{	~notify.value("release [viola loop 2]");
 		~vla_loop2_play.set(\rel, ~tempo * 8.0);

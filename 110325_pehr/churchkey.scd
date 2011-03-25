@@ -3,6 +3,12 @@
 // ~bunny_server_addr = NetAddr.new("192.168.1.80", 57110);
 // s = Server.new("bunny", ~bunny_server_addr);
 
+
+~basepath = Document.current.dir ++"/";
+x = { |p| this.executeFile(~basepath++p); };
+~topdoc = Document.current;
+{ ~topdoc.background_(Color.white); }.defer;
+
 s.waitForBoot {
 	 
 	 x.value("midi_sines.scd");
@@ -168,7 +174,11 @@ s.waitForBoot {
 				], ~grain_g); 	 
 				(~chopgrain*~period_b).wait;		 
 				postln(i*(~period_a*~chopgrain));
-			}) 
+			});
+			
+			(~beats_a * ~period_b * 0.5).wait;
+			
+			 
 		}).play(SystemClock);	
 		
 		~grain_out_s = { Out.ar(0, In.ar(~grain_b.index)) }.play(~grain_g, \addAfter);
