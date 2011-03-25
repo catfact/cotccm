@@ -59,6 +59,7 @@ x.value("_hues.scd");
 ~randomize_hue = {
 	c.setTargetH(~colorFromHex.value(~hues.choose));
 	c.setBlendFactorH(0.001 + 0.01.rand);	
+
 };
 
 ~randomize_speed = {

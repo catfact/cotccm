@@ -9,8 +9,6 @@ c.layers.add(CfGridTrace2d.new(c.window.view.bounds, 32, 16));
 x.value("_hid.scd");
 x.value("__events.scd");
 
-
-
 // canvas parameters
 c.layers[0].alpha_(0.125);
 c.layers[0].mode_(15);

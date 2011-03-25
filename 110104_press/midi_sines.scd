@@ -4,12 +4,13 @@ SynthDef.new(\sine_shaper, {
 	arg out=0, hz=220.0, shapebuf=0, level=0.25,
 		attack=0.01, release=0.5, decay=0.0, sustain=1.0, gate=1,
 		beat=0.2, beatspread=0.5,
-		shapemix=0.4;
+		shapemix=0.2;
 	
 	var sine, env, output;
 	
 	sine = SinOsc.ar([hz - (beat * 0.5), hz + (beat * 0.5)]);
 	sine = sine*(1.0 - shapemix) + Shaper.ar(shapebuf, sine, shapemix);
+	sine = sine + (0.75 * SinOsc.ar([hz*0.5 - (beat * 0.5), hz*0.5 + (beat * 0.5)]));
 	env = EnvGen.ar(Env.adsr(attack, decay, sustain, release), gate, doneAction:2);
 	output = sine * env;
 	output = output * beatspread + Pan2.ar(Mix.new(output) * (1.0 - beatspread), 0);
@@ -51,8 +52,8 @@ SynthDef.new(\sine_shaper, {
 ~sine_out_s = { Out.ar(0, In.ar(~sinebus.index, 2)) }.play(~sinegroup, \addAfter);
 
 ~sine_on_r = NoteOnResponder({ |src,chan,note,vel|
-//	[src,chan,note,vel].postln;
 	var hz, n, ratio;
+	// [src,chan,note,vel].postln;
 	n = note + ~sineoffset;
 	ratio = ~sinetuning[n % 12];
 	hz = ratio * ~sinefundamental * (2**((n / 12).floor + ~sineoctave));
@@ -70,7 +71,7 @@ SynthDef.new(\sine_shaper, {
 }, nil, nil, nil, nil);
 
 ~sine_off_r = NoteOffResponder({ |src,chan,note,vel|
-	[src,chan,note,vel].postln;
+	// [src,chan,note,vel].postln;
 	~sines[note].set(\gate, 0);
 }, nil, nil, nil, nil);
 

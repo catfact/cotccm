@@ -141,6 +141,7 @@ s.waitForBoot { Routine {
 				~switch = 1;
 				{ ~gw.view.background = Color.red; }.defer;
 			});
+			("switch "++val).postln;
 		});
 	};
 

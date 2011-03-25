@@ -1,0 +1,110 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;\f1\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red96\green96\blue96;\red191\green0\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 ~basepath = \cf2 Document\cf0 .current.dir ++\cf3 "/"\cf0 ;\
+x = \{ \cf2 |p|\cf0  \cf2 this\cf0 .executeFile(~basepath++p); \};\
+\
+\
+s = \cf2 Server\cf0 .default;\
+s.boot;\
+s.waitForBoot \{ \cf2 Routine\cf0  \{\
+\
+	~nsamps = 8;\
+	~samps = \cf2 Array\cf0 .newClear(~nsamps);\
+	\
+	\cf4 /*\
+	~samps[0] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909BD06.wav");\
+	~samps[1] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909HH02.wav");\
+	~samps[2] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909CLAP3.wav");\
+	~samps[3] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909SD19.wav");\
+	~samps[4] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909BD20.wav");\
+	~samps[5] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909HH01.wav");\
+	~samps[6] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909SD15.wav");\
+	~samps[7] = Buffer.read(s, "/Users/e/_snd/samples/Beat Machine Samples/ROLAND TR-909/909TLO5.wav");\
+	\
+	\
+	\
+	~samps[0] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/BT3A0DA.wav");\
+	~samps[1] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/HANDCLP1.wav");\
+	~samps[2] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/HHCD0.wav");\
+	~samps[3] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/ST0T0SA.wav");\
+	~samps[4] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/HHCD4.wav");\
+	~samps[5] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/ST0T0S3.wav");\
+	~samps[6] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/LT0D3.wav");\
+	~samps[7] = Buffer.read(s, "/Users/e/_snd/drummachine_samples/Roland TR-909/ST7T7SA.wav");\
+	*/\cf0 \
+	\
+	\
+	~samps[0] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Roland TR-909/BT3A0DA.wav"\cf0 );\
+	~samps[1] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Acetone Rhythm-Ace/SNARE2.wav"\cf0 );\
+	~samps[2] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Univox MR-12/UNIVOXBD.wav"\cf0 );\
+	~samps[3] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Acetone Rhythm-Ace/PERC3.wav"\cf0 );\
+	~samps[4] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Linn LinnDrum/ssth.wav"\cf0 );\
+	~samps[5] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Akai XR-10/XR10tamb.wav"\cf0 );\
+	~samps[6] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Roland TR-909/LT0D3.wav"\cf0 );\
+	~samps[7] = \cf2 Buffer\cf0 .read(s, \cf3 "/Users/e/_snd/drummachine_samples/Linn LinnDrum/sst.wav"\cf0 );\
+	\
+	0.2.wait;\
+	\
+	\
+	~hitsample = \{ \cf2 arg\cf0  i, level=1.0, dur=1.0;\
+		\{ \cf2 Out\cf0 .ar(0, (\
+			level *\cf2 EnvGen\cf0 .ar(\cf2 Env\cf0 .linen(0.001, dur, 0.001), doneAction:2) * \cf2 PlayBuf\cf0 .ar(1, ~samps[i].bufnum, doneAction:2)).dup; \
+			);\
+		\}.play;\
+	\};\
+\
+\cf4 /*\
+	~hitsample.value(0, 1.0);\
+	~hitsample.value(1, 1.0);\
+	~hitsample.value(2, 1.0);\
+	~hitsample.value(3, 1.0);\
+	~hitsample.value(4, 1.0);\
+	~hitsample.value(5, 1.0);\
+	~hitsample.value(6, 1.0);\
+	~hitsample.value(7, 1.0);\
+*/\cf0 \
+\
+~drummap = [0, 6, 1, 4, 5, 7, 3, 5];\
+~hitthresh= 0.15;\
+~hitscaledb = -30.0;\
+\
+\
+	\cf4 /// animation\cf0 \
+	\{\
+		c = \cf2 CfHueMorphCanvas\cf0 .new;\
+		c.color_(\cf2 Color\cf0 .new(0.3, 0.0, 1.0));\
+		c.layers.add(\cf2 CfGridTrace2d\cf0 .new(c.window.view.bounds, 8, 16));\
+		c.layers[0].alpha_(1.0);\
+		c.layers[0].mode_(0);\
+		c.dt = 0.16;\
+		\
+		x.value(\cf3 "_ca_weights.scd"\cf0 );\
+		\
+		\
+		c.layers[0].model = \cf2 CfContinuousAut\cf0 .new(c.layers[0].n);\
+\
+		c.layers[0].model.weights_l = ~weights_l.choose;\
+		c.layers[0].model.weights_r = ~weights_r.choose;\
+	\
+		x.value(\cf3 "
+\f1\fs24 \cf3 weights_ok_1.scd"\cf0 );
+\f0\fs18 \
+	\
+		c.layers[0].model.function = \{\
+			\cf2 arg\cf0  val;\
+			\cf4 // val.postln;\cf0 \
+			val.do(\{\cf2 arg\cf0  v, i;\
+				if ((v.abs > ~hitthresh) && (i < ~nsamps), \{\
+					~hitsample.value(~drummap[i], ((1.0 - v.abs) * ~hitscaledb).dbamp);\
+				\});\
+			\});\
+		\};\
+		\
+		c.play;\
+	\}.defer;\
+\cf4 //	c.stop;	\cf0 \
+\}.play; \};}

@@ -1,0 +1,64 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green0\blue0;\red191\green0\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 Document\cf3 .current.background_(\cf2 Color\cf3 .white.alpha_(1.0));\
+\
+\
+c = \cf2 CfHueMorphCanvas\cf3 .new;\
+\cf4 //c.layers.add(CfTrace2d.new(c.window.view.bounds, 64, 32));\cf3 \
+c.layers.add(\cf2 CfTriSpiralTrace2d\cf3 .new(c.window.view.bounds, 64, 32));\
+\
+\
+n = c.layers[0].n;\
+\
+c.layers[0].model = \cf2 CfContinuousAut\cf3 .new(c.layers[0].n);\
+\
+c.layers[0].model.weights_l.postln;\
+\
+\
+\cf4 // test\cf3 \
+~swin = \cf2 SCWindow\cf3 .new;\
+~slid_l = \cf2 SCMultiSliderView\cf3 (~swin, \cf2 Rect\cf3 (0, 0, ~swin.bounds.width, ~swin.bounds.height * 0.5));\
+~slid_r = \cf2 SCMultiSliderView\cf3 (~swin, \cf2 Rect\cf3 (0, ~swin.bounds.height * 0.5, ~swin.bounds.width, ~swin.bounds.height * 0.5));\
+\
+~slid_l.value = c.layers[0].model.weights_l;\
+~slid_r.value = c.layers[0].model.weights_r;\
+\
+~slid_l.action = \{ \cf2 arg\cf3  slider;\
+	c.layers[0].model.weights_l = slider.value.collect(\{\cf2 arg\cf3  val; val * 2.0 - 1.0\});\
+	c.layers[0].model.weights_l.postln;\
+\};\
+~slid_r.action = \{ \cf2 arg\cf3  slider;\
+	c.layers[0].model.weights_r = slider.value.collect(\{\cf2 arg\cf3  val; val * 2.0 - 1.0\});\
+	c.layers[0].model.weights_r.postln;\
+\};\
+\
+~slid_l.thumbSize_(0.0);\
+~slid_l.drawLines = \cf2 true\cf3 ;\
+~slid_l.elasticMode = 1;\
+~slid_l.reference = \cf2 Array\cf3 .fill(~slid_l.size, \{0.5\});\
+~slid_r.thumbSize_(0.0);\
+~slid_r.drawLines = \cf2 true\cf3 ;\
+~slid_r.elasticMode = 1;\
+~slid_r.reference = \cf2 Array\cf3 .fill(~slid_r.size, \{0.5\});\
+\
+~swin.front;\
+\
+c.layers[0].model.val = \cf2 Array\cf3 .fill(n, \{ 1.0.rand; \});\
+c.layers[0].model.val.postln;\
+\
+\
+\
+\cf4 // canvas parameters\cf3 \
+c.layers[0].alpha_(0.5);\
+c.layers[0].mode_(15);\
+c.dt = 0.25;\
+\
+c.layers[0].dr = 0;\
+c.layers[0].dphi = pi / 17;\
+\
+\cf4 // run\cf3 \
+c.play;}
