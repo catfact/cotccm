@@ -110,7 +110,7 @@ SynthDef.new(\chopgrain_1shot, {
 	pos = LFSaw.kr(posrate / framediff * sr, 0, framediff, minframes).wrap(minframes, maxframes - (sr / choprate));
 	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
 	
-	Out.ar(out, read * ampenv * level);
+	Out.ar(out, read * ampenv * level * 0.6);
 }).send(s);
 
 

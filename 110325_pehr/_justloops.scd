@@ -101,7 +101,7 @@ s.waitForBoot { Routine {
 		~jl_rec_s[i].free;
 		if(~jl_clear_flags[i], {
 			~jl_taps[i].tap;
-			~jl_play_s[i] = Synth.new(\justloop_play, [\buf, ~jl_bufs[i].bufnum, \looptime, ~jl_taps[i].time / ~jl_rates[i], \rate, ~jl_rates[i], \amp, -16.dbamp, \out, 0]);
+			~jl_play_s[i] = Synth.new(\justloop_play, [\buf, ~jl_bufs[i].bufnum, \looptime, ~jl_taps[i].time / ~jl_rates[i], \rate, ~jl_rates[i], \amp, -28.dbamp, \out, 0]);
 			~jl_clear_flags[i] = false;
 		}, {
 			

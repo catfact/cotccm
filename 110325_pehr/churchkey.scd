@@ -40,7 +40,7 @@ s.waitForBoot {
 		Out.ar(out, play);
 	}).send(s);
 	 
-	SynthDef.new(\churchdist, { arg in, out, level=0.19, hz=64.midicps, shapebuf;
+	SynthDef.new(\churchdist, { arg in, out, level=0.24, hz=64.midicps, shapebuf;
 		var sig;
 		sig = In.ar(in); 
 		sig = LPF.ar(sig, 8000);
@@ -160,7 +160,7 @@ s.waitForBoot {
 				// looprun = Line.kr(0.0, 1.0, ~beats_a * ~period_b, doneAction:2);
 				RecordBuf.ar(SoundIn.ar(1), ~buffer_vla.bufnum, preLevel:1.0, run:recrun, loop:1);
 				play = PlayBuf.ar(1, ~buffer_vla.bufnum, loop:1);
-				Out.ar(0, Pan2.ar(play));
+				Out.ar(0, Pan2.ar(play * 1.3));
 			}.play(s);
 			
 			// chop and advance for the rest

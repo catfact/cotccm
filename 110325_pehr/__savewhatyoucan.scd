@@ -60,6 +60,9 @@ s.sync;
 }, nil, nil, 9); // top row, left pad of mpkMini
 */
 
+//????
+0.1.wait;
+
 ~switch_func = { arg val;
 	if( val>0, {
 		~topdoc.background_(Color.new(1.0, 0.5, 0.5));
@@ -103,7 +106,7 @@ s.sync;
 				\posrate, 1/(i+3),
 				\rel, 8.0 + i,
 				\atk, 4.0,
-				\level, (i * -4).dbamp * 0.6
+				\level, (i * -2).dbamp * -4.dbamp
 			], ~vla_grain1_play);
 		});
 	},
@@ -118,7 +121,7 @@ s.sync;
 	//// part 2
 	{
 		~tempo = 0.9;
-		~vox_delay = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo1_buf.bufnum, \time, ~tempo, \out, 0, \amp, 1.0], ~xg);
+		~vox_delay = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo1_buf.bufnum, \time, ~tempo, \out, 0, \amp, 0.5], ~xg);
 		~notify.value("PART 2 [vox echo]");
 	},
 	{
@@ -156,6 +159,7 @@ s.sync;
 	},
 	{
 		x.value("_chordgrains.scd");
+		~vox_del_switch.stop;
 	},
 	{	
 		~chordgrains_r.stop;
