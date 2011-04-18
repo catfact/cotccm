@@ -17,6 +17,11 @@ x.value("_defs.scd");
 
 s.sync;
 
+//// background loop engine
+x.value("_justloops.scd");
+
+s.sync;
+
 ////// buffers
 ~vla_loop1_buf = Buffer.alloc(s, s.sampleRate * 300.0, 1, completionMessage: { });
 ~vla_grain1_buf = Buffer.alloc(s, s.sampleRate * 120.0, 1, completionMessage: { });
@@ -47,9 +52,11 @@ s.sync;
 }, nil, nil, nil);
 
 
-// timer
+// timers
 ~event_tap = CfTapper.new;
 ~event_tap.tap;
+~event_lift_tap = CfTapper.new;
+~event_lift_tap.tap;
 
 // record/play/stop switch
 /*
@@ -69,15 +76,46 @@ s.sync;
 		~event_tap.tap;
 		~events.next.value(val, ~event_tap.time);
 	}, {
+		~event_lift_tap.tap;
+		~events_lift.next.value(val, ~event_tap.time);
 		~topdoc.background_(Color.white);
 	});
 };
 
+~events_lift = Pseq([
+
+	///// background vla loops
+	{
+		~jl_stop_record(0);
+	},
+	{
+		~jl_stop_record(1);
+	},
+	{
+		~jl_stop_record(2);
+	},
+	{
+		~jl_stop_record(3);
+	}
+]).asStream;
 
 ~events = Pseq([
 
+	///// background vla loops
+	{
+		~jl_start_record(0);
+	},
+	{
+		~jl_start_record(1);
+	},
+	{
+		~jl_start_record(2);
+	},
+	{
+		~jl_start_record(3);
+	}
+
 	//// part 1
-	
 	{	
 		~vla_loop1_rec = Synth.new(\rec_loop, [\buf, ~vla_loop1_buf.bufnum, \in, ~vla_in_b.index], ~xg);
 		~notify.value("recording [viola loop 1]");

@@ -1,5 +1,5 @@
 //s = Server.local.boot; 
-// for remote control...
+l// for remote control...
 // ~bunny_server_addr = NetAddr.new("192.168.1.80", 57110);
 // s = Server.new("bunny", ~bunny_server_addr);
 
@@ -11,7 +11,7 @@
 
 s.waitForBoot {
 	 
-	 x.value("midi_sines.scd");
+	 //x.value("midi_sines.scd");
 	 
 	~period_a = 60.0 / 80.0;  // 80 bpm
 	//~beats_a = (3 + 2 + 3 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
@@ -96,16 +96,18 @@ s.waitForBoot {
 			// schedule record
 			
 			//// ADC input:
-			/*
+			
 			~rec_s = SynthDef.new(\recAdc1shot, { arg in, buf;
 				RecordBuf.ar(SoundIn.ar(in), buf, loop:0, doneAction:2);
-			}).play(s, [\buf, ~buffer_a.bufnum, \in, 0]);
-			*/
+			}).play(s, [\buf, ~buffer_a.bufnum, \in, 1]);
+		
 			
 			///// bus input:
+			/*
 			~rec_s = SynthDef.new(\rec1shot, { arg in, buf;
 				RecordBuf.ar(In.ar(in), buf, loop:0, doneAction:2);
 			}).play(~sinegroup, [\buf, ~buffer_a.bufnum, \in, ~sinebus.index], \addAfter);
+			*/
 			
 			"recording A".postln;
 			
@@ -114,6 +116,7 @@ s.waitForBoot {
 			
 			
 			//// MIDI:
+			/*
 			~funcA_r.remove;
 			~funcB_r = CCResponder({
 					arg src, chan, num, val;
@@ -126,9 +129,9 @@ s.waitForBoot {
 				16, // last pad, first bank on MPK mini
 				nil // any value
 			)
-
+			*/
 			//// HID:
-			//~switch_func = { arg val; if (val>0, {~churchkey_func_b.value; }, {}); };
+			~switch_func = { arg val; if (val>0, {~churchkey_func_b.value; }, {}); };
 			
 		}).play;
 	};
@@ -138,7 +141,7 @@ s.waitForBoot {
 		"churchkey_b".postln;
 		x.value("vox_echo_churchkey.scd");
 		
-		~funcB_r.remove;
+		//~funcB_r.remove;
 			   
 		~chop_loop_advance_r = Routine({   
 			// chop and loop	for N chop-grains
@@ -193,6 +196,7 @@ s.waitForBoot {
 	}; 
 	 
 	///// MIDI:
+	/*
 	~funcA_r = CCResponder({
 			arg src, chan, num, val;
 			if (val > 0, {
@@ -205,8 +209,9 @@ s.waitForBoot {
 		16, // last pad, first banmk
 		nil // any value
 	);
+	*/
 
 	////// HID:
-//	 ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); };
+	 ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); };
 	 
 }; // waitForBoot

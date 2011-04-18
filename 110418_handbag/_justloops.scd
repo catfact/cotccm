@@ -61,6 +61,7 @@ s.waitForBoot { Routine {
 	~jl_clear_flags = Array.fill(~jl_numloops, {true});
 	~jl_taps = Array.fill(~jl_numloops, { CfTapper.new; });
 	
+	/*
 	~post_cc = CCResponder({
 		arg src, chan, num, val;
 		[src, chan, num, val].postln;
@@ -84,6 +85,7 @@ s.waitForBoot { Routine {
 		if (val ==0, { ~jl_clear.value(i); });
 	}, nil, nil, {|num| (num>0) && (num<9) });
 
+	*/
 	
 	~jl_start_record = {
 		arg i;
