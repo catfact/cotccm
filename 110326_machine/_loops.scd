@@ -110,7 +110,7 @@ s.waitForBoot { Routine {
 		});
 	};
 	
-	~rates = [1.0, 1.0, 0.5, 0.25];
+	~rates = [0.5, 0.25, 0.25, 0.125];
 	
 	~stop_record = {
 		arg i;
