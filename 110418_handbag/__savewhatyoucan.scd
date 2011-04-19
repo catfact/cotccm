@@ -55,8 +55,8 @@ s.sync;
 // timers
 ~event_tap = CfTapper.new;
 ~event_tap.tap;
-~event_lift_tap = CfTapper.new;
-~event_lift_tap.tap;
+//~event_lift_tap = CfTapper.new;
+//~event_lift_tap.tap;
 
 // record/play/stop switch
 /*
@@ -76,44 +76,58 @@ s.sync;
 		~event_tap.tap;
 		~events.next.value(val, ~event_tap.time);
 	}, {
-		~event_lift_tap.tap;
-		~events_lift.next.value(val, ~event_tap.time);
+//		~event_lift_tap.tap;
+//		~events_lift.next.value(val, ~event_tap.time);
 		~topdoc.background_(Color.white);
 	});
 };
 
+/*
 ~events_lift = Pseq([
 
 	///// background vla loops
 	{
-		~jl_stop_record(0);
+		~jl_stop_record.value(0);
 	},
 	{
-		~jl_stop_record(1);
+		~jl_stop_record.value(1);
 	},
 	{
-		~jl_stop_record(2);
+		~jl_stop_record.value(2);
 	},
 	{
-		~jl_stop_record(3);
+		~jl_stop_record.value(3);
 	}
 ]).asStream;
+*/
 
 ~events = Pseq([
 
 	///// background vla loops
 	{
-		~jl_start_record(0);
+		~jl_start_record.value(0);
 	},
 	{
-		~jl_start_record(1);
+		~jl_stop_record.value(0);
 	},
 	{
-		~jl_start_record(2);
+		~jl_start_record.value(1);
 	},
 	{
-		~jl_start_record(3);
-	}
+		~jl_stop_record.value(1);
+	},
+	{
+		~jl_start_record.value(2);
+	},
+	{
+		~jl_stop_record.value(2);
+	},
+	{
+		~jl_start_record.value(3);
+	},
+	{
+		~jl_stop_record.value(3);
+	},
 
 	//// part 1
 	{	
@@ -132,7 +146,7 @@ s.sync;
 	{	
 		arg val, time;
 		~notify.value("play [viola grain 1]");
-		~vla_loop1_play.set(\rel, 4.0);
+		~vla_loop1_play.set(\rel, time);
 		~vla_loop1_play.set(\gate, 0);
 		~vla_grain1_rec.run(false);
 		~vla_grain1_play = Group.new;
@@ -144,7 +158,7 @@ s.sync;
 				\posrate, 1/(i+3),
 				\rel, 60.0 + i,
 				\atk, 4.0,
-				\level, (i * -2).dbamp * -4.dbamp
+				\level, (i * -3).dbamp * -7.dbamp
 			], ~vla_grain1_play);
 		});
 	},
@@ -163,11 +177,11 @@ s.sync;
 		~notify.value("PART 2 [vox echo]");
 	},
 	{
-		~vla_loop2_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 4 * 9, \prelevel, 1.0], ~xg);
+		~vla_loop2_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 2 * 16, \prelevel, 1.0], ~xg);
 		~notify.value("recording [viola loop 2]", Color.red);
 	},
 	{	arg val, time;
-		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, ~tempo * 4 * 16], ~xg);
+		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, ~tempo * 2 * 16], ~xg);
 		~notify.value("playback [viola loop 2]", Color.green);
 	},
 	{

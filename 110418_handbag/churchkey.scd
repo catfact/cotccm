@@ -1,5 +1,5 @@
 //s = Server.local.boot; 
-l// for remote control...
+// for remote control...
 // ~bunny_server_addr = NetAddr.new("192.168.1.80", 57110);
 // s = Server.new("bunny", ~bunny_server_addr);
 
@@ -10,6 +10,9 @@ l// for remote control...
 { ~topdoc.background_(Color.white); }.defer;
 
 s.waitForBoot {
+	
+	// hid
+	{ x.value("_hid.scd"); }.defer;
 	 
 	 //x.value("midi_sines.scd");
 	 
@@ -29,6 +32,9 @@ s.waitForBoot {
 	 
 	 ~grain_g = Group.new(s);
 	 ~grain_b = Bus.audio(s, 1);		   
+	 
+	 ~in_b = Bus.audio(s, 1);
+	 ~in_s = { Out.ar(~in_b.index, SoundIn.ar(1)); }.play;
 	 
 	 SynthDef.new(\grain1shot, {  
 		arg out=0, buf, level=1.0, start=0.0, dur=2.0, attack=0.001, release=0.001; 
@@ -58,6 +64,7 @@ s.waitForBoot {
 	// functions
 	~churchkey_func_a = { 
 		Routine ({
+			
 			// conductor tremolo
 			~trem_s = SynthDef.new(\conductor_chorus, {
 				arg out=0, in=0,
@@ -69,8 +76,9 @@ s.waitForBoot {
 				deltime = Lag2.ar(deltime, lfoAttack);
 				del = DelayC.ar(In.ar(in), 1.0, A2K.kr(deltime));
 				Out.ar(out, del * level);
-			}).play(~sinegroup, [
-				\in, ~sinebus.index,
+			}).play(~in_s, [
+//				\in, ~sinebus.index,
+				\in, ~in_b.index,
 				\period, ~period_a * 4.0,
 				\delWidth, 0.05,
 				\delBase, 0.07,
@@ -81,14 +89,15 @@ s.waitForBoot {
 		  	~period_a.wait;
 		  		
 			~trem_2_s = Synth.new(\conductor_chorus, [
-				\in, ~sinebus.index,
+//				\in, ~sinebus.index,
+				\in, ~in_b.index,
 				\period, ~period_a * 2.0, 
 				\lfoPhase, 0.5,
 				\delWidth, 0.05,
 				\delBase, 0.07,
 				\lfoAttack, 0.001,
 				\level, 0.125  
-			]).play(~sinegroup, \addAfter); 
+			]).play(~in_s, \addAfter); 
 			
 			
 			(~period_a * 7).wait;
@@ -212,6 +221,6 @@ s.waitForBoot {
 	*/
 
 	////// HID:
-	 ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); };
+	SystemClock.sched(1.0, { ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); }; nil});
 	 
 }; // waitForBoot

@@ -141,14 +141,15 @@
 
 ~tempo = 1.0;
 
-~vox_delay.set(\time, 4*4*2);
-~vox_delay2.set(\time, 4*4 *4);
+~vox_delay.set(\time, 8*4);
+~vox_delay2.set(\time, 8*4*2);
 ~vox_delay3 = Synth.new(\echo, [\in, ~vox_in_b.index, \maxtime, 4*4*5, \time, 4*4*8, \out, 0, \amp, -6.dbamp], ~xg);
+~vox_delay2.set(\time, 8*4+4);
 
-~vla_delay.set(\time, 4 * 4 * 4);
+~vla_delay.set(\time, 8 * 4);
 //~vla_delay2 = Synth.new(\echo, [\in, ~vla_in_b.index, \maxtime, 4*4*5, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);
-~vla_delay3 = Synth.new(\echo, [\in, ~vla_in_b.index, \maxtime, 4*4*9, \time, 4*4*8, \out, 0, \amp, -6.dbamp], ~xg);
-
+~vla_delay3 = Synth.new(\echo, [\in, ~vla_in_b.index, \maxtime, 4*9, \time, 4*8, \out, 0, \amp, -6.dbamp], ~xg);
+~vla_delay3.set(\time, 8 * 8);
 
 
 
