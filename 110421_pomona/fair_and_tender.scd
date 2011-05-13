@@ -54,7 +54,7 @@ Routine.run {
 		Grandel.new(s, ~gran_in_b[i].index, ~gran_out_b[i].index, ~gran_g, \addToTail);
 	});
 	
-	m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/40h');
+	m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
 	r = Remains.new(s, 1, 0);
 
 	////////// grain feedback
@@ -121,8 +121,7 @@ Routine.run {
 			~swtap[2].tap;
 			~events.next.value(0, ~swtap[2].time);
 		});
-		~sw.asString.postln;
-	});
+			});
 
 	m.liftFunctions.add(\tr -> {
 		arg col, row;
@@ -135,13 +134,14 @@ Routine.run {
 					g[i].wait = (((i*3+1)%5 +1) * ~swtap[0].time * 0.25).wrap(0.25, 2.0); });
 			});
 			
-			~sw[0] = (~sw[0] + 1) % 1;
+			~sw[0] = (~sw[0] + 1) % 2;
 
 			if (~sw[0] > 0, {
 				~ngrans.do({|i| g[i].bufwr_s.run(true) });
 			}, {
 				~ngrans.do({|i| g[i].bufwr_s.run(false) });
 			});
+			~sw.asString.postln;
 		});
 		if(col==1 && row==0, {
 			// remains toggle
@@ -150,8 +150,8 @@ Routine.run {
 			// events
 		});
 		
-		~notify.value(~sw.asString);
-		~sw.asString.postln;
+		//~notify.value(~sw.asString);
+		//~sw.asString.postln;
 	});
 	
 	///////////////////// EVENTS
@@ -160,13 +160,13 @@ Routine.run {
 			~notify.value(r.in_s.set(\amp, 1.0));
 		},
 		{	
-			~notify.value(~out_s[0].set(\amp, -12.dbamp));
+			~notify.value(~out_s[0].set(\amp, -16.dbamp));
 		},
 		{
-			~notify.value(~out_s[1].set(\amp, -12.dbamp));
+			~notify.value(~out_s[1].set(\amp, -16.dbamp));
 		},
 		{
-			~notify.value(~out_s[2].set(\amp, -12.dbamp));
+			~notify.value(~out_s[2].set(\amp, -16.dbamp));
 		},
 		{
 			~notify.value(~out_s[3].set(\amp, -12.dbamp));
@@ -182,6 +182,21 @@ Routine.run {
 		},
 		{		
 			~notify.value( g[1].rate = 4/3 );
+		},
+		{		
+			~notify.value( g[0].rate = 5/6 );
+		},
+		{		
+			~notify.value( g[1].rate = 2/3 );
+		},
+		{		
+			~notify.value( g[2].rate = 3/2 );
+		},
+		{		
+			~notify.value( g[3].rate = 0.5 );
+		},
+		{		
+			~notify.value( g[0].rate = 1.0 );
 		},
 	]).asStream;
 	

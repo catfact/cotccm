@@ -9,17 +9,21 @@
 ~topdoc = Document.current;
 { ~topdoc.background_(Color.white); }.defer;
 
+~switch_func = {};
+m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
+
+m.pressFunctions.add(\tr -> {
+	arg col, row;
+	if(col==0 && row==0, {
+		~switch_func.value(1);
+	});
+});
+
+
 s.waitForBoot {
 	
 	// hid
-//	{ x.value("_hid.scd"); }.defer;
-	m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
-	
-m.pressFunctions.add(\tr -> {
-	arg col, row;
-	~switch_func.value(1);
-});
-
+	//{ x.value("_hid.scd"); }.defer;
 	 
 	 //x.value("midi_sines.scd");
 	 
