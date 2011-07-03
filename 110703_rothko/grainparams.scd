@@ -41,7 +41,4 @@
 	grainer.grtrig_s.set(\hz, hz);
 });
 
-
-
-
 ~grainlist.do({arg list; list.do({ arg grainer; grainer.grdur_b.set(1.5); }); });

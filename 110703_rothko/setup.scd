@@ -5,6 +5,10 @@
 s.boot;
 s.waitForBoot { Routine {
 
+		
+	SynthDef.new(\patch_stereo, {arg in, out, level=1.0;
+		Out.ar(out, In.ar(in, 2) * level);
+	}).store;
 	
 	SynthDef.new(\record_adc, { arg in=0, buf=0, loop=1, recLevel=1.0, preLevel=0.0, offsetSamps=0, doneAction=0;
 		RecordBuf.ar(SoundIn.ar(in), buf, loop:loop, recLevel:recLevel, preLevel:preLevel, offset:offsetSamps, doneAction:doneAction);	
