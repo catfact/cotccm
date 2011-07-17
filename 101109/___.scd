@@ -2,7 +2,7 @@
 x = { |p| this.executeFile(~basepath++p); };
 
 
-s = Server.local.boot;
+s = Server.default.boot;
 s.waitForBoot {
 
 //	x.value("_hid.scd");
