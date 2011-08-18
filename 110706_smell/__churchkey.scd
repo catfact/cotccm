@@ -14,7 +14,7 @@ m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
 
 m.pressFunctions.add(\tr -> {
 	arg col, row;
-	if(col==0 && row==0, {
+	if(col==1 && row==1, {
 		~switch_func.value(1);
 	});
 });
@@ -27,7 +27,7 @@ s.waitForBoot {
 	 
 	 //x.value("midi_sines.scd");
 	 
-	~period_a = 60.0 / 80.0;  // 80 bpm
+	~period_a = 60.0 / 90.0;  // 80 bpm
 	//~beats_a = (3 + 2 + 3 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
 	~beats_a = (3 + 2 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
 	
@@ -72,7 +72,7 @@ s.waitForBoot {
 		Out.ar(out, sig*level);
 	}).send(s);
  	 
-	// functions
+	// functions 
 	~churchkey_func_a = { 
 		Routine ({
 			

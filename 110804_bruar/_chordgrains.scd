@@ -155,7 +155,8 @@
 ~vla_delay3 = Synth.new(\echo, [\in, ~vla_in_b.index, \maxtime, 4*9, \time, 4*8, \out, 0, \amp, -6.dbamp], ~xg);
 ~vla_delay3.set(\time, 8 * 8);
 
-
+~vla_delay.set(\amp, 1.0);
+~vla_delay3.set(\amp, 1.0);
 
 /*
 ~grains1.value(~ratios[0]);

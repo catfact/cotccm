@@ -15,7 +15,8 @@ x.value("_defs.scd");
 //{ x.value("_hid.scd"); }.defer;
 // monome
 m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
-~midx = [1, 1];
+~mrow = 2;
+~mcol = 2;
 
 s.sync;
 
@@ -97,7 +98,7 @@ s.sync;
 
 m.pressFunctions.add(\tr -> {
 	arg col, row;
-	if(col == ~midx[0] && row == ~midx[1], {
+	if(col==~mcol && row==~mrow, {
 		~topdoc.background_(Color.new(1.0, 0.5, 0.5));
 		~event_tap.tap;
 		~events.next.value(1, ~event_tap.time);
@@ -107,7 +108,7 @@ m.pressFunctions.add(\tr -> {
 
 m.liftFunctions.add(\tr -> {
 	arg col, row;
-	if(col == ~midx[0] && row == ~midx[1], {
+	if(col==~mcol && row==~mrow, {
 		~topdoc.background_(Color.white);
 	});
 });
@@ -225,7 +226,7 @@ s.sync;
 		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, time * 2.0], ~xg);
 		~vla_loop2_rec.set(\looptime, time * 2.0);
 		~notify.value("playback [viola loop 2]", Color.green);
-				
+		~tempo = time / 8;
 		~bufbass = Synth.new(\buf_ringz_lpf_env, [
 			\buf, ~vla_loop2_buf.bufnum,
 			\pulsehz, 1.0 / time,
@@ -233,24 +234,11 @@ s.sync;
 			\ringhz, 55 * 4 / 3,
 			\rate, 0.25,
 			\ringdecay, 0.007,
-			\envdecay, 30.0,
+			\envdecay, 20.0,
 			\out, 0,
 			\amp, -18.dbamp
 		]);
 
-		SystemClock.sched(time * 0.75, {
-			~bufbass2 = Synth.new(\buf_ringz_lpf_env, [
-				\buf, ~vla_loop2_buf.bufnum,
-				\pulsehz, 0.5 / time,
-				\lpfhz, 110 * 4 / 3,
-				\ringhz, 55 * 4 / 3,
-				\rate, 0.5,
-				\ringdecay, 0.002,
-				\envdecay, 20.0,
-				\out, 0,
-				\amp, -20.dbamp
-			]);
-		nil});
 	},
 	{
 		~notify.value("stop recording [viola loop 2]", Color.grey);
@@ -258,8 +246,8 @@ s.sync;
 		~vox_echo_pre = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		~vox_echo_out = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, 0, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		
-		~vox_delay2 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
-		~vox_delay.set(\amp, -8.dbamp);
+		~vox_delay2 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -4.dbamp], ~xg);
+		~vox_delay.set(\amp, -6.dbamp);
 		~vox_del_switch = Routine({ inf.do({
 			arg i;
 			~vox_delay.set(\time, ~tempo * ((i+1) * 4).wrap(1, 7) / 4);
@@ -324,4 +312,4 @@ s.sync;
 //// loops
 x.value("_justloops.scd");
 
-}.play; }; // waitforboot  
+}.play; }; // waitforboot

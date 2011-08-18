@@ -1,0 +1,127 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red191\green0\blue0;}
+\deftab560
+\pard\pardeftab560\ql\qnatural
+
+\f0\fs18 \cf2 s.boot;\
+\
+~nfft = 512;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf2 s.waitForBoot \{ \cf3 Routine\cf2  \{\
+	~fft_buf = \cf3 Buffer\cf2 .alloc(s, ~nfft);\
+	~mag_buf = \cf3 Buffer\cf2 .alloc(s, ~nfft);\
+\pard\pardeftab560\ql\qnatural
+\cf2 	~freq_buf = \cf3 Buffer\cf2 .alloc(s, ~nfft);\
+	\
+	s.sync;\
+	\
+	\cf3 SynthDef\cf2 (\cf4 \\fftbuf\cf2 , \{\cf3 arg\cf2  in=0, fftbuf, sndbuf, magbuf, freqbuf;\
+		\cf3 var\cf2  chain;\
+		in = \cf3 In\cf2 .ar(in);\
+		chain = \cf3 FFT\cf2 (fftbuf, in);\
+		chain = \cf3 PV_MagBuffer\cf2 (chain, magbuf);\
+		chain = \cf3 PV_FreqBuffer\cf2 (chain, freqbuf);\
+		\cf3 IFFT\cf2 (chain);\
+	\}).load(s);\
+		\
+		\
+	~in_b = \cf3 Bus\cf2 .audio(s, 1);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf2 	~in_s = \{\cf3 Out\cf2 .ar(~in_b.index, \cf3 SoundIn\cf2 .ar(0))\}.play;\
+	\
+	s.sync;\
+	\
+	~fft_s = \cf3 Synth\cf2 .new(\cf4 \\fftbuf\cf2 , [\
+		\cf4 \\in\cf2 , ~in_b.index,\
+		\cf4 \\fftbuf\cf2 , ~fft_buf.bufnum,\
+		\cf4 \\magbuf\cf2 , ~mag_buf.bufnum,\
+		\cf4 \\freqbuf\cf2 , ~freq_buf.bufnum,\
+	], ~in_s, \cf4 \\addAfter\cf2 );\
+	\
+	\
+	\
+\
+	~mags = \cf3 nil\cf2 ;\
+	~freqs = \cf3 nil\cf2 ;\
+	~magfreqs = \cf3 Array\cf2 .fill(~nfft, \{ \cf3 Array\cf2 .newClear(2); \});\
+		\
+	\cf5 /// interface\cf2 \
+	~snapshot = \{ \cf3 Routine\cf2  \{\
+		~fft_s.run(\cf3 false\cf2 );\
+	\
+		s.sync;\
+	\
+		~mag_buf.getn(0, 512, \{ \cf3 arg\cf2  arr; ~mags = arr; \});\
+		~freq_buf.getn(0, 512, \{ \cf3 arg\cf2  arr; ~freqs = arr; \});\
+		\
+		0.001.wait;\
+		\
+		~nfft.do(\{\cf3 arg\cf2  i; ~magfreqs[i][0] = ~mags[i]; ~magfreqs[i][1] = ~freqs[i]; \});\
+		\
+		~fft_s.run(\cf3 true\cf2 );\
+		\
+	\}.play; \};\
+	\
+	~note = \{ \cf3 arg\cf2  numtopmags=6, dur=1.0, norm=\cf3 true\cf2 ; \
+		\cf3 var\cf2  magfreqsort;\
+		magfreqsort = ~magfreqs.sort(\{ \cf3 arg\cf2  a, b; a[0] > b[0] \}).copyRange(0, numtopmags-1);\
+		\cf3 Routine\cf2  \{ \
+			if(norm, \{ \cf3 var\cf2  sum;\
+				sum=0.0;\
+				magfreqsort.do(\{\cf3 arg\cf2  pair, i;\
+					sum = sum + pair[0];\
+				\});\
+				magfreqsort.do(\{\cf3 arg\cf2  pair, i;\
+					magfreqsort[i][0] = pair[0] / sum;\
+				\});\
+			\});\
+			\
+			magfreqsort.postln;\
+			\
+			magfreqsort.do(\{\
+				\cf3 arg\cf2  magfreq;\
+				magfreq.postln;\
+				\{	\cf3 var\cf2  sin, env, gen;\
+					sin = \cf3 SinOsc\cf2 .ar(magfreq[1]) * magfreq[0];\
+					env = \cf3 Env\cf2 .new([0, 1, 1, 0], [dur*0.01, dur*0.98, dur*0.01]);\
+					gen = \cf3 EnvGen\cf2 .ar(env, gate:1, doneAction:2);\
+					\cf3 Out\cf2 .ar(0, (sin*gen).dup);\
+				\}.play(s); \
+			\});\
+		\}.play;\
+	\};\
+	\
+	\
+\
+	\
+\}.play; \};\
+\
+\cf5 /*\
+~fft_s.run(true);\
+~fft_s.run(false);\
+~snapshot.value;   \
+\
+~note.value(2);\
+~note.value(3);\
+ ~magfreqs.postln;\
+\
+\
+\
+~mags.do(\{arg item, i; item.postln; \});\
+~freqs.do(\{arg item, i; item.postln; \});\
+\
+~magfreqs.sort(\{arg a, b; a[0] < b[0]\});\
+~magfreqs.do(\{arg pair; pair.postln;\});\
+\
+~mags.size;\
+~freqs.size;\
+~magfreqs.size;\
+\
+~magfreqs[0][0] = 0.5;\
+~magfreqs[0][1] = 100.0;\
+\
+~magfreqs\
+*/}
