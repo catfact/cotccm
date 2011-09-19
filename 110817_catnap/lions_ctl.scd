@@ -1,3 +1,6 @@
+/*
+MonomeClient.scanDevices(steal:true);
+
 ~lions_r = MonomeResponder.new(
 		 filter:(
 		 	\cmd:'/grid/key',
@@ -5,8 +8,9 @@
 		 ),
 		 function:{
 			 arg r, e; 
+			 e.postln;
 			 if (e.c > 0, {
-				
+				MonomeClient.msgDevice('m40h0005', '/grid/led/row', [0, 7, 1 << e.a.asInteger]);
 				if (e.a == 0, {
 		{ w.view.background = Color.black; }.defer;
 					x.value("lions_vla_grain.scd");	
@@ -49,8 +53,6 @@
 				});
 				if (e.a == 5, {
 					{ w.view.background = Color.black; }.defer;
-					..........
-					.....");
 					~vgrain_rec.set(\reclevel, 0.0);
 			
 				});
@@ -59,8 +61,9 @@
 	);
 
 
+*/
 
-/*
+
 w = SCWindow.new("__", Rect(0, 0, 400, 400));
 w.front;
 w.view.keyDownAction = { arg view, char;
@@ -178,4 +181,3 @@ w.view.keyUpAction = { arg view, char;
 	});
 };
 
-*/

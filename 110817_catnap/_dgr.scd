@@ -26,11 +26,24 @@ SynthDef.new(\chopgrain, {
 ~vlgr_r.stop;
 
 ~vlgr.do({ arg gr;
-	gr.gr1.set(\amplag, 60.0);
+	gr.gr1.set(\amplag, 120.0);
 	gr.gr1.set(\amp, 0); 
-	gr.gr2.set(\amplag, 60.0);
+	gr.gr2.set(\amplag, 120.0);
 	gr.gr2.set(\amp, 0); 
 });
+
+
+~dgr_ratios = [
+	[ 9/8, 9/16, 9/8, 9/16, 9/16 ],
+	[ 16/15, 16/30 			],
+	[ 15/16, 15/32			],
+	[ 3/4, 3/2, 3/8			], 
+	[ 9/8, 9/16, 18/8			],
+	[ 16/15,	32/15 			],
+	[ 15/16, 15/32			],
+	[ 3/4, 3/8				]
+]; 
+
 
 ~dgr = ~vlgr_buf.collect({arg buf, i;
 	~dgr_ratios[i].collect({ arg rat, j;
@@ -38,8 +51,8 @@ SynthDef.new(\chopgrain, {
 			\buf, buf.bufnum,
 			\choprate, 2.0 + (i * 0.125) + (j * 0.125),
 			\posrate, 0.125 + (i * 0.0625) + (j * 0.0625),
-			\atk, 10.0 + (2.0 * (i+j)),
-			\rel, 30.0 - (2.0 * (i+j)),
+			\atk, 20.0 + (3.0 * (i+j)),
+			\rel, 60.0 - (2.0 * (i+j)),
 			\rate, rat,
 			\level, 0.5
 		]);
@@ -70,12 +83,16 @@ SynthDef.new(\chopgrain, {
 
 ~spch_freezebase = 3.5;
 ~spch_freezemod = 2.0;
-~spch_tbase = 2.25;
+~spch_tbase = 6.25;
 ~spch_rats = [1.0, 1.0, 1.25, 2.0, 2.0, 1.5, ];
 ~spch_s.set(\time, 4.5);
 
 
 Routine {
 	240.wait;	
+	~spch_stretch_r.stop;
+	~spch_time_r.stop;
+	~spch_freeze_r.stop;
+	~spch_s.free;
 	~dgr.do({ arg grs, i; grs.do({ arg gr, j; gr.set(\gate, 0); }); });
 }

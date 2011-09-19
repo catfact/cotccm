@@ -11,7 +11,7 @@ SynthDef.new(\crumblr_over_s, {
 	chain = PV_MagAbove(chain, thresh);
 	chain = PV_BinShift(chain, stretch, shift);
 	output = DelayL.ar(IFFT(chain), 2.0, delaytime);
-	Out.ar(out, output * amp);
+	Out.ar(out, output.dup * amp);
 }).send(s);
 
 SynthDef.new(\crumblr_under_s, {
@@ -26,7 +26,7 @@ SynthDef.new(\crumblr_under_s, {
 	chain = PV_BinShift(chain, stretch, shift);
 	amp = Lag.kr(amp, amplag);
 	output = DelayL.ar(IFFT(chain), 2.0, delaytime);
-	Out.ar(out, output * amp);
+	Out.ar(out, output.dup * amp);
 }).send(s);
 
 
@@ -102,7 +102,7 @@ SynthDef.new(\buf_ringz_dist_hpf_env, {
 	amp = Lag.kr(amp, amplag);
 	delay = BufDelayL.ar(buf, In.ar(in) * inputamp, delaytime) * amp;
 	fb = RecordBuf.ar(delay, buf, recLevel:feedback, preLevel:1.0, loop:1);
-	Out.ar(out, (delay * amp) );
+	Out.ar(out, (delay * amp).dup );
 }).send(s);
 
 
@@ -118,7 +118,7 @@ SynthDef.new(\bufdelay_fb, {
 	var delay, fb;
 	delay = BufDelayL.ar(buf, (In.ar(in) * inputamp) + (LocalIn.ar(1)), delaytime) * amp;
 	LocalOut.ar(delay * feedback);
-	Out.ar(out, (delay * amp) );
+	Out.ar(out, (delay * amp).dup );
 
 }).send(s);
 
@@ -128,6 +128,16 @@ SynthDef.new(\in_hw, { arg in=0, out=0, amp=1.0;
 
 SynthDef.new(\patch, { arg in=0, out=0, amp=1.0;
 	Out.ar(out, In.ar(in) * amp);
+}).send(s);
+
+
+SynthDef.new(\adc_patch, { arg in=0, out=0, amp=1.0;
+	Out.ar(out, SoundIn.ar(in) * amp);
+}).send(s);
+
+
+SynthDef.new(\patch_s, { arg in=0, out=0, amp=1.0;
+	Out.ar(out, In.ar(in, 2) * amp);
 }).send(s);
 
 

@@ -1,12 +1,13 @@
 ~basepath = Document.current.dir ++"/";
 x = { |p| this.executeFile(~basepath++p); };
-
-
 //s = Server.default;
 s.options.memSize = 8192 * 4;
 s.waitForBoot {
 
 //s.freeAll;
+
+
+x.value("defs.scd");
 
 ~norm_buf = Buffer.alloc(s, 16 * 1.2 * s.sampleRate, 1, completionMessage: {
 
@@ -33,7 +34,7 @@ SystemClock.sched(~norm_buf.duration + 0.01, { ~rec_norm_s.free; nil });
 	\rate, 0.5,
 	\ringdecay, 0.007,
 	\out, ~rhythm_out_b.index,
-	\amp, -16.dbamp
+	\amp, -8.dbamp
 ], ~rhythm_g);
 ~bufbass.set(\amp, -18.dbamp);
 
@@ -66,7 +67,7 @@ SystemClock.sched(24.0 * 1.2, {
 	\ringtime, 6.0,
 	\out, ~rhythm_out_b.index,
 	\lpfhz, 300,
-	\amp, -6.dbamp
+	\amp, -16.dbamp
 ], ~rhythm_g);
 
 
