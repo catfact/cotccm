@@ -13,6 +13,8 @@ s.waitForBoot { Routine {
 x.value("_defs.scd");
 // monome
 m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
+m.press = {};
+m.lift = {};
 ~mrow = 0;
 ~mcol = 0;
 
@@ -68,13 +70,15 @@ s.sync;
 
 //????
 0.1.wait;
-m.pressFunctions.add(\postPress-> {arg col, row; ["press", col, row].postln });
+//m.pressFunctions.add(\postPress-> {arg col, row; ["press", col, row].postln });
 m.pressFunctions.add(\tr -> {
 	arg col, row;
 	if(col==~mcol && row==~mrow, {
 		~topdoc.background_(Color.new(1.0, 0.5, 0.5));
 		~event_tap.tap;
-		~events.next.value(1, ~event_tap.time);
+		if (~event_tap.time > 1.0, {
+			~events.next.value(1, ~event_tap.time);
+		});
 	});
 });
 
@@ -234,7 +238,7 @@ s.sync;
 		~chordgrains_r.stop;
 	}, 
 	{
-		~notify.value("stop recording");		
+		~notify.value("stop recording, and everything");		
 		
 		Routine {
 			~perf_rec_s.free;			
@@ -242,6 +246,11 @@ s.sync;
 			~capture_buf.close;
 			0.1.wait;
 			~capture_buf.free;
+			~vla_delay.free;
+			~vla_delay3.free;
+			~vox_delay.free;
+			~vox_delay2.free;
+			~vox_delay3.free;
 		}.play;
 	}
 ]).asStream;

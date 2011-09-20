@@ -31,7 +31,7 @@
 \
 4.0.wait;\
 \
-~gran[1].rate = 1.5;\
+~gran[1].rate = 2.0;\
 ~gran[1].dur = 3.0;\
 ~gran[1].wait = 2.25;\
 ~gran[1].attack = 0.25;\
@@ -40,7 +40,7 @@
 \
 4.0.wait;\
 \
-~gran[2].rate = 2.0;\
+~gran[2].rate = 0.25;\
 ~gran[2].dur = 8.0;\
 ~gran[2].wait = 1.75;\
 ~gran[2].attack = 0.25;\
@@ -58,12 +58,62 @@
 \
 4.0.wait;\
 \
-\}.play;\
 \
+~gran[4].rate = 7/4;\
+\
+4.0.wait;\
+\
+~gran[5].rate = 9/32;\
+\
+4.0.wait;\
+\
+~gran[6].rate = 10/8;\
+\
+4.0.wait;\
+\
+~gran[7].rate = 11/16;\
+\
+\
+~fb.do(\{\cf4 arg\cf3  syn, i;\
+	syn.set(\cf5 \\amp\cf3 , -12.dbamp);\
+	syn.set(\cf5 \\rq\cf3 , 1.0);\
+\});\
+\
+\
+\
+\cf4 SynthDef\cf3 .new(\cf5 \\noisenormwave\cf3 , \{\
+	\cf4 arg\cf3  buf, in=0, out=0,\
+		magthresh=20,\
+		blendhz = 0.25, blendwidth=0.1;\
 	\
-	~gran_fb_s.do(\{\cf4 arg\cf3  syn, i;\
-		syn.set(\cf5 \\amp\cf3 , -24.dbamp);\
-		syn.set(\cf5 \\rq\cf3 , 1.0);\
-\cf2 //		syn.set(\\hz, .0);\cf3 \
-	\});\
-	}
+	\cf4 var\cf3  chain, input, norm, blend;\
+	input = \cf4 In\cf3 .ar(in);\
+	chain = \cf4 FFT\cf3 (buf, input);\
+	chain = \cf4 PV_MagBelow\cf3 (chain, magthresh);\
+	norm = \cf4 IFFT\cf3 (chain);\
+\cf2 //	norm = Normalizer.ar(norm).distort.distort.distort;\cf3 \
+	norm = \cf4 InsideOut\cf3 .ar(norm);\
+	blend = \cf4 VarSaw\cf3 .kr(blendhz, 0.0, blendwidth);\
+	\cf4 ReplaceOut\cf3 .ar(out, norm*blend + (1.0 - blend)*input);\
+\}).send(s);	\
+\
+s.sync;\
+\
+~gran_noise_fft_buf = ~gran_out_b.collect(\{ \cf4 Buffer\cf3 .alloc(s, 2048); \});\
+0.2.wait;\
+\
+~gran_noise_s = ~gran_out_b.collect(\{ \cf4 arg\cf3  bus, i;\
+	\cf4 Synth\cf3 .new(\cf5 \\noisenormwave\cf3 , [\
+		\cf5 \\in\cf3 , bus,\
+		\cf5 \\out\cf3 , bus,\
+		\cf5 \\buf\cf3 , ~gran_noise_fft_buf[i].bufnum,\
+		\cf5 \\blendhz\cf3 , i / (i + 1) * 0.5,\
+		\\width, 0.05\
+	], ~gran_out_s[i], \cf5 \\addAfter\cf3 );\
+\});\
+	\
+\
+\
+\
+\}.play;\
+}

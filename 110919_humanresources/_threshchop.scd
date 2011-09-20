@@ -21,7 +21,10 @@ Routine {
 		run = run * ampInRange;
 		trig = trig + (ampInRange * ampTrigFlag);
 		RecordBuf.ar(input, buf, offset, recLevel, preLevel, run, loop, trig);
+
 	}).send(s);
+	
+	s.sync;
 
 	~trec_s = Synth.new(\threshRecord, [
 		\buf, ~chopbuf.bufnum,
