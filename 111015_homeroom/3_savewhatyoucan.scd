@@ -1,23 +1,9 @@
-~basepath = Document.current.dir ++"/";
- x = { |p| this.executeFile(~basepath++p); };
-~topdoc = Document.current;
-{ ~topdoc.background_(Color.white); }.defer;
+~swyc_ok = false;
 
+Routine {
 
-s = Server.default;
-s.options.memSize = 8192 * 64;
-s.boot;
-s.waitForBoot { Routine {
-	
 // synthdefs
 x.value("_defs.scd");
-// monome
-m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/box');
-m.press = {};
-m.lift = {};
-~mrow = 0;
-~mcol = 0;
-
 s.sync;
 
 //// background loop engine
@@ -34,12 +20,7 @@ s.sync;
 ~vox_echo2_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
 ~vla_echo_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
 
-
-~capture_buf = Buffer.alloc(s, 2**16, 3);
-
 s.sync;
-
-~capture_buf.write(("~/savewhatyoucan_"++Date.localtime.stamp++".aiff").standardizePath, "aiff", "int16", 0, 0, true);
 
 0.1.wait;
 
@@ -54,7 +35,6 @@ s.sync;
 ~vox_in_b = Bus.audio(s, 1);
 ~vox_adc = Synth.new(\adc, [\in, 0, \out, ~vox_in_b.index], ~ig);
 
-////// MIDI from akai mpkmini
 // flag for start/stop
 ~vla_loop_clear = true;
 
@@ -68,70 +48,57 @@ s.sync;
 ~event_tap = CfTapper.new;
 ~event_tap.tap;
 
-//????
-0.1.wait;
-//m.pressFunctions.add(\postPress-> {arg col, row; ["press", col, row].postln });
-m.pressFunctions.add(\tr -> {
-	arg col, row;
-	if(col==~mcol && row==~mrow, {
-		~topdoc.background_(Color.new(1.0, 0.5, 0.5));
-		~event_tap.tap;
-		if (~event_tap.time > 1.0, {
-			~events.next.value(1, ~event_tap.time);
-		});
+~quads[3].toggle = false;
+~quads[3].onAction = {
+	~event_tap.tap;
+	if (~event_tap.time > 1.0, {
+		~events.next.value(1, ~event_tap.time);
 	});
-});
-
-
-m.liftFunctions.add(\tr -> {
-	arg col, row;
-	if(col==~mcol && row==~mrow, {
-		~topdoc.background_(Color.white);
-	});
-});
-
-
-SynthDef.new(\swycRecord, {
-	arg buf;
-	DiskOut.ar(buf, [SoundIn.ar(0), SoundIn.ar(1), InFeedback.ar(0)]);
-}).send(s);
+};
 
 s.sync;
-
-~perf_rec_s = Synth.new(\swycRecord, [\buf, ~capture_buf.bufnum], ~xg, \addAfter);
 
 ~events = Pseq([
 
 	///// background vla loops
 	{
 		~jl_start_record.value(0);
+		~notify.value("record justloop 0");
 	},
 	{
 		~jl_stop_record.value(0);
+		~notify.value("play justloop 0");
 	},
 	{
 		~jl_start_record.value(1);
+		~notify.value("record justloop 1");
 	},
 	{
 		~jl_stop_record.value(1);
+		~notify.value("play justloop 1");
 	},
 	{
 		~jl_start_record.value(2);
+		~notify.value("record justloop 2");
 	},
 	{
 		~jl_stop_record.value(2);
+		~notify.value("play justloop 2");
 	},
 	{
 		~jl_start_record.value(3);
+		~notify.value("record justloop 3");
 	},
 	{
 		~jl_stop_record.value(3);
+		~notify.value("play justloop 3");
 	},
 
 	//// part 1
 	{	
 		~vla_loop1_rec = Synth.new(\rec_loop, [\buf, ~vla_loop1_buf.bufnum, \in, ~vla_in_b.index], ~xg);
 		~notify.value("recording [viola loop 1]");
+		x.value("_sines.scd");
 	},
 	{	
 		x.value("_threshchop.scd");
@@ -148,6 +115,7 @@ s.sync;
 	},
 	{	
 		arg val, time;
+		~sine_r.stop;
 		~notify.value("play [viola grain 1]");
 		~vla_loop1_play.set(\rel, time);
 		~vla_loop1_play.set(\gate, 0);
@@ -220,8 +188,10 @@ s.sync;
 		
 	{	~notify.value("attempt to overwrite [viola loop 2] ?");
 		//~vox_echo_pre.set(\in, ~vla_in_b.index);
-		//~vla_loop2_rec.run(true);
-		//~vla_loop2_rec.set(\prelevel, 0.0);
+		~vla_loop3_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 2 * 16, \prelevel, 0.0], ~xg);
+
+		~vla_loop2_rec.run(true);
+		~vla_loop2_rec.set(\prelevel, 0.0);
 		~vla_delay = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
 	},
 	{	~notify.value("release [viola loop 2]");
@@ -238,14 +208,9 @@ s.sync;
 		~chordgrains_r.stop;
 	}, 
 	{
-		~notify.value("stop recording, and everything");		
+		~notify.value("stop everything");		
 		
 		Routine {
-			~perf_rec_s.free;			
-			0.1.wait;
-			~capture_buf.close;
-			0.1.wait;
-			~capture_buf.free;
 			~vla_delay.free;
 			~vla_delay3.free;
 			~vox_delay.free;
@@ -271,7 +236,7 @@ s.sync;
 		win.front;
 		string.postln;
 	//	win.refresh;
-		AppClock.sched(1.5, {win.close; nil});
+		AppClock.sched(4.0, {win.close; nil});
 	}.defer;
 };
 
@@ -280,4 +245,4 @@ s.sync;
 //// loops
 x.value("_justloops.scd");
 
-}.play; }; // waitforboot
+}.play;
