@@ -245,7 +245,7 @@ s.waitForBoot { Routine {
 		~vla_grain3_s.free;
 		~vocodemic.free;
 		~fft_in_buf.free;
-		~fft_proc_buf.do({arg buf; buf.free; });
+		~fft_proc_buf.do({ arg buf; buf.free; });
 	
 		~vla_grainbuf_1.free;
 		~vla_grainbuf_2.free;
