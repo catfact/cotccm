@@ -1,0 +1,87 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf540
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf2 s = \cf3 Server\cf2 .local.waitForBoot \{ \cf3 Routine\cf2  \{\
+	\
+	\cf3 SynthDef\cf2 .new(\cf4 \\rec\cf2 , \{\
+		\cf3 arg\cf2  in=0, buf, loop=1, run=1, pre=0.0;\
+		\cf3 RecordBuf\cf2 .ar(\cf3 In\cf2 .ar(in), buf, run:run, loop:loop, preLevel:pre);\
+	\}).send(s);\
+	\
+	\cf3 SynthDef\cf2 .new(\cf4 \\adc\cf2 , \{\
+		\cf3 arg\cf2  in=0, out=0, amp=1.0, amplag=10.0;\
+		\cf3 Out\cf2 .ar(out, \cf3 SoundIn\cf2 .ar(in) * amp.lag(amplag));\
+	\}).send(s);\
+	\
+	\
+	\cf3 SynthDef\cf2 .new(\cf4 \\inFb\cf2 , \{\
+		\cf3 arg\cf2  in=0, out=0, amp=0.0, amplag=10.0;\
+		\cf3 Out\cf2 .ar(out, \cf3 InFeedback\cf2 .ar(in) * amp.lag(amplag));\
+	\}).send(s);\
+	\
+	\cf3 SynthDef\cf2 .new(\cf4 \\pulsegrain\cf2 , \{\
+		\cf3 arg\cf2  out=0, buf, \
+			amp=0.25, amplag=1.0,\
+			hz=4.0, rate=1.0, dur=4, posrate;\
+		\cf3 var\cf2  trig, pos, grain;\
+		amp = amp.lag(amplag);\
+		trig = \cf3 Impulse\cf2 .ar(hz);\
+		pos = \cf3 LFTri\cf2 .kr(posrate).linlin(-1, 1, 0, 0.99);\
+		grain = \cf3 GrainBuf\cf2 .ar(1, trig, dur/hz, buf, rate, pos);\
+		\cf3 Out\cf2 .ar(out, grain*amp);\
+	\}).send(s);\
+	\
+	~grain_in_b = \cf3 Bus\cf2 .audio(s, 1);\
+	~grainbuf = \cf3 Buffer\cf2 .alloc(s, s.sampleRate * 32.0, 1);\
+	\
+	s.sync;\
+	\
+	~grainspecs = [\
+		(pitch:1.0, hz:8.0, posrate:1/4, amp:0.1, lag:10.0),\
+		(pitch:2, hz:7.0, posrate:1/3, amp:0.1, lag:14.0),\
+		(pitch:3, hz:6, posrate:2/5, amp:0.1, lag:18.0),\
+		(pitch:3/2, hz:5.0,  posrate:2/7, amp:0.1, lag:20.0),\
+		(pitch:4/3, hz:12.0,  posrate:2/9, amp:0.1, lag:24.0),\
+		(pitch:9/4, hz:13.0,  posrate:1/8, amp:0.1, lag:30.0),\
+		(pitch:8/3, hz:14.0,  posrate:1/5, amp:0.1, lag:33.0),\
+		(pitch:1.0, hz:16.0,  posrate:1/6, amp:0.1, lag:36.0)\
+	];\
+	\
+	~grain_g = \cf3 Group\cf2 .new(s);\
+	~in_g = \cf3 Group\cf2 .before(~grain_g);\
+	\
+	~grain_s = ~grainspecs.collect(\{ \cf3 arg\cf2  spec;\
+		spec.postln;\
+		\cf3 Synth\cf2 .new(\cf4 \\pulsegrain\cf2 , [\
+			\cf4 \\buf\cf2 , ~grainbuf.bufnum,\
+			\cf4 \\hz\cf2 , spec.hz *2,\
+			\cf4 \\dur\cf2 , 8,\
+			\cf4 \\rate\cf2 , spec.pitch, \
+			\cf4 \\amp\cf2 , spec.amp,\
+			\cf4 \\amplag\cf2 , spec.lag * 2,\
+			\cf4 \\posrate\cf2 , spec.posrate\
+		], ~grain_g);\
+	\});\
+	\
+	~grain_rec_s = \cf3 Synth\cf2 .new(\cf4 \\rec\cf2 , [\cf4 \\buf\cf2 , ~grainbuf.bufnum,\cf4 \\in\cf2 , ~grain_in_b.index], ~in_g, \cf4 \\addAfter\cf2 );\
+	~in_s = \cf3 Array\cf2 .fill(2, \{\cf3 |i|\cf2  \cf3 Synth\cf2 .new(\cf4 \\adc\cf2 , [\cf4 \\in\cf2 , i, \cf4 \\out\cf2 , ~grain_in_g], ~in_g); \});\
+	~fb_s = \cf3 Synth\cf2 .new(\cf4 \\inFb\cf2 , [\cf4 \\in\cf2 , 0, \cf4 \\out\cf2 , ~grain_in_b.index, \cf4 \\amp\cf2 , 0.5], ~in_g);\
+	\
+	~quadOnFuncs[0] = \{ ~grain_g.set(\cf4 \\amp\cf2 , 0.1); \};\
+	~quadOffFuncs[0] = \{ ~grain_g.set(\cf4 \\amp\cf2 , 0.0); \};\
+	\
+	~quadOnFuncs[1] = \{ ~grain_rec_s.set(\cf4 \\run\cf2 , 1); \};\
+	~quadOffFuncs[1] = \{ ~grain_rec_s.set(\cf4 \\run\cf2 , 0); \};\
+	\
+	~quadOnFuncs[2] = \{ ~in_s[1].set(\cf4 \\amp\cf2 , 1); \};\
+	~quadOffFuncs[2] = \{ ~in_s[1].set(\cf4 \\amp\cf2 , 0); \};\
+	\
+	\
+	~quadOnFuncs[2] = \{ ~fb_s.set(\cf4 \\amp\cf2 , 1.0); \};\
+	~quadOffFuncs[2] = \{ ~fb_s.set(\cf4 \\amp\cf2 , 0.0); \};\
+	\
+\}.play; \};\
+	}
