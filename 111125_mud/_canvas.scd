@@ -18,8 +18,6 @@ Routine {
 		~sumbits = { arg arr; var sum=0; arr.do({ arg v, i; sum = sum + (v << i) }); sum};
 		~wridx = 0;
 		~wlidx = 0;
-		
-		
 	
 		x.value("weights_ok_1.scd");
 	

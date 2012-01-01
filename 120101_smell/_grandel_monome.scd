@@ -69,7 +69,7 @@ s.waitForBoot { Routine {
 	~gran[2].wait = 1.5;
 	~gran[2].attack = 0.25;
 	~gran[2].release = 0.25;
-	~gran[2].deltime = 2.0;
+	~gran[2].deltime = 3.0;
 
 	~gran[3].rate = 1.0;
 	~gran[3].dur = 3.0;
@@ -83,14 +83,14 @@ s.waitForBoot { Routine {
 	~gran[4].wait = 1.5;
 	~gran[4].attack = 0.25;
 	~gran[4].release = 0.25;
-	~gran[4].deltime = 2.0;
+	~gran[4].deltime = 4.0;
 
 	~gran[5].rate = 2.0;
 	~gran[5].dur = 3.0;
 	~gran[5].wait = 0.25;
 	~gran[5].attack = 0.25;
 	~gran[5].release = 0.25;
-	~gran[5].deltime = 0.5;
+	~gran[5].deltime = 1.5;
 	
 	~gran[6].rate = 0.25;
 	~gran[6].dur = 2.0;
@@ -179,45 +179,7 @@ s.waitForBoot { Routine {
 		
 	});
 	
-	
-	/*
-	///////// hid and 
-	Routine {
-	~gw = SCWindow.new("_g");
-	~gw.front;
-	
-	~switch = 0;
-	~switchtap = CfTapper.new;
-	
-	~switch_func = { arg val; 
-		"footswitch".postln;
-		if(val > 0, {
-			postln("press");
-			~switchtap.tap;
-		}, {
-			postln("lift");
-			if(~switch > 0, {
-				postln("turning off");
-				~switchtap.tap;
-				~out_g.set(\amplag, ~switchtap.time);
-				~out_g.set(\amp, 0.0);
-				~switch = 0;
-				{ ~gw.view.background = Color.black; }.defer;
-			}, {
-				postln("turning on");
-				~switchtap.tap;
-				~out_g.set(\amplag, ~switchtap.time);
-				~out_g.set(\amp, 0.1);
-				~switch = 1;
-				{ ~gw.view.background = Color.red; }.defer;
-			});
-		});
-	};
-
-	}.play(AppClock);
-	//////
-	*/
-}.play; };	
+play; };	
 
 
 /*

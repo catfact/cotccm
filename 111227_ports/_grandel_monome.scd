@@ -69,7 +69,7 @@ s.waitForBoot { Routine {
 	~gran[2].wait = 1.5;
 	~gran[2].attack = 0.25;
 	~gran[2].release = 0.25;
-	~gran[2].deltime = 2.0;
+	~gran[2].deltime = 3.0;
 
 	~gran[3].rate = 1.0;
 	~gran[3].dur = 3.0;
@@ -83,14 +83,14 @@ s.waitForBoot { Routine {
 	~gran[4].wait = 1.5;
 	~gran[4].attack = 0.25;
 	~gran[4].release = 0.25;
-	~gran[4].deltime = 2.0;
+	~gran[4].deltime = 4.0;
 
 	~gran[5].rate = 2.0;
 	~gran[5].dur = 3.0;
 	~gran[5].wait = 0.25;
 	~gran[5].attack = 0.25;
 	~gran[5].release = 0.25;
-	~gran[5].deltime = 0.5;
+	~gran[5].deltime = 1.5;
 	
 	~gran[6].rate = 0.25;
 	~gran[6].dur = 2.0;

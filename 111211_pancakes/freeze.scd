@@ -1,6 +1,7 @@
 Routine {
 	SynthDef.new(\specfreeze_shift_8, {
 		arg in=0, out=0, buf=0,
+		lpf=3000,
 			proc_buf 		= #[1, 2, 3, 4, 5, 6, 7, 8],
 			freeze 		= #[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 			amp 			= #[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
@@ -25,6 +26,7 @@ Routine {
 		amp = Lag.kr(amp, amplag);
 		pan = Lag.kr(pan, panlag);
 		output = Mix.new(Pan2.ar(output*amp, pan));
+		output = LPF.ar(output, lpf);
 		Out.ar(out, output);
 	}).store;
 	

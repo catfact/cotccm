@@ -52,7 +52,7 @@ Routine {
 	// nomralizer splits mono to stereo
 	~crawl_norm = Synth.new(\multicomp, [\in, ~mic_in_b.index, \out, ~crawl_in_b.index], ~ig, \addAfter);
 	~crawl_norm.set(\mix, 0.5);
-		~crawl_norm.set(\amp, 0.15);
+		~crawl_norm.set(\amp, 0.25);
 	
 	~pedals_in_b = Bus.audio(s, 1);
 	~pedals_in_s = [
