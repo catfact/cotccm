@@ -80,60 +80,62 @@ s.sync;
 
 
 ~gran[0].rate = 0.5;
-	~gran[0].dur = 8.0;
-	~gran[0].wait = 1.5;
-	~gran[0].attack = 0.25;
-	~gran[0].release = 0.25;
-	~gran[0].deltime = 2.0;
+~gran[0].dur = 8.0;
+~gran[0].wait = 1.5;
+~gran[0].attack = 0.25;
+~gran[0].release = 0.25;
+~gran[0].deltime = 2.0;
 
-	~gran[1].rate = 0.5;
-	~gran[1].dur = 3.0;
-	~gran[1].wait = 0.25;
-	~gran[1].attack = 0.25;
-	~gran[1].release = 0.25;
-	~gran[1].deltime = 0.5;
+~gran[1].rate = 0.5;
+~gran[1].dur = 3.0;
+~gran[1].wait = 0.25;
+~gran[1].attack = 0.25;
+~gran[1].release = 0.25;
+~gran[1].deltime = 0.5;
 
-	~gran[2].rate = 1.0;
-	~gran[2].dur = 8.0;
-	~gran[2].wait = 1.5;
-	~gran[2].attack = 0.25;
-	~gran[2].release = 0.25;
-	~gran[2].deltime = 2.0;
+~gran[2].rate = 1.0;
+~gran[2].dur = 8.0;
+~gran[2].wait = 1.5;
+~gran[2].attack = 0.25;
+~gran[2].release = 0.25;
+~gran[2].deltime = 2.0;
 
-	~gran[3].rate = 1.0;
-	~gran[3].dur = 3.0;
-	~gran[3].wait = 0.25;
-	~gran[3].attack = 0.25;
-	~gran[3].release = 0.25;
-	~gran[3].deltime = 0.5;
-	
-	~gran[4].rate = 2.0;
-	~gran[4].dur = 8.0;
-	~gran[4].wait = 1.5;
-	~gran[4].attack = 0.25;
-	~gran[4].release = 0.25;
-	~gran[4].deltime = 2.0;
+~gran[3].rate = 1.0;
+~gran[3].dur = 3.0;
+~gran[3].wait = 0.25;
+~gran[3].attack = 0.25;
+~gran[3].release = 0.25;
+~gran[3].deltime = 0.5;
 
-	~gran[5].rate = 2.0;
-	~gran[5].dur = 3.0;
-	~gran[5].wait = 0.25;
-	~gran[5].attack = 0.25;
-	~gran[5].release = 0.25;
-	~gran[5].deltime = 0.5;
-	
-	~gran[6].rate = 0.25;
-	~gran[6].dur = 2.0;
-	~gran[6].wait = 0.25;
-	~gran[6].attack = 0.25;
-	~gran[6].release = 0.25;
-	~gran[6].deltime = 2.5;
+~gran[4].rate = 2.0;
+~gran[4].dur = 8.0;
+~gran[4].wait = 1.5;
+~gran[4].attack = 0.25;
+~gran[4].release = 0.25;
+~gran[4].deltime = 2.0;
 
-	~gran[7].rate = 4.0;
-	~gran[7].dur = 4.0;
-	~gran[7].wait = 0.25;
-	~gran[7].attack = 0.25;
-	~gran[7].release = 0.25;
-	~gran[7].deltime = 3.0;
+~gran[5].rate = 2.0;
+~gran[5].dur = 3.0;
+~gran[5].wait = 0.25;
+~gran[5].attack = 0.25;
+~gran[5].release = 0.25;
+~gran[5].deltime = 0.5;
+
+~gran[6].rate = 0.25;
+~gran[6].dur = 2.0;
+~gran[6].wait = 0.25;
+~gran[6].attack = 0.25;
+~gran[6].release = 0.25;
+~gran[6].deltime = 2.5;
+
+~gran[7].rate = 4.0;
+~gran[7].dur = 4.0;
+~gran[7].wait = 0.25;
+~gran[7].attack = 0.25;
+~gran[7].release = 0.25;
+~gran[7].deltime = 3.0;
+
+
 
 
 }.play; };

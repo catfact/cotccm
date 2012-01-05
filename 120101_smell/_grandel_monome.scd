@@ -179,7 +179,7 @@ s.waitForBoot { Routine {
 		
 	});
 	
-play; };	
+}.play; };	
 
 
 /*
