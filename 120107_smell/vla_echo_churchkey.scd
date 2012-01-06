@@ -4,7 +4,7 @@ Routine {
 	~vla_del_b = Bus.audio(s, 1);
 	
 	// vox delay synths
-	~vla_del4 = CfAdcDelay4.new(s, ~vla_del_g);
+	~vla_del4 = CfDelay4.new(s, ~vla_del_g);
 	
 	0.2.wait; 
 	
