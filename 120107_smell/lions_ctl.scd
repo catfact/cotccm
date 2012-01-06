@@ -64,7 +64,7 @@ MonomeClient.scanDevices(steal:true);
 */
 
 
-w = SCWindow.new("__", Rect(0, 0, 400, 400));
+w = SCWindow.new("::::: THE LIONS :::::", Rect(0, 0, 400, 400));
 w.front;
 w.view.keyDownAction = { arg view, char;
 	if (char == $z, {

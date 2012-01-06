@@ -220,22 +220,6 @@ s.waitForBoot {
 		~grain_out_dist_s = Synth.new(\churchdist, [\in, ~grain_b.index, \out, 0, \shapebuf, ~shapebuf.bufnum], ~grain_g, \addAfter);
 	}; 
 	 
-	///// MIDI:
-	/*
-	~funcA_r = CCResponder({
-			arg src, chan, num, val;
-			if (val > 0, {
-				"churchkey A".postln;
-				~churchkey_func_a.value;
-			});
-		},
-		nil, // any source
-		nil, // any channel
-		16, // last pad, first banmk
-		nil // any value
-	);
-	*/
-
 	////// HID:
 	SystemClock.sched(1.0, { ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); }; nil});
 	 
