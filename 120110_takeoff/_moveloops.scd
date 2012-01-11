@@ -1,0 +1,34 @@
+~jl_play_s[0].set(\shift_amplag, 10.0);
+~jl_play_s[0].set(\shift_amp, 1.0);
+~jl_play_s[1].set(\shift_amplag, 15.0);
+~jl_play_s[1].set(\shift_amp, 1.0);
+~jl_play_s[2].set(\shift_amplag, 20.0);
+~jl_play_s[2].set(\shift_amp, 1.0);
+~jl_play_s[3].set(\shift_amplag, 25.0);
+~jl_play_s[3].set(\shift_amp, 1.0);
+~jl_play_s[4].set(\shift_amplag, 30.0);
+~jl_play_s[4].set(\shift_amp, 1.0);
+~jl_play_s[5].set(\shift_amplag, 35.0);
+~jl_play_s[5].set(\shift_amp, 1.0);
+~jl_play_s[6].set(\shift_amplag, 40.0);
+~jl_play_s[6].set(\shift_amp, 1.0);
+~jl_play_s[7].set(\shift_amplag, 45.0);
+~jl_play_s[7].set(\shift_amp, 1.0);
+
+
+~jl_play_s[0].set(\ratelag, 30.0);
+~jl_play_s[0].set(\rate, 3);
+~jl_play_s[1].set(\ratelag, 40.0);
+~jl_play_s[1].set(\rate, 3/2);
+~jl_play_s[2].set(\ratelag, 50.0);
+~jl_play_s[2].set(\rate, 3/2);
+~jl_play_s[3].set(\ratelag, 60.0);
+~jl_play_s[3].set(\rate, 9/8);
+~jl_play_s[4].set(\ratelag, 65.0);
+~jl_play_s[4].set(\rate, 3/4);
+~jl_play_s[5].set(\ratelag, 70.0);
+~jl_play_s[5].set(\rate, 3/8);
+~jl_play_s[6].set(\ratelag, 75.0);
+~jl_play_s[6].set(\rate, 3/16);
+~jl_play_s[7].set(\ratelag, 80.0);
+~jl_play_s[7].set(\rate, 3/8);

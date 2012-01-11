@@ -36,7 +36,7 @@ SystemClock.sched(~norm_buf.duration + 0.01, { ~rec_norm_s.free; nil });
 	\out, ~rhythm_out_b.index,
 	\amp, 0.dbamp
 ], ~rhythm_g);
-~bufbass.set(\amp, -18.dbamp);
+~bufbass.set(\amp, -12.dbamp);
 
 ~buffsh= Synth.new(\buf_ringz_dist_hpf_env, [
 	\buf, ~norm_buf.bufnum,
@@ -69,7 +69,7 @@ SystemClock.sched(24.0 * 1.2, {
 	\lpfhz, 300,
 	\amp, -8.dbamp
 ], ~rhythm_g);
-
+~metro.set(\amp, -4.dbamp);
 
 // - ----------- - --------------- vla
 ~loop_buf = Buffer.alloc(s, 100 * s.sampleRate, 1, {
