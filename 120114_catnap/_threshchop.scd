@@ -40,10 +40,10 @@ Routine {
 			\rate, if(i%5 == 0, {2.0}, {1.0}),
 			\choprate, 1.0 / ~chopr_p * ((i * 17 % 2)),
 			\hz, 220 * 8/9 * (((i*3)%7) + 1 * 2),
-			\rq, (i%4) * 0.2 + 0.07,
-			\insideout, if((i%30 == 0) || (i % 24 ==0), {0.06}, {0.0}),
+			\rq, (i%4) * 0.2 + 0.08,
+			\insideout, if((i%30 == 0) || (i % 24 ==0), {0.02}, {0.0}),
 			\atk, i % 4, \rel, ~chopr_p * 2,
-			\level, i.min(32) / 64
+			\level, i.min(32) / 64 * -4.dbamp
 		], s);
 		~chopr_p.wait;
 	} }.play;
@@ -55,10 +55,10 @@ Routine {
 			\rate, if(i%5 == 0, {0.5}, {1.0}),
 			\choprate, 1.0 / ~chopr_p * 0.5,
 			\hz, 110 * 8/9 * (((i*5)%2 + 1) * 4),
-			\rq, (i%4) * 0.2 + 0.07,
-			\insideout, if((i%20 == 0) || (i % 32 == 0), {0.06}, {0.0}),
+			\rq, (i%4) * 0.2 + 0.08,
+			\insideout, if((i%20 == 0) || (i % 32 == 0), {0.03}, {0.0}),
 			\atk, (i * 7) %4, \rel, ~chopr_p * 2,
-			\level, i.min(32) / 64
+			\level, i.min(32) / 64 * -4.dbamp
 		], s);
 		(~chopr_p * 2).wait;
 	} }.play;
