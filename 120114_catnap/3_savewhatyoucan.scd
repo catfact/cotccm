@@ -12,8 +12,8 @@ x.value("_justloops.scd");
 s.sync;
 
 ////// buffers
-~vla_loop1_buf = Buffer.alloc(s, s.sampleRate * 300.0, 1, completionMessage: { });
 ~vla_grain1_buf = Buffer.alloc(s, s.sampleRate * 120.0, 1, completionMessage: { });
+~vla_loop1_buf = Buffer.alloc(s, s.sampleRate * 300.0, 1, completionMessage: { });
 ~vla_loop2_buf = Buffer.alloc(s, s.sampleRate * 120.0, 1, completionMessage: { });
 
 ~vox_echo1_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
@@ -111,9 +111,28 @@ s.sync;
 	},
 	{
 		
-		~vla_loop1_rec = Synth.new(\rec_loop, [\buf, ~vla_loop1_buf.bufnum, \in, ~vla_in_b.index], ~xg);
-		~notify.value("recording [viola loop 1]");
-		~vlaloop_1_start = SystemClock.seconds;
+//		~vla_loop1_rec = Synth.new(\rec_loop, [\buf, ~vla_loop1_buf.bufnum, \in, ~vla_in_b.index], ~xg);
+
+		~vla_loop_del = Synth.new(\bufdelay_fb, [
+			\buf, ~vla_loop1_buf.bufnum,
+			\in, ~vla_in_b.index,
+			\delaytime, 300,
+			\amp, 4.0.dbamp,
+			\out, 0;
+		], ~xg);
+		
+
+/*		
+	~vla_del = Synth.new(\bufdelay_fb, [
+		\buf, ~loop_buf.bufnum,
+		\in, ~vla_del_in_b.index,
+		\delaytime, 1.2 * 4.0,
+		\out, ~vla_del_out_b.index;
+	], ~vla_del_in_s, \addAfter);
+*/
+		
+		{ ~notify.value("recording [viola loop 1]"); }.defer;
+		~vla_loop_start = SystemClock.seconds;
 		x.value("_sines.scd");
 	},
 	{	
@@ -121,20 +140,23 @@ s.sync;
 		~notify.value("noise chops");
 	},
 	{	arg val, time;
-		~vla_loop1_rec.run(false); 
-		~vla_loop1_play = Synth.new(\play_loop, [\buf, ~vla_loop1_buf.bufnum, \looptime, SystemClock.seconds - ~vlaloop_1_start, \level, 4.dbamp], ~xg);
-		~notify.value("stop recording, playback [viola loop 1]");
+//		~vla_loop1_rec.run(false); 
+//		~vla_loop1_play = Synth.new(\play_loop, [\buf, ~vla_loop1_buf.bufnum, \looptime, SystemClock.seconds - ~vlaloop_1_start, \level, 4.dbamp], ~xg);
+		~vla_loop_del.set(\delaytime, SystemClock.seconds - ~vla_loop_start);
+		~notify.value("playback vla loop 1");
 	},
 	{
-		~notify.value("recording [viola grain 1]");
+		~notify.value("recording vla grain 1");
 		~vla_grain1_rec = Synth.new(\rec_loop, [\buf, ~vla_grain1_buf.bufnum, \in, ~vla_in_b.index], ~xg);
 	},
 	{	
 		arg val, time;
 		~sine_r.stop;
 		~notify.value("play [viola grain 1]");
-		~vla_loop1_play.set(\rel, time * 0.25);
-		~vla_loop1_play.set(\gate, 0);
+		~vla_loop_del.set(\amplag, time * 0.25);
+		~vla_loop_del.set(\amp, 0);
+		~vla_loop_del.set(\feedback, 0.0);
+		~vla_loop_del.set(\inputamp, 0.0);
 		~vla_grain1_rec.run(false);
 		~vla_grain1_play = Group.new;
 		5.do({ arg i;
@@ -170,16 +192,25 @@ s.sync;
 		~notify.value("PART 2 [vox echo]");
 	},
 	{
-		~vla_loop2_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 2 * 16, \prelevel, 1.0], ~xg);
+//		~vla_loop2_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 2 * 16, \prelevel, 1.0], ~xg);
+		~vla_loop_del.set(\amplag, 0.0);
+		~vla_loop_del.set(\amp, 0.0);
+		~vla_loop_del.set(\feedback, 1.0);
+		~vla_loop_del.set(\inputamp, 1.0);
+		~vla_loop_del.set(\buf, ~vla_loop2_buf.bufnum);
 		~notify.value("recording [viola loop 2]", Color.red);
 	},
 	{	arg val, time;
-		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, time * 2.0], ~xg);
-		~vla_loop2_rec.set(\looptime, time * 2.0);
+//		~vla_loop2_play = Synth.new(\play_loop, [\buf, ~vla_loop2_buf.bufnum, \looptime, time * 2.0], ~xg);
+//		~vla_loop2_rec.set(\looptime, time * 2.0);
+		time.postln;
+		~vla_loop_del.set(\delaytime, time);
+		~vla_loop_del.set(\amp, 1.0);
+		time.postln;
 		~notify.value("playback [viola loop 2]", Color.green);
 		~tempo = time / 8;
 		~bufbass = Synth.new(\buf_ringz_lpf_env, [
-			\buf, ~vla_loop2_buf.bufnum,
+			\buf, ~vla_loop1_buf.bufnum,
 			\pulsehz, 1.0 / time,
 			\lpfhz, 110 * 4 / 3,
 			\ringhz, 55 * 4 / 3,
@@ -193,7 +224,8 @@ s.sync;
 	},
 	{
 		~notify.value("stop recording [viola loop 2]", Color.grey);
-		~vla_loop2_rec.run(false); 
+//		~vla_loop2_rec.run(false); 
+		~vla_loop_del.set(\inputamp, 0.0);
 		~vox_echo_pre = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		~vox_echo_out = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, 0, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		
@@ -208,15 +240,19 @@ s.sync;
 		
 	{	~notify.value("attempt to overwrite [viola loop 2] ?");
 		//~vox_echo_pre.set(\in, ~vla_in_b.index);
-		~vla_loop3_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 2 * 16, \prelevel, 0.0], ~xg);
+//		~vla_loop3_rec = Synth.new(\rec_loop, [\buf, ~vla_loop2_buf.bufnum, \in, ~vla_in_b.index, \looptime, ~tempo * 2 * 16, \prelevel, 0.0], ~xg);
 
-		~vla_loop2_rec.run(true);
-		~vla_loop2_rec.set(\prelevel, 0.0);
+//		~vla_loop2_rec.run(true);
+//		~vla_loop2_rec.set(\prelevel, 0.0);
+		~vla_loop_del.set(\inputamp, 1.0);
+		~vla_loop_del.set(\feedback, 0.5);
 		~vla_delay = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
 	},
 	{	~notify.value("release [viola loop 2]");
-		~vla_loop2_play.set(\rel, ~tempo * 8.0);
-		~vla_loop2_play.set(\gate, 0);
+//		~vla_loop2_play.set(\rel, ~tempo * 8.0);
+//		~vla_loop2_play.set(\gate, 0);
+		~vla_loop_del.set(\amplag, ~tempo * 8.0);
+		~vla_loop_del.set(\amp, 0.0);
 	},
 	{
 		~notify.value("chordgrains");
@@ -232,6 +268,7 @@ s.sync;
 		~notify.value("stop everything");		
 		
 		Routine {
+			~vla_loop_del.free;
 			~vla_delay.free;
 			~vla_delay3.free;
 			~vox_delay.free;
@@ -244,22 +281,6 @@ s.sync;
 /*
 ~events.reset
 */
-
-~notify = { arg string, color;
-	var win, text;
-	{
-		win = SCWindow.new(nil, SCWindow.screenBounds.insetBy(100));
-		if(color.isNil, { color = Color.new(1.0, 1.0.rand, 1.0.rand, 0.5); });
-		win.view.background = color; 
-		text = SCStaticText(win, win.view.bounds);
-		text.font = Font("Andale Mono", 54);
-		text.string = string;
-		win.front;
-		string.postln;
-	//	win.refresh;
-		AppClock.sched(4.0, {win.close; nil});
-	}.defer;
-};
 
 ~notify.value("save what you can", Color.new(0.1, 0.1, 0.1));
 

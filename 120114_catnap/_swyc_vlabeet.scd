@@ -164,6 +164,8 @@
 	dur.wait;
 }); }.play;
 
+/*
+{
 
 ~metro_w = SCWindow.new("metro", Rect(300, 300, 100, 80));
 ~metro_t = SCStaticText(~clock_w, ~clock_w.view.bounds);
@@ -175,7 +177,8 @@
 	(~vlabeet_t * 0.5).wait;
 }) }.play;
 ~metro_w.front;
-
+}.defer;
+*/
 /* 
 ~metro_r.stop;
 */

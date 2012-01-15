@@ -7,6 +7,19 @@ x.value("_grandel.scd");
 	 	~notify.value("vla delay");
 	 	x.value("vla_echo_goldchains.scd");
 	},
+	
+	// start del timer
+	{
+	 	~notify.value("start del timer");
+	 	~vla_del_t = SystemClock.seconds;
+	},
+	// stop del timer
+	{
+	 	~notify.value("stop del timer");
+	 	~vla_del_t = SystemClock.seconds - ~vla_del_t;
+		~vla_del4.del_s[0].set(\delaytime, ~vla_del_t);
+		~vla_del4.del_s[1].set(\delaytime, ~vla_del_t * 2.0);
+	},
 	// add grains
 	{
 	 	~notify.value("add grains");

@@ -192,3 +192,24 @@ SynthDef.new(\cmpcho, {
 	del = Compander.ar(del, input, thresh, slopebelow, slopeabove, clamp, relax);
 	Out.ar(out, del * amp);
 }).send(s);
+
+
+SynthDef.new(\bufdelay_fb, {
+	arg in=6, 
+		out=0,
+		buf=0,
+		buflength = 1.0,
+		amp = 1.0,
+		amplag = 10.0,
+		inputamp = 1.0,
+		delaytime= 1.0,
+		feedback = 0.0;
+	var delay, fb;
+	
+	delay = BufDelayL.ar(buf, (In.ar(in) * inputamp) + (LocalIn.ar(1)), delaytime) * amp;
+	amp = Lag.kr(amp, amplag);
+	LocalOut.ar(delay * feedback);
+	Out.ar(out, (delay * amp).dup );
+
+}).send(s);
+

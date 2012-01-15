@@ -24,3 +24,20 @@ Routine {
 	1.0.wait;
 }) }.play;
 ~clock_w.front;
+
+
+~notify = { arg string, color;
+	var win, text;
+	{
+		win = SCWindow.new(nil, SCWindow.screenBounds.insetBy(100));
+		if(color.isNil, { color = Color.new(1.0, 1.0.rand, 1.0.rand, 0.5); });
+		win.view.background = color; 
+		text = SCStaticText(win, win.view.bounds);
+		text.font = Font("Andale Mono", 54);
+		text.string = string;
+		win.front;
+		string.postln;
+	//	win.refresh;
+		AppClock.sched(4.0, {win.close; nil});
+	}.defer;
+};
