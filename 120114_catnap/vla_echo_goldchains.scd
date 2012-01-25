@@ -28,7 +28,7 @@ Routine {
 	10.wait;
 	
 	~vla_del4.del_s[0].set(\delaytime, 12.4);
-	~vla_del4.del_s[1].set(\delaytime, 20.66);
+	~vla_del4.del_s[1].set(\delaytime, 24.8);
 	~vla_del4.del_s[2].set(\delaytime, 1.0);
 	~vla_del4.del_s[3].set(\delaytime, 3.0);
 	~vla_del4.del_s[0].set(\fb, 0.1);
