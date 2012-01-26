@@ -30,6 +30,10 @@
 	 	~xnotify.value("AGONISTS 3");
 	 	~agonists_3.value(32.0);
 	 	
+	 },
+ 	{ 
+	 	~xnotify.value("AGONISTS CHOP");
+	 	x.value("_agonists_chop.scd");	 	
 	 }
  ]).asStream; 
  

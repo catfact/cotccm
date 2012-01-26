@@ -88,6 +88,11 @@ SynthDef.new(\justloop_play, {
 	rate = Lag.kr(rate, ratelag);
 	sig = PlayBuf.ar(1, buf, rate, trig, pos, loop:loop);
 	
+	SynthDef.new(\echo, {
+	arg in, out, time, maxtime=1.0, amp=1.0;
+	Out.ar(out, DelayL.ar(In.ar(in), maxtime, time) * amp);
+}).send(s);
+
 	shift_amp = Lag.kr(shift_amp, shift_amplag);
 	shift = PitchShift.ar(sig, shift_window, shift_ratio);
 	sig = sig + (shift * shift_amp);
@@ -112,3 +117,9 @@ SynthDef.new(\adc, {arg in=0, out=0, amp=1, amplag = 0.01;
 	sig = SoundIn.ar(in);
 	Out.ar(out, sig * amp);
 }).send(s);
+
+SynthDef.new(\echo_buf, {
+	arg buf, in, out, time, amp=1.0;
+	Out.ar(out, BufDelayL.ar(buf, In.ar(in), time, amp));
+}).send(s);
+

@@ -1,31 +1,34 @@
 Routine {
 	
 	~interval_1 = 1.0;
-	~interval_2 = 2.0;
-	
-	// copy from the delay buffer
-	~vla_loop1_buf = Buffer.alloc(s, s.sampleRate * ~vla_del_buf[0].duration, 1);
-	~vla_loop2_buf = Buffer.alloc(s, s.sampleRate * ~vla_del_buf[1].duration, 1);
-	~vla_del_buf[0].copyData(~vla_loop1_buf);
-	~vla_del_buf[1].copyData(~vla_loop2_buf);
+	~interval_2 = 1.0;
 
-
-	~vox_echo1_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
-	~vox_echo2_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
-	~vla_echo_buf = Buffer.alloc(s, s.sampleRate * 60.0, 1, completionMessage: { });
+	~vox_echo1_buf = Buffer.alloc(s, s.sampleRate * 150.0, 1, completionMessage: { });
+	~vox_echo2_buf = Buffer.alloc(s, s.sampleRate * 150.0, 1, completionMessage: { });
+	~vox_echo3_buf = Buffer.alloc(s, s.sampleRate * 150.0, 1, completionMessage: { });
+	~vla_echo1_buf = Buffer.alloc(s, s.sampleRate * 150.0, 1, completionMessage: { });
+	~vla_echo2_buf = Buffer.alloc(s, s.sampleRate * 150.0, 1, completionMessage: { });
+	~vla_echo3_buf = Buffer.alloc(s, s.sampleRate * 150.0, 1, completionMessage: { });
 
 	s.sync;
 	~tempo = 0.5;
+	
+	
+	~ig = Group.new(s);
+	~xg = Group.after(~ig);
+	~og = Group.after(~xg);
 	
 	~vox_in_b = Bus.audio(s, 1);
 	~vox_adc = Synth.new(\adc, [\in, 0, \out, ~vox_in_b.index], ~ig);
 	
 	~vox_echo_pre = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 	~vox_echo_out = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, 0, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
-	
+
+	~vox_delay = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo1_buf.bufnum, \time, ~tempo, \out, 0, \amp, 0.5], ~xg);	
 	~vox_delay2 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -4.dbamp], ~xg);
 	~vox_delay.set(\amp, -6.dbamp);
 
+~vla_delay = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
 	
 	
 	// this is the chord progression:
@@ -179,12 +182,12 @@ Routine {
 	
 	~vox_delay.set(\time, 8*4*3);
 	~vox_delay2.set(\time, 8*4*2);
-	~vox_delay3 = Synth.new(\echo, [\in, ~vox_in_b.index, \maxtime, 4*4*5, \time, 4*4*8, \out, 0, \amp, -6.dbamp], ~xg);
+	~vox_delay3 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo3_buf.bufnum, \maxtime, 4*4*5, \time, 4*4*8, \out, 0, \amp, -6.dbamp], ~xg);
 	~vox_delay2.set(\time, 8*4+4);
 	
-	~vla_delay.set(\time, 8 * 4);
-	//~vla_delay2 = Synth.new(\echo, [\in, ~vla_in_b.index, \maxtime, 4*4*5, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);
-	~vla_delay3 = Synth.new(\echo, [\in, ~vla_in_b.index, \maxtime, 4*9, \time, 4*8, \out, 0, \amp, -6.dbamp], ~xg);
+	~vla_delay.set(\time, 8 * 4 * 3);
+	~vla_delay2 = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo2_buf.bufnum, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);a
+	~vla_delay3 = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo3_buf.bufnum, \time, 4*8, \out, 0, \amp, -6.dbamp], ~xg);
 	~vla_delay3.set(\time, 8 * 8);
 	
 	~vla_delay.set(\amp, 1.0);

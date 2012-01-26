@@ -32,7 +32,7 @@
 		Routine { 10.do({ arg i;
 			30.0.wait;
 			~vla_hz_b.get({ arg hz;
-				if (hz < 800 && hz > 100, {
+				if ((hz < 800) && (hz > 100), {
 					~agonists_hz.add(hz);
 				});
 			});
@@ -50,13 +50,24 @@
 	
 	~agonists_2 = { arg time;
 		~vla_del_s.do({ arg del;
-			del.set(\fb_lag, 16);
+			del.set(\fb_lag, 4);
 			del.set(\fb, 0.99);
 		});
 	};
 	
 	
 	~agonists_3 = { arg time;
+		Routine {
+					
+			// copy from the delay buffer
+			~vla_loop1_buf = Buffer.alloc(s, s.sampleRate * ~vla_del_buf[0].duration, 1);
+			~vla_loop2_buf = Buffer.alloc(s, s.sampleRate * ~vla_del_buf[1].duration, 1);
+			s.sync;
+			~vla_del_buf[0].copyData(~vla_loop1_buf);
+			~vla_del_buf[1].copyData(~vla_loop2_buf);
+		
+		}.play;
+		
 		~vla_del_s.do({ arg del, i;
 			del.set(\bpf_mix_lag, 32.0);
 			del.set(\bpf_mix, 0.5);
