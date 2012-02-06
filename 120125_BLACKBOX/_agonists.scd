@@ -70,13 +70,15 @@
 		
 		~vla_del_s.do({ arg del, i;
 			del.set(\bpf_mix_lag, 32.0);
-			del.set(\bpf_mix, 0.5);
+			del.set(\bpf_mix, 0.75);
 		});
 		~vla_del_bpf_r = Routine {inf.do({ arg i;
 			~vla_del_s.wrapAt(i).set(\bpf_hz_lag, (16 + 16.rand));
 			~vla_del_s.wrapAt(i).set(\bpf_rq_lag, (16 + 16.rand));
 			~vla_del_s.wrapAt(i).set(\bpf_hz, ~agonists_hz.wrapAt(i));
-			~vla_del_s.wrapAt(i).set(\bpf_rq, 0.1 + 0.9.rand);
-			(16 + 16.rand).wait;
+			~vla_del_s.wrapAt(i).set(\bpf_rq, 0.1 + 0.4.rand);
+			~vla_del_s.wrapAt(i).set(\bpf_mix_lag, (16 + 16.rand));
+			~vla_del_s.wrapAt(i).set(\bpf_mix, 0.5 + 0.5.rand);
+			(8 + 8.rand).wait;
 		}); }.play;
 	};

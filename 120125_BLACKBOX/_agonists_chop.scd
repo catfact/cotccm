@@ -28,7 +28,7 @@ Routine {
 	~vox_delay2 = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -4.dbamp], ~xg);
 	~vox_delay.set(\amp, -6.dbamp);
 
-~vla_delay = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
+~vla_delay = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo1_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
 	
 	
 	// this is the chord progression:
@@ -186,10 +186,31 @@ Routine {
 	~vox_delay2.set(\time, 8*4+4);
 	
 	~vla_delay.set(\time, 8 * 4 * 3);
-	~vla_delay2 = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo2_buf.bufnum, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);a
+	~vla_delay2 = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo2_buf.bufnum, \time, 4*4*4, \out, 0, \amp, -6.dbamp], ~xg);
 	~vla_delay3 = Synth.new(\echo_buf, [\in, ~vla_in_b.index, \buf, ~vla_echo3_buf.bufnum, \time, 4*8, \out, 0, \amp, -6.dbamp], ~xg);
 	~vla_delay3.set(\time, 8 * 8);
 	
 	~vla_delay.set(\amp, 1.0);
 	~vla_delay3.set(\amp, 1.0);
 }.play;
+
+~agonists_stopchop = {
+	~chordgrains_r.stop;	
+};
+
+~agonists_stoploops = {
+	~jl_play_s.do({ arg jl; jl.free; });
+};
+
+~agonists_stopit = {
+	~vox_delay.free;
+	~vox_delay2.free;
+	~vox_delay3.free;
+	~vla_delay.free;
+	~vla_delay2.free;
+	~vla_delay3.free;
+	~ig.free;
+	~xg.free;
+	~vla_del_s[0].free;
+	~vla_del_s[1].free;
+};
