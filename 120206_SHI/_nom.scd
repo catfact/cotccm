@@ -30,6 +30,10 @@ s = Server.default.waitForBoot { Routine {
 	~chs = Array.fill(26, {arg j; 
 		Synth.new(\chopy, [\buf, ~r_buf.bufnum, \rate, ~geowrap.value(j, 4.0) * 0.5, \atk, 0.001, \rel, 0.001, \gate, 0, \level, 0.35]);
 	});
+	
+	/// patch micron 
+	
+	~patch_10 = {Out.ar(0, SoundIn.ar(1)); }.play;
 
 }.play; };
 
@@ -156,3 +160,4 @@ s = Server.default.waitForBoot { Routine {
 };
 
 ~xw.front;
+
