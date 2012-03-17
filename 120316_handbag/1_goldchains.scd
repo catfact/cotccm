@@ -44,9 +44,9 @@ x.value("_grandel.scd");
 		 	gro.set(\amplag, 20 - i);
 		 	gro.set(\amp, 0.0);
 	 	});
-	 	x.value("vla_echo_goldchains_stop.scd");
-	},
-	{
+//	 	x.value("vla_echo_goldchains_stop.scd");
+//	},
+//	{
 		if(~driftdrag_ok, {
 			"what up drag".postln;
 			m.pressFunctions.removeAt(\goldchains);	

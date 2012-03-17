@@ -170,7 +170,7 @@ s.waitForBoot { Routine {
 			if((~amp[specIdx] > 0.0) && ((specIdx%2) > 0)  , {
 				~setamp.value(specIdx, 0.0);
 			}, {
-				~setamp.value(specIdx, 2.0);
+				~setamp.value(specIdx, 0.5);
 			});
 			specIdx = (specIdx + 3) % 8;
 			~shift[specIdx] = 0.5 + (0.5 * (i%2));
@@ -189,7 +189,7 @@ s.waitForBoot { Routine {
 		\amp, 0.0,
 		\amplag, 60.0,
 	], ~in_g, \addAfter);
-	~vla_grain1_s.set(\amp, 2.0);
+	~vla_grain1_s.set(\amp, 0.5);
 	~vla_grain1_s.set(\posRate, 0.2);
 	
 	
@@ -202,7 +202,7 @@ s.waitForBoot { Routine {
 		\amp, 0.0,
 		\amplag, 80.0,
 	], ~in_g, \addAfter);
-	~vla_grain2_s.set(\amp, 2.0);
+	~vla_grain2_s.set(\amp, 0.5);
 	~vla_grain2_s.set(\posRate, 0.32);
 	~vla_grain2_s.set(\grainHz, 10);
 	
@@ -216,7 +216,7 @@ s.waitForBoot { Routine {
 		\amp, 0.0,
 		\amplag, 120.0,
 	], ~in_g, \addAfter);
-	~vla_grain3_s.set(\amp, 2.0);
+	~vla_grain3_s.set(\amp, 0.5);
 	~vla_grain3_s.set(\grainHz, 12);
 	
 	/// mic delay / vocoder
@@ -229,7 +229,7 @@ s.waitForBoot { Routine {
 	}.play(~out_g, \addBefore);
 	
 	~mic_del_s.set(\delaytime, 2.5);
-	~mic_del_s.set(\amp, 0.3);
+	~mic_del_s.set(\amp, 0.6);
 	~mic_del_s.set(\fb, 0.3);
 	~mic_del_s.set(\filtermix, 1.0);
 	~mic_del_s.set(\hz, 880 * 2);
