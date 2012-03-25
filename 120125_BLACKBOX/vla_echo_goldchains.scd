@@ -27,19 +27,19 @@ Routine {
 	
 	10.wait;
 	
-	~vla_del4.del_s[0].set(\delaytime, 12.4);
-	~vla_del4.del_s[1].set(\delaytime, 24.8);
+	~vla_del4.del_s[0].set(\delaytime, 10.33);
+	~vla_del4.del_s[1].set(\delaytime, 20);
 	~vla_del4.del_s[2].set(\delaytime, 1.0);
 	~vla_del4.del_s[3].set(\delaytime, 3.0);
-	~vla_del4.del_s[0].set(\fb, 0.25);
-	~vla_del4.del_s[1].set(\fb, 0.25);
+	~vla_del4.del_s[0].set(\fb, 0.1);
+	~vla_del4.del_s[1].set(\fb, 0.1);
 	~vla_del4.del_s[2].set(\fb, 0.1);
 	~vla_del4.del_s[3].set(\fb, 0.1);
 	~vla_del4.del_s[0].set(\hz, 1200);
 	~vla_del4.del_s[1].set(\hz, 3000.0);
 	~vla_del4.del_s[2].set(\hz, 800.0);
-	~vla_del4.del_s[0].set(\amp, 0.7);
-	~vla_del4.del_s[1].set(\amp, 0.7);
+	~vla_del4.del_s[0].set(\amp, 0.2);
+	~vla_del4.del_s[1].set(\amp, 0.3);
 	~vla_del4.del_s[2].set(\amp, 0.1);
 	~vla_del4.del_s[3].set(\amp, 0.05);
 }.play;
