@@ -5,13 +5,12 @@ Routine {
 
 	x.value("0_40h.scd");
 	x.value("0_audio.scd");
-	~mbut = Point(2, 2);	 
-	6.wait;
-	
-	"gold chains".postln;
-	
-	x.value("1_goldchains.scd");
-	x.value("1_goldchains_ctl.scd");
+	~mbut = Point(1, 1);	 
+	4.wait;
+	x.value("vla_echo_goldchains.scd");
+	4.wait;
+	x.value("2_driftdrag.scd");
+	x.value("2_driftdrag_ctl.scd");
 }.play;
 
 
