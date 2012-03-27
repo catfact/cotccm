@@ -25,11 +25,12 @@ m.pressFunctions.add(\driftdrag -> { arg x, y;
 			~vla_del4.del_s[~whichdel].set(\time, ~delt.time);
 			~vla_in_s.set(\amplag, ~delt.time * 0.125);
 			~whichdel = (~whichdel + 1) % 4;
+			~whichfreeze = (~whichfreeze + 1) % 8;
+			~setamplag.value(~whichfreeze, ~delt.time);
 			~notify.value("DRIFTDRAG : VLA OFFFF");
 		}, {
 			~vlon = true;
 			~vla_in_s.set(\amp, 1.0);
-			
 			~notify.value("DRIFTDRAG : VLA ONNNNN");
 		});
 		/*
