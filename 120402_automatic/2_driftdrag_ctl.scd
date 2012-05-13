@@ -2,6 +2,7 @@
 
 ~vlon = false;
 ~whichdel = 0;
+~whichfreeze = 0;
 
 	~vla_del4.del_s[0].set(\amp, 0.25);
 	~vla_del4.del_s[1].set(\amp, 0.25);

@@ -1,7 +1,9 @@
+//////// audio
+
 s = Server.local;
 c = CfAudioContext.new(s, 2, {
 	// patchthrough synths
-	p = c.in_s.collect({ arg ins, i;
+	~ps = c.in_s.collect({ arg ins, i;
 		Synth.new(\pan, [
 			\in, c.in_b.index + i, 
 			\out, c.out_b.index + i, 
@@ -10,11 +12,13 @@ c = CfAudioContext.new(s, 2, {
 		], c.xg);
 	});
 	
+	// buffers
 	b = c.allocBufs(2);
+	// delays
 	~db= Bus.audio(s, 1);
 	~dout = Synth.new(\pan, [\in, ~db.index, \out, c.out_b.index], c.og, \addBefore);
-	d = b.collect({ arg buf, i;
-		buf.bufnum.postln;
+	~ds = b.collect({ arg buf, i;
+	//	buf.bufnum.postln;
 		Synth.new(\bufdelay_fb, [
 			\in, c.in_b.index + i, 
 			\out, ~db.index,
@@ -24,9 +28,14 @@ c = CfAudioContext.new(s, 2, {
 	});
 });
 
-// t = Array.fill(2, { CfTapper.new; });
-// t.do({ arg tp; tp.tap; });
+
+//////// logic
+
 t = [0.0, 0.0];
+
+
+
+//////// ui
 
  ~xw = SCWindow.new("XXXXXXXXXXXXXX", Rect(0, 0, 500, 500)); //SCWindow.screenBounds);
  
@@ -72,13 +81,13 @@ t = [0.0, 0.0];
 	
 	if (wha.notNil, {
 		if (wha<2, {
-			p[wha].set(\amp, 0.0);
+			~ps[wha].set(\amp, 0.0);
 		});	
 		if((wha>1) && (wha < 4), {
-			
 			postln("HEYDOWN " ++ wha);
-			d[wha-2].set(\delaytime, SystemClock.seconds - t[wha-2]);
-			d[wha-2].set(\amp, 1.0);
+//			postln(SystemClock.seconds - t[wha-2]);
+			~ds[wha-2].set(\delaytime, SystemClock.seconds - t[wha-2]);
+			~ds[wha-2].set(\amp, 1.0);
 		});
 	});
 	
@@ -119,14 +128,14 @@ t = [0.0, 0.0];
 	
 	if (wha.notNil, {
 		if (wha<2, {
-			p[wha].set(\amp, 1.0);
+			~ps[wha].set(\amp, 1.0);
 			t[wha] = SystemClock.seconds;
 		});	
 		if((wha>1) && (wha < 4), {
 			postln("HEYUP " ++ wha);
-			d[wha-2].set(\amp, 0.0);
+			~ds[wha-2].set(\amp, 0.0);
 		});
 	});
 };
 
-~xw.front;r
+~xw.front;
