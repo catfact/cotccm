@@ -1,7 +1,8 @@
 ~interval_1 = 8/9; // buf 1 is in G, 1 whole step down
 ~interval_2 = 9/5; // buf 2 is in D, minor third up
 
-~jl_bufs[0].copyData(~vla_chord2_buf, 0, 0, -1);
+~jl_bufs[0].normalize(-12.dbamp);
+~jl_bufs[0].copyData(~vla_chord1_buf, 0, 0, -1);
 
 // this is the chord progression:
 // I I I I  V V iii iii vi IV 
@@ -141,8 +142,11 @@
 		~bufbass.set(\rate, rats[0] * ~interval_2);
 		~bufbass2.set(\rate, rats[1] * ~interval_2);
 	
-	if (i > 31, {~grains2.value(rats * ~interval_2)});
+	//if (i > 31, {~grains2.value(rats * ~interval_2)});
+	~grains2.value(rats * ~interval_2);
+	
 	2.0.wait;
+	
 }); }); }.play;
 
 ~tempo = 1.0;
