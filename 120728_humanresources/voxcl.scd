@@ -2,7 +2,15 @@ Routine {
 	
 ~voxdelbuf = Buffer.alloc(s, s.sampleRate * 16.0);
 s.sync;
-~voxdel_s = Synth.new(\bufdelay_fb, [\in, c.in_b, \out, c.in_b, \buf, ~voxdelbuf.bufnum, \feedback, -12.dbamp, \delaytime, 
+~voxdel_s = Synth.new(\bufdelay_fb, [\in, c.in_b, \out, c.in_b, \buf, ~voxdelbuf.bufnum, \feedback, -12.dbamp, \delaytime, 0.5], c.ig, \addToTail);
+
+~vox_out_s = Synth.new( \pan, [\in, c.in_b, \out, c.out_b], c.og, \addToHead);
+
+~voxdel_r = Routine {inf.do { arg i;
+	~voxdel_s.set(\delaytimelag, ((((i * 3) % 4) + 1) / 512));
+	~voxdel_s.set(\delaytime, ((((i * 6) % 9) + 1) * 0.125));
+	(((i * 3) % 4) * 0.25).wait;
+} }.play;
 
 ~voxcl_b = Bus.audio(s, 1);
 ~voxcl_out = Synth.new(\pan, [\in, ~voxcl_b, \out, c.out_b], c.og);
