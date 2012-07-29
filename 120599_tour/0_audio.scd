@@ -1,7 +1,9 @@
 //s.options.memSize = 8192 * 128;
-Server.default.options.memSize = 2 ** 20; // 512 MB
+s = Server.default;
+s.options.memSize = 2 ** 20; // 512 MB
+s.options.device = "Tapco USB Interface";
 
-s = Server.default.waitForBoot { Routine {
+s.waitForBoot { Routine {
 	
 	SynthDef.new(\adc, { arg in, out, level=1.0;
 		Out.ar(out, SoundIn.ar(in) * level);

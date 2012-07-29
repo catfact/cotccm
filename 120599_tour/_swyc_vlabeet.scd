@@ -148,7 +148,7 @@
 	var dur = ~vlabeet_dur_seq.next * ~vlabeet_t * ~vlabeet_dur_base;
 	var rate = ~vlabeet_rate_seq.next * 0.5 * ~vlabeet_rbase;
 	var io = ~vlabeet_io_seq.next * -32.dbamp;
-	dur.postln;
+//	dur.postln;
 	Synth.new(\grain_1shot_rez_dist, [
 		\buf, ~jl_bufs[i%4].bufnum,
 		\pos, 0.125,
