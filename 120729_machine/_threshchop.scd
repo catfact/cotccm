@@ -1,4 +1,4 @@
-Routine {
+~threshchop_r = Routine {
 	
 	~chopr_p = 60/55 * 0.25;
 	~chopbuflen = ~chopr_p * 16.0;
@@ -46,7 +46,7 @@ Routine {
 			\level, i.min(32) / 64 * -4.dbamp
 		], s);
 		~chopr_p.wait;
-	} }.play;
+	} };
 	
 	~chopr2 = Routine { inf.do { arg i;
 		Synth.new(\chopgrain_1shot_rez_dist, [
@@ -61,6 +61,6 @@ Routine {
 			\level, i.min(32) / 64 * -4.dbamp
 		], s);
 		(~chopr_p * 2).wait;
-	} }.play;
+	} };
 	
 }.play;

@@ -152,7 +152,8 @@ SynthDef.new(\grain_1shot_rez_dist, {
 	rate=1.0, pos=0.0,
 	atk=1.0, rel=1.0, gate=1,
 	minframes=0, maxframes=44100,
-	dur=4.0, insideout=0.0;
+	dur=4.0, insideout=0.0,
+	trigrate = 1;
 	
 	var ampenv, trig, phase, read,
 	sr, frames, ratescale, framediff;
@@ -162,10 +163,10 @@ SynthDef.new(\grain_1shot_rez_dist, {
 	ratescale = BufRateScale.kr(buf);
 	framediff = maxframes - minframes;
 	
-	trif = LFPulse.ar(trigrate);
+	trig = LFPulse.ar(trigrate);
 	
 	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
-	read = PlayBuf.ar(1, buf, rate, 1, pos, loop:0);
+	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:0);
 	read = read + InsideOut.ar(read, insideout);
 	read = Resonz.ar(read, hz, rq) * rezmix;
 //	read = BPF.ar(read, hz, rq) * rezmix;
