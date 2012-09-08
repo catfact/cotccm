@@ -1,0 +1,2 @@
+~jlw0 = Window.new("jl0");
+CfBufferDisplay.new(s, ~jl_bufs[0], win, 64);

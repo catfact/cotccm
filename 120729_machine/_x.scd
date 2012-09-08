@@ -1,5 +1,5 @@
 ~basepath = "/Users/e/scm/cotccm/120729_machine/";
- x = { |p| this.executeFile(~basepath++p); };
+x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.default;
  

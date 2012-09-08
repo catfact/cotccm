@@ -1,0 +1,39 @@
+v = CfCanvas.new("viz");
+v.layers.add(CfColorPane.new(v.window.bounds));
+v.layers[0].color = Color.blue;
+
+v.dt = 0.5;
+v.play;
+
+//v.window
+
+/*
+v.routine.stop
+*/
+
+/*
+v.window.endFullScreen;
+v.window.fullScreen;
+
+~col = Color.blue;
+*/
+
+~setcol = { arg col=Color.blue, n=10, blend=0.1, t=0.1;
+	Routine { n.do({ 
+		~col = ~col.blend(col, blend);
+		v.layers[0].color = ~col;
+		t.wait;
+	}) }.play;
+};
+
+
+
+~setcol2 = { arg col=Color.blue, n=10, blend=0.1, t=0.1;
+	Routine { n.do({ 
+		~col2 = ~col2.blend(col, blend);
+		//		v.layers[0].color = ~col;
+		t.wait;
+	}) }.play;
+};
+
+

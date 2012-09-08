@@ -1,0 +1,7 @@
+~jl_play_s[0] = Synth.new(\justloop_play, [
+	\buf, ~jl_bufs[0].bufnum, 
+	\looptime, 30.0,
+	\rate, ~jl_rates[0], 
+	\level, -4.dbamp, 
+	\out, ~jl_b.index]
+);
