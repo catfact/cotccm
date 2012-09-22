@@ -1,0 +1,35 @@
+~post_wait = 1.0;
+
+r = Routine { inf.do { 
+
+	~amp_b.get({ arg v; postln("amp: "++v); });
+	~pitch_b.get({ arg v; postln("pitch: "++v); });
+	~haspitch_b.get({ arg v; postln("hsapitch: "++v); });
+	~flat_b.get({ arg v; postln("flatness: "++v); });
+	~cent_b.get({ arg v; postln("centroid: "++v); });
+	"".postln;
+	~post_wait.wait;
+} }.play;
+
+//r.stop;
+// visualize:
+
+w = Window.new;
+w.front;
+
+~vis_t = 0.125;
+
+~vis_r = Routine {
+	var con = Condition.new(false);
+	var vals = 
+	inf.do {
+
+	~amp_b.get({ arg v; postln("amp: "++v); });
+	~pitch_b.get({ arg v; postln("pitch: "++v); });
+	~haspitch_b.get({ arg v; postln("hsapitch: "++v); });
+	~flat_b.get({ arg v; postln("flatness: "++v); });
+	~cent_b.get({ arg v; postln("centroid: "++v); });
+	cond.wait;
+} }.play;
+
+~setsl = {arg val;

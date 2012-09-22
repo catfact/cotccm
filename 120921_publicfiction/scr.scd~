@@ -1,0 +1,28 @@
+
+~pos = 20.0;
+~atk = 0.25;
+~sus = 1.0;
+~rel = 1.0;
+~hz = 400;
+~rate = 0.75;
+~rq = 0.25;
+~tw = 0.5;
+
+
+~crchop.value(0);
+
+~tw = 9/5;
+~crchop.value;
+
+~rate = 0.25;
+~pos = 60.0;
+~atk = 0.01;
+~sus = 0.1;
+~rel = 4.0;
+~tw = 2.0;
+~crchop.value;
+
+~analist.sortBy(
+
+~choplist.do({ arg r; r.stop; });
+
