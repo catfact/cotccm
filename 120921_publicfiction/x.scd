@@ -29,6 +29,7 @@ c = CfAudioContext.new(s, 2, { Routine {
 	// analysis synth:
 	SynthDef.new(\analysis_all, {
 		arg in, buf,
+
 		out_flat, out_cent,
 		out_pitch, out_clar,
 		out_amp;
@@ -76,10 +77,6 @@ c = CfAudioContext.new(s, 2, { Routine {
 	x.value("bc_test.scd");
 
 	~blen.wait;
-	~rec.free;
-
-	
-	x.value("bc_chop.scd");
 	
 }.play; });
 
