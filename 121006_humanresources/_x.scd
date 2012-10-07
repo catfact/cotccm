@@ -1,4 +1,4 @@
- ~basepath = "/home/emb/sc/cotccm/120728_humanresources/";
+ ~basepath = "/home/emb/sc/cotccm/121006_humanresources/";
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.default;

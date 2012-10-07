@@ -24,7 +24,7 @@
 		while({ byte = ~ard_port.read; byte.notNil }, {
 			4.do({ arg i;
 				state = (byte & (1 << i)) > 0;
-//				[byte, i, state].postln; 
+				[byte, i, state].postln; 
 				if ( state != ~but[i], {
 					// state changed, debounce
 					time = SystemClock.seconds;
