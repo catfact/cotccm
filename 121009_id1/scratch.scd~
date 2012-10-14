@@ -1,0 +1,7 @@
+~analist.collect({ arg list; list.pitch; }).postln;
+
+z = { arg i;
+		g.set(\gate, 0);
+		//				x = Synth.new(\sinesaw, [\hz, h * ~base, \atk:1.0], g);
+		x = Synth.new(\sinesaw, [\hz, ~analist[i].pitch, \atk:0.5], g);
+};

@@ -18,8 +18,6 @@ Routine {
 	
 }.play;
 
-
-
 ~clock_w = Window.new("clock", Rect(300, 600, 300, 80));
 ~clock_t = StaticText(~clock_w, ~clock_w.view.bounds);
 ~clock_t.setProperty(\font, Font(\Monaco, 60));
@@ -28,7 +26,6 @@ Routine {
 	1.0.wait;
 }) }.play;
 ~clock_w.front;
-
 
 ~notify = { arg string, color;
 	var win, text;

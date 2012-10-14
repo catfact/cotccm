@@ -1,0 +1,7 @@
+x.value("grains.scd");
+
+/*
+~bbuf.plot;
+*/
+
+x.value("voxdel.scd");
