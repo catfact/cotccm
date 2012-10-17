@@ -6,7 +6,7 @@ s = Server.local;
 c = CfAudioContext.new(s, 2, { Routine {
 
 	// input buffer:
-	~blen = 60;
+	~blen = 120;
 	~bbuf = Buffer.alloc(s, s.sampleRate * ~blen, 1);
 	/// TEST
 	//	~bbuf = Buffer.readChannel(s, "/home/emb/sc/bbbcch.wav", channels:[0]);
@@ -15,14 +15,13 @@ c = CfAudioContext.new(s, 2, { Routine {
 	//	~bbuf.inspect;
 	"channels: ".post; ~bbuf.numChannels.postln;
 	"length: ".post; ~bbuf.duration.postln;	
+
 	//	record:
 	~rec = c.recOnce(1, ~bbuf.bufnum);
 
-	x.value("cap.scd");
+	// analysis:
+	x.value("analysis.scd");
 
 	~bct = SystemClock.seconds;
 	
 }.play; });
-
-
-

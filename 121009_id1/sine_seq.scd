@@ -17,16 +17,11 @@
 	16.wait;
 } }.play );
 	
-
-
-
 ~siner.add( Routine { inf.do {
 	~sstk.value(num:3, tbase:32, start:50, end:200);
 	84.wait;
 } }.play );
 	
-
-
 ~siner.add( Routine { inf.do {
 	~sstk.value(num:3, tbase:32, start:30, end:120);
 	96.wait;

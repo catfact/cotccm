@@ -49,8 +49,8 @@ Routine {
 
 	~ana_wait = 0.125;
 
-	~ampt = -24.dbamp;
-	~clart = 0.6;
+	~ampt = -32.dbamp;
+	~clart = 0.5;
 
 	~analist = List.new;
 
@@ -68,15 +68,18 @@ Routine {
 			
 			if(amp > ~ampt, {
 				if(clar > ~clart, {
-					~analist.add(Event.with(
-						\amp->amp, 
-						\pitch->pitch,
-						\clar->clar,
-						\flat->flat,
-						\cent->cent
-					));
+					//					pitch.postln;
+					if(pitch > 100, {
+						~analist.add(Event.with(
+							\amp->amp, 
+							\pitch->pitch,
+							\clar->clar,
+							\flat->flat,
+							\cent->cent
+						));
+					});
 					
-						~analist.last.postln;
+					~analist.last.postln;
 					
 				});			
 			});
