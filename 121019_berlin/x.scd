@@ -24,4 +24,10 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 	~bct = SystemClock.seconds;
 	
+	~blen.wait;
+
+	x.value("happens.scd");
+
+	
+
 }.play; });
