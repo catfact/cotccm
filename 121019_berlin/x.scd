@@ -6,7 +6,7 @@ s = Server.local;
 c = CfAudioContext.new(s, 2, { Routine {
 
 	// input buffer:
-	~blen = 120;
+	~blen = 150;
 	~bbuf = Buffer.alloc(s, s.sampleRate * ~blen, 1);
 	/// TEST
 	//	~bbuf = Buffer.readChannel(s, "/home/emb/sc/bbbcch.wav", channels:[0]);
@@ -27,7 +27,5 @@ c = CfAudioContext.new(s, 2, { Routine {
 	~blen.wait;
 
 	x.value("happens.scd");
-
-	
 
 }.play; });
