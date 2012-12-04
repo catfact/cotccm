@@ -8,7 +8,9 @@ p.sustain = 4.0;
 p.relOff = 8.0;
 p.relScale = 4.0;
 p.waitScale = 1.0;
-p.wait = 60.0;
-p.amp = -30.dbamp;
+p.wait = 16.0;
+p.amp = -3.dbamp;
 p.wrapRatio = 4.0;
-p.hz0 = 60.0;	
+p.hz0 = 220.0;	
+
+p.play;

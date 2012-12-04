@@ -63,7 +63,7 @@ m.pressFunctions.add(\swyc -> { arg x, y;
 });
 	*/
 
-~but_func[0] = { arg state;
+~but_func[1] = { arg state;
 	if(state, {
 		~event_tap.tap;
 		if (~event_tap.time > 1.0, {
@@ -214,6 +214,8 @@ s.sync;
 		time.postln;
 		~vla_loop_del.set(\delaytime, time);
 		~vla_loop_del.set(\amp, 1.0);
+		//// take loop2 for chord at this point
+		~vla_loop2_buf.copyData(~vla_chord2_buf, 0, 0, -1);
 		time.postln;
 		~notify.value("playback [viola loop 2]", Color.green);
 		~tempo = time / 8;
@@ -232,7 +234,7 @@ s.sync;
 	},
 	{
 		~notify.value("stop recording [viola loop 2]", Color.grey);
-		~vla_loop2_buf.copyData(~vla_chord2_buf, 0, 0, -1);
+
 		~vla_loop_del.set(\inputamp, 0.0);
 		~vox_echo_pre = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		~vox_echo_out = Synth.new(\cmpcho, [\in, ~vox_in_b.index, \out, 0, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);

@@ -1,7 +1,7 @@
 ~interval_1 = 8/9; // buf 1 is in G, 1 whole step down
 ~interval_2 = 6/5; // buf 2 is in D, minor third up
 
-~jl_bufs[0].copyData(~vla_chord1_buf, 0, 0, -1);
+~jl_bufs[1].copyData(~vla_chord1_buf, 0, 0, -1);
 ~vla_chord1_buf.normalize(-12.dbamp);
 
 // this is the chord progression:

@@ -1,0 +1,40 @@
+// =====================================================================
+// SuperCollider Workspace
+// =====================================================================
+
+a.set(\level, 0);
+b.set(\level, 0);
+c.set(\level, 0);
+d.set(\level, 0);
+d.set(\level, 0);
+e.set(\level, 0);
+
+
+
+~buf0.plot;
+
+
+~bz = Synth.new(\buf_ringz_dist_hpf_env, [
+	\buf, ~buf0.bufnum,
+	\pulsehz, 0.125,
+	\ringhz, 220,
+	\ringmix, 1.0,
+	\ringdecay, 0.5,
+	\startpos, 2.0
+], s);
+
+
+
+
+~bzr = Routine { var off, hz;
+	inf.do({ arg i;
+		var w = 4.0;
+
+		~bz.set(\pulsehz, (1 / ((i * 13) % 3)) + 0.25);
+		
+		w.wait;
+	});
+};
+~bzr.play;
+~bzr.stop;
+~bz.free;
