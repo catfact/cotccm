@@ -1,0 +1,53 @@
+~basepath = "/home/emb/sc/cotccm/121209_caligari/";
+x = { |p| this.executeFile(~basepath++p); };
+
+s = Server.local;
+
+~npm = 4;
+
+c = CfAudioContext.new(s, 2, { Routine {
+
+	x.value("def.scd");
+	x.value("analysis.scd");
+
+	s.sync;
+
+	~pmg = Group.new(c.og, \addBefore);
+
+	~pm = Array.fill(~npm, { arg i;
+		Synth.new(\pm3, [
+			\hz1, 110,
+			\amp, 0.0,
+			\amplag, 1.0,
+			\pm12, 0,
+			\pm23, 0,
+			\pm31, 0,
+			\pm12lag, 0.125,
+			\pm23lag, 0.125,
+			\pm31lag, 0.125,
+			\out, c.out_b.index
+		], ~pmg);
+	});
+
+	// reverb/echo bus
+	~vb = Bus.audio(s, 1);
+	// reverb/echo group
+	~vg = Group.new(c.og, \addBefore);
+	
+	~voch_down_buf = Buffer.alloc(s, s.sampleRate * 8.0);
+	~voch_down = Synth.new(\echo_rlpf_shift_dist, [
+		\in, c.in_b.index,
+		\out, c.out_b.index,
+		\buf, ~voch_down_buf.bufnum,
+		\amp, 0.0,
+		\shift, 0.5,
+		\fb, 0.5,
+		\distmix, 0.5,
+		\deltime, 0.5
+	], c.xg );
+
+	//// mono
+	~mono = { Out.ar(c.out_b.index + 1, In.ar(c.out_b.index)) }.play(s, addAction: \addToTail);
+
+}.play; });
+

@@ -37,10 +37,10 @@ t = [0.0, 0.0];
 
 //////// ui
 
- ~xw = SCWindow.new("XXXXXXXXXXXXXX", Rect(0, 0, 500, 500)); //SCWindow.screenBounds);
+ ~xw = Window.new("XXXXXXXXXXXXXX", Rect(0, 0, 500, 500)); //Window.screenBounds);
  
  ~xw.view.background = Color.white;
- ~xtxt = SCStaticText(~xw, ~xw.view.bounds);
+ ~xtxt = StaticText(~xw, ~xw.view.bounds);
  ~xtxt.font = Font("Andale Mono", 56);
  
  ~xw.view.keyDownAction = { arg view, char, mod, uni, key;

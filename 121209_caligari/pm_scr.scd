@@ -56,7 +56,6 @@
 			\pm12lag, dur,
 			\pm23lag, dur,
 			\pm31lag, dur,
-			\amp, -24.dbamp
 		], ~v1g);
 		
 		syn.set(\pm12, pm12);
