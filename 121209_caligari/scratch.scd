@@ -10,4 +10,4 @@ b.switch(
 i = 0;
 while ( { i < 5 }, { i = i + 1; "boing".postln });
 
-~voch_down.free;
+~voch1.free;

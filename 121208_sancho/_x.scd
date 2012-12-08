@@ -9,6 +9,7 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 	x.value("def.scd");
 	x.value("analysis.scd");
+	x.value("hzseq.scd");
 
 	s.sync;
 
@@ -39,14 +40,20 @@ c = CfAudioContext.new(s, 2, { Routine {
 	~vg = Group.new(c.xg);
 	~vout = Synth.new(\pan, [\in, ~vb.index, \out, c.out_b.index], c.og, \addBefore);
 	
-	~voch1_buf = Buffer.alloc(s, s.sampleRate * 8.0);
+	~vochr1 = (4/5)**(0.5);
+	~vochr2 = (6/5)**(0.5);
+	~vochdelr = 2.0**0.25;
+
+	~lbuflen = 32.0;
+
+	~voch1_buf = Buffer.alloc(s, s.sampleRate * ~lbuflen);
 	s.sync;
 	~voch1 = Synth.new(\echo_rlpf_shift_dist, [
 		\in, ~vinb.index,
 		\out, ~vb.index,
 		\buf, ~voch1_buf.bufnum,
-		\amp, 0.5,
-		\shift, 4/5,
+		\amp, 1.0,
+		\shift, 1.0,
 		\feedback, -3.dbamp,
 		\distmix, 0.0,
 		\delaytime, 2.0,
@@ -54,14 +61,14 @@ c = CfAudioContext.new(s, 2, { Routine {
 		\rqlag, 5.0
 	], ~vg );
 
-	~voch2_buf = Buffer.alloc(s, s.sampleRate * 8.0);
+	~voch2_buf = Buffer.alloc(s, s.sampleRate * ~lbuflen);
 	s.sync;
 	~voch2 = Synth.new(\echo_rlpf_shift_dist, [
 		\in, ~vinb.index,
 		\out, ~vb.index,
 		\buf, ~voch2_buf.bufnum,
-		\amp, 0.5,
-		\shift, 6/5,
+		\amp, 1.0,
+		\shift, 1.0,
 		\feedback, -3.dbamp,
 		\distmix, 0.5,
 		\delaytime, 4/3,
@@ -70,14 +77,27 @@ c = CfAudioContext.new(s, 2, { Routine {
 	], ~vg );
 
 
+	~voc_lbuf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
+	~syn_lbuf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
+
+
+
+
 	/*
 		~voch1.set(\shift, 11/13);
 		~voch1.set(\shiftmix, 0.8);
 		~voch1.set(\feedback, -3.dbamp);
 		~voch1.set(\delaytime, 2.0);
 		~voch1.set(\amp, 1.0);
+		~voch2.set(\amp, 1.0);
 		~voch1.free;
 	*/
+
+	~voch1.set(\shift, ~vochr1);
+	~voch2.set(\shift, ~vochr2);
+
+
+	
 	
 
 		/*

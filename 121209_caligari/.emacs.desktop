@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Tue Dec  4 22:52:43 2012
+;; Created Wed Dec  5 21:57:40 2012
 ;; Desktop file format version 206
 ;; Emacs version 23.3.1
 
@@ -10,19 +10,52 @@
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
-(setq search-ring '("out_s" "in_b" "~ch"))
+(setq search-ring '("fmixlag" "out_s" "in_b" "~ch"))
 (setq regexp-search-ring nil)
 (setq register-alist nil)
-(setq file-name-history '("~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/_x.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/working.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/scratch.scd" "~/sc/cotccm/120328_4dattackerz/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/ctl.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121019_berlin/analysis.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/pmdef.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/_x.scd" "~/sc/cotccm/121209_caligari/"))
+(setq file-name-history '("~/.gitconfig" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/handlemouse.scd" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/handles.scd" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/def.scd" "/usr/local/share/SuperCollider/Extensions/catfact/catfact_util/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/_x.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/working.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/scratch.scd" "~/sc/cotccm/120328_4dattackerz/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/ctl.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121019_berlin/analysis.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/pmdef.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/_x.scd"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121209_caligari/working.scd"
+  "working.scd"
+  'sclang-mode
+  nil
+  853
+  '(856 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121209_caligari/hzseq.scd"
+  "hzseq.scd"
+  'sclang-mode
+  nil
+  106
+  '(106 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/121209_caligari/_x.scd"
   "_x.scd"
   'sclang-mode
   nil
-  978
-  '(992 nil)
+  1207
+  '(451 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121209_caligari/handlekey.scd"
+  "handlekey.scd"
+  'sclang-mode
+  nil
+  872
+  '(1909 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
@@ -32,30 +65,30 @@
   "ctl.scd"
   'sclang-mode
   nil
-  1874
-  '(1864 nil)
+  377
+  '(671 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
 
 (desktop-create-buffer 206
-  "/home/emb/sc/cotccm/121209_caligari/analysis.scd"
-  "analysis.scd"
-  'sclang-mode
   nil
-  1749
-  '(1749 nil)
+  "121209_caligari"
+  'dired-mode
   nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+  1685
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121209_caligari/")
+  nil)
 
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/121209_caligari/def.scd"
   "def.scd"
   'sclang-mode
   nil
-  2834
-  '(3419 nil)
+  3894
+  '(3657 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
@@ -65,52 +98,41 @@
   "CfContext.sc"
   'sclang-mode
   nil
-  2795
-  '(2619 nil)
+  551
+  '(3202 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  "/usr/local/share/SuperCollider/SCClassLibrary/Common/Audio/PitchShift.sc"
-  "PitchShift.sc"
+  "/home/emb/sc/cotccm/121209_caligari/scratch.scd"
+  "scratch.scd"
   'sclang-mode
   nil
-  1
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/usr/local/share/SuperCollider/SCClassLibrary/Common/Audio/Noise.sc"
-  "Noise.sc"
-  'sclang-mode
-  nil
-  3350
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/121209_caligari/working.scd"
-  "working.scd"
-  'sclang-mode
-  nil
-  460
-  '(460 nil)
+  155
+  '(149 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
 
 (desktop-create-buffer 206
-  "/usr/local/share/SuperCollider/SCClassLibrary/Common/Audio/Trig.sc"
-  "Trig.sc"
+  nil
+  "catfact_lib"
+  'dired-mode
+  nil
+  235
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/catfact_lib/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121209_caligari/analysis.scd"
+  "analysis.scd"
   'sclang-mode
   nil
-  4000
-  '(nil nil)
+  1749
+  '(1749 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
@@ -127,50 +149,6 @@
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
-  nil
-  "121209_caligari"
-  'dired-mode
-  nil
-  765
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/121209_caligari/")
-  nil)
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/121209_caligari/scratch.scd"
-  "scratch.scd"
-  'sclang-mode
-  nil
-  90
-  '(55 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/120328_4dattackerz/_4dz.scd"
-  "_4dz.scd"
-  'sclang-mode
-  nil
-  1785
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "cotccm"
-  'dired-mode
-  nil
-  4043
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/")
-  nil)
-
-(desktop-create-buffer 206
   "/home/emb/sc/cotccm/121019_berlin/x.scd"
   "x.scd"
   'sclang-mode
@@ -180,17 +158,6 @@
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "121019_berlin"
-  'dired-mode
-  nil
-  2095
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/121019_berlin/")
-  nil)
 
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/121209_caligari/pm.scd"

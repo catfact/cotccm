@@ -118,14 +118,15 @@ SynthDef.new(\echo_rlpf_shift_dist, {
 	inputamp = 1.0,
 	delaytime= 1.0,
 	feedback = 0.0,
-	shift=0.5,
-	shiftmix = 0.5,
 	hz=9000, rq=0.8,
 	hzlag, rqlag,
 	fmix = 0.5,
 	fmixlag = 2.0,
+	shift=0.5,
+	shiftmix = 0.5,
 	shiftwin = 0.25,
 	shiftdisp = 0.1,
+	shiftlag = 0.01,
 	distmix;
 
 	var delay, os;
@@ -134,6 +135,7 @@ SynthDef.new(\echo_rlpf_shift_dist, {
 	rq = Lag.kr(rq, rqlag);
 	amp = Lag.kr(amp, amplag);
 	fmix = Lag.kr(fmix, fmixlag);
+	shift = Lag.kr(shift, shiftlag);
 
 	delay = BufDelayL.ar(buf, (In.ar(in) * inputamp) + (LocalIn.ar(1)), delaytime) * amp;
 	os = delay * (1.0 - shiftmix) + (shiftmix * PitchShift.ar(delay, shiftwin, shift));
@@ -143,30 +145,20 @@ SynthDef.new(\echo_rlpf_shift_dist, {
 	Out.ar(out, (os * amp));
 }).send(s);
 
-	/*
+
+/*
+SynthDef.new(\varsaw_rlpf_env, {
+	arg out=0, amp=0.0, hz=110, gate = 1,
+	atk_amp = 0.01, dec_amp=0.0, sus_amp=1.0, rel_amp=1.0,
+	atk_hz = 0.01, dec_hz=0.0, sus_hz=1.0, rel_hz=1.0,
+	atk_fhz = 0.01, dec_fhz=0.0, sus_fhz=1.0, rel_fhz=1.0,
+	atk_rq = 0.01, dec_rq=0.0, sus_rq=1.0, rel_rq=1.0,
+	atk_shape = 0.01, dec_shape=0.0, sus_shape=1.0, rel_shape=1.0,
+	env_amp, env_hz, env_fhz, env_rq;
 
 
+	var _amp, _hz, _fhz, _rq, _shape, xosc;
 
-	arg in=0, buf=0, out=0, amp=0.0, amplag=1.0,
-	deltime=1.0, fb=0.125, 
-	distmix = 0.0,
-	shift=0.5, shiftmix = 0.0, shiftwin=0.125,
-	hz, hzlag, rq, rqlag;
-
-	var ins, del, os, fbs;
-
-	hz = Lag.kr(hz, hzlag);
-	rq = Lag.kr(rq, rqlag);
-	amp = Lag.kr(amp, amplag);
-	
-	ins = In.ar(in);
-	del = BufDelayL.ar(buf, in + LocalIn.ar(1), deltime);
-	os = del;
-	//	os = del * (1.0 - distmix) + (distmix * del.distort.distort.tanh);
-	//	os = (1.0 - shiftmix)*os + shiftmix*PitchShift.ar(os, shiftwin, shift);
-	//	os = RLPF.ar(os, hz, rq);
-
-	LocalOut.ar(os * fb);
-	Out.ar(out, os * amp);
-}).send(s);
-	*/
+	//...
+});
+*/

@@ -22,7 +22,7 @@
 	(0.125 * (( i * 14) % 3)).wait;
 }); }.play;
 
-c.og.set(\amp, -24.dbamp);
+c.og.set(\amp, -12.dbamp);
 
 
 /*
@@ -30,9 +30,35 @@ c.og.set(\amp, -24.dbamp);
 
 */
 
-~voch_down.set(\amp, 1.0);
+~voch_down.set(\amp, 0.25);
 ~voch_down_buf.plot;
 ~voch_down.free;
 
 ~inpatch = Synth.new(\pan, [\in, c.in_b.index, \out, ~vb.index], c.ig, \addAfter);
 ~inpatch.free;
+
+~pm[0].set(\amp, 0.0);
+~pm[0].get(\amp, { arg v; postln("amp: " ++ v); });
+
+~voch1.set(\shift, 1.0);
+~voch2.set(\shift, 1.0);
+
+
+
+~rhzrw = 0.125;
+~rhzr = Routine { inf.do {
+	~pm.do({ arg syn, i;
+		if(0.25.coin, { 
+			syn.set(\hz1, ~hzlist.choose);
+		});
+		if(0.25.coin, { 
+			syn.set(\hz2, ~hzlist.choose);
+		});
+		if(0.25.coin, { 
+			syn.set(\hz3, ~hzlist.choose);
+		});
+	});
+	~rhzrw.wait;
+}}.play;
+
+~rhzr.stop;
