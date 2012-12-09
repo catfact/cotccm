@@ -34,6 +34,7 @@ w.view.mouseOverAction = {
 
 x.value("handlekey.scd");
 x.value("handlemouse.scd");
+x.value("viz.scd");
 
 w.acceptsMouseOver = true;
 w.front

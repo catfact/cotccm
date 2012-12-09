@@ -1,4 +1,4 @@
-~basepath = "/home/emb/sc/cotccm/121209_caligari/";
+~basepath = "/home/emb/sc/cotccm/121208_sancho/";
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.local;
@@ -10,7 +10,8 @@ c = CfAudioContext.new(s, 2, { Routine {
 	x.value("def.scd");
 	x.value("analysis.scd");
 	x.value("hzseq.scd");
-
+	///later	x.value("lp.scd");
+	
 	s.sync;
 
 	~pmg = Group.new(c.og, \addBefore);
@@ -40,8 +41,12 @@ c = CfAudioContext.new(s, 2, { Routine {
 	~vg = Group.new(c.xg);
 	~vout = Synth.new(\pan, [\in, ~vb.index, \out, c.out_b.index], c.og, \addBefore);
 	
-	~vochr1 = (4/5)**(0.5);
-	~vochr2 = (6/5)**(0.5);
+	~vochr1 = (3/2)**(0.5);
+	~vochr2 = (4/5)**(0.5);
+
+	~vochr1 = Pseq([ 3/2, 3/4  ], inf).asStream;
+	~vochr2 = Pseq([ 6/5, 5/4, 5/6, 4/5 ], inf).asStream;
+	
 	~vochdelr = 2.0**0.25;
 
 	~lbuflen = 32.0;
@@ -76,10 +81,14 @@ c = CfAudioContext.new(s, 2, { Routine {
 		\rqlag, 5.0
 	], ~vg );
 
+	~voch1.set(\shiftmix, -3.dbamp);
+	~voch2.set(\shiftmix, -3.dbamp);
 
-	~voc_lbuf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
-	~syn_lbuf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
 
+	~vl_buf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
+	~sl_buf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
+	s.sync;
+	x.value("lp.scd");
 
 
 
@@ -95,6 +104,11 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 	~voch1.set(\shift, ~vochr1);
 	~voch2.set(\shift, ~vochr2);
+	~voch1.set(\amp, 2.dbamp);
+	~voch2.set(\amp, 2.dbamp);
+	~voch1.set(\shiftmix, -4.dbamp);
+	~voch2.set(\shiftmix, -4.dbamp);
+
 
 
 	
