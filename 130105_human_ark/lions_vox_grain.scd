@@ -8,8 +8,8 @@
 ~vgrains_buf = Buffer.alloc(s, s.sampleRate * 16.0 * 1.2, 1, {
 SystemClock.sched(0.1, {
 
-~vhz_s = Synth.new(\pitch, [\in, ~v_b.index, \out, ~vhz_b.index], ~v_p, \addAfter);
-
+	//~vhz_s = Synth.new(\pitch, [\in, ~v_b.index, \out, ~vhz_b.index], ~v_p, \addAfter);
+	~vhz_s = { Out.kr(~vhz_b.index, Pitch.kr(In.ar(~v_b.index)) ); }.play(target:~v_p, addAction:\addAfter);
 //~god_vox.set(\amp, 8.dbamp);
 //~god_vox.set(\amp, -7.dbamp);
 //~god_vox.set(\delaytime, 1.2 * 0.5);
