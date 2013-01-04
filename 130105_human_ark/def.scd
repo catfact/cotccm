@@ -138,9 +138,7 @@ SynthDef.new(\echo_rlpf_shift_dist, {
 	shift = Lag.kr(shift, shiftlag);
 
 	delay = BufDelayL.ar(buf, (In.ar(in) * inputamp) + (LocalIn.ar(1)), delaytime) * amp;
-
 	os = delay * (1.0 - shiftmix) + (shiftmix * PitchShift.ar(delay, shiftwin, shift));
-
 	os = (1.0 - distmix) * os + (distmix * os.distort.distort.distort.softclip);
 	os = (1.0 - fmix)*os + (fmix * RLPF.ar(os, hz, rq) );
 	LocalOut.ar(os * feedback);
@@ -164,37 +162,3 @@ SynthDef.new(\varsaw_rlpf_env, {
 	//...
 });
 */
-
-
-SynthDef.new(\saw_1shot_rez_dist, {
-	arg buf, out=0, level=1.0,
-	hz=440, rhz = 880, rq=0.4,
-	rate=1.0, choprate=1.0, posrate=0.25,
-	atk=1.0, rel=1.0, gate=1,
-	minframes=0, maxframes=44100,
-	dur=4.0, posphase=0.0, insideout=0.0;
-	
-	var ampenv, pos, trig, phase, read,
-	sr, frames, ratescale, framediff;
-	
-	sr = SampleRate.ir;
-	frames = BufFrames.kr(buf);
-	ratescale = BufRateScale.kr(buf);
-	framediff = maxframes - minframes;
-	
-	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
-	
-	//	trig = Impulse.ar(choprate);
-	
-	//	pos = LFSaw.kr(posrate / framediff * sr, posphase, framediff, minframes).wrap(minframes, maxframes - (sr / choprate));
-	//	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
-	
-	//	read = read + InsideOut.ar(read, insideout);
-	
-	
-	read = SinOsc.ar(hz * 0.5) + Saw.ar(hz);
-	read = Resonz.ar(read, rhz, rq);
-	
-	Out.ar(out, (read * ampenv * level * 0.6).dup);
-}).send(s);
-

@@ -1,38 +1,15 @@
-~basepath = "/home/emb/sc/cotccm/121208_sancho/";
+~basepath = "/home/emb/sc/cotccm/130105_human_ark/";
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.local;
 
-~npm = 4;
 
 c = CfAudioContext.new(s, 2, { Routine {
 
 	x.value("def.scd");
-	x.value("analysis.scd");
-	x.value("hzseq.scd");
-	//	x.value("arduino.scd");
-	///later	x.value("lp.scd");
-	
+
 	s.sync;
 
-	~pmg = Group.new(c.og, \addBefore);
-	~pmb = Bus.audio(s, 1);
-
-	~pm = Array.fill(~npm, { arg i;
-		Synth.new(\pm3, [
-			\hz1, 110,
-			\amp, 0.0,
-			\amplag, 1.0,
-			\pm12, 0,
-			\pm23, 0,
-			\pm31, 0,
-			\pm12lag, 0.125,
-			\pm23lag, 0.125,
-			\pm31lag, 0.125,
-			\out, ~pmb.index
-		], ~pmg);
-	});
-	~pmout = Synth.new(\pan, [\in, ~pmb.index, \out, c.out_b.index], c.og, \addBefore);
 
 	//==== reverb/echo:
 	~vinb = Bus.audio(s, 1); // input bus
@@ -42,23 +19,17 @@ c = CfAudioContext.new(s, 2, { Routine {
 	~vg = Group.new(c.xg);
 	~vout = Synth.new(\pan, [\in, ~vb.index, \out, c.out_b.index], c.og, \addBefore);
 	
-	~vochr1 = (3/2)**(0.5);
-	~vochr2 = (4/5)**(0.5);
-
-	~vochr1 = Pseq([ 3/2, 3/4  ], inf).asStream;
-	~vochr2 = Pseq([ 6/5, 5/4, 5/6, 4/5 ], inf).asStream;
-	
+	~vochr1 = (4/5)**(0.5);
+	~vochr2 = (6/5)**(0.5);
 	~vochdelr = 2.0**0.25;
 
-	~lbuflen = 32.0;
-
-	~voch1_buf = Buffer.alloc(s, s.sampleRate * ~lbuflen);
+	~voch1_buf = Buffer.alloc(s, s.sampleRate * 8.0);
 	s.sync;
 	~voch1 = Synth.new(\echo_rlpf_shift_dist, [
 		\in, ~vinb.index,
 		\out, ~vb.index,
 		\buf, ~voch1_buf.bufnum,
-		\amp, 1.0,
+		\amp, 0.5,
 		\shift, 1.0,
 		\feedback, -3.dbamp,
 		\distmix, 0.0,
@@ -67,13 +38,13 @@ c = CfAudioContext.new(s, 2, { Routine {
 		\rqlag, 5.0
 	], ~vg );
 
-	~voch2_buf = Buffer.alloc(s, s.sampleRate * ~lbuflen);
+	~voch2_buf = Buffer.alloc(s, s.sampleRate * 8.0);
 	s.sync;
 	~voch2 = Synth.new(\echo_rlpf_shift_dist, [
 		\in, ~vinb.index,
 		\out, ~vb.index,
 		\buf, ~voch2_buf.bufnum,
-		\amp, 1.0,
+		\amp, 0.5,
 		\shift, 1.0,
 		\feedback, -3.dbamp,
 		\distmix, 0.5,
@@ -82,16 +53,8 @@ c = CfAudioContext.new(s, 2, { Routine {
 		\rqlag, 5.0
 	], ~vg );
 
-	~voch1.set(\shiftmix, -3.dbamp);
-	~voch2.set(\shiftmix, -3.dbamp);
-
-
-	~vl_buf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
-	~sl_buf = Buffer.alloc(s, ~lbuflen  * s.sampleRate);
-	s.sync;
-	x.value("lp.scd");
-
-
+	~voch1.set(\amp, 0.0);
+	~voch2.set(\amp, 0.0);
 
 	/*
 		~voch1.set(\shift, 11/13);
@@ -99,20 +62,8 @@ c = CfAudioContext.new(s, 2, { Routine {
 		~voch1.set(\feedback, -3.dbamp);
 		~voch1.set(\delaytime, 2.0);
 		~voch1.set(\amp, 1.0);
-		~voch2.set(\amp, 1.0);
 		~voch1.free;
 	*/
-
-	~voch1.set(\shift, ~vochr1);
-	~voch2.set(\shift, ~vochr2);
-	~voch1.set(\amp, 2.dbamp);
-	~voch2.set(\amp, 2.dbamp);
-	~voch1.set(\shiftmix, -4.dbamp);
-	~voch2.set(\shiftmix, -4.dbamp);
-
-
-
-	
 	
 
 		/*
@@ -130,6 +81,27 @@ c = CfAudioContext.new(s, 2, { Routine {
 		\out, c.out_b.index + 1
 		], target:c.og, addAction:\addAfter);
 	*/
+
+
+	//// arduino
+	x.value("arduino.scd");
+
+	//// led test
+	~led0_r = Routine{81.do{
+		~ard_led_write.value(0, 1);
+		0.01.wait;				~vla_del_in_s.set(\amp, -6.dbamp);				
+		~ard_led_write.value(0, 0);
+		0.05.wait;
+	}}.play;
+	
+	~led1_r = Routine{81.do{
+		~ard_led_write.value(1, 1);
+		0.01.wait;
+		~ard_led_write.value(1, 0);
+		0.06.wait;
+	}}.play;
+			
+	////
 
 }.play; });
 

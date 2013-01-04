@@ -13,6 +13,12 @@ w.view.keyUpAction = {
 
 w.view.mouseDownAction = {
 	arg view, x, y, mod, but, clicks;
+
+	var hz;
+	hz = ~hzlist[(x/(w.bounds.width) * ~hzlist.size).floor];
+	Synth.new(\saw_1shot_rez_dist, [
+		\hz, hz, \rhz, hz * 3, \rq, y / (w.bounds.height) * 0.8 + 0.1
+	]);
 	//	postln("mouse down: " ++ but );
 };
 
@@ -37,9 +43,17 @@ x.value("handlemouse.scd");
 x.value("viz.scd");
 
 w.acceptsMouseOver = true;
-w.front
+w.front;
 /*
 w.fullScreen;
 w.close;
 */
 
+/*
+~buthzi = Pseq([0, 1], inf).asStream;
+~buthzp = Pseq([\hz1, \hz2, \hz3 ], inf).asStream;
+~but_func[2] = {
+	"aarh".postln;
+	~sethz.value(~buthzi.next, ~buthzp.next, 1);
+};
+*/

@@ -22,7 +22,11 @@ m.pressFunctions.add(\tr -> {
 });
 */
 // arduino:
-
+~but_func[1] = { arg state;
+	if(state, { 
+		~switch_func.value(1);
+	});
+};
 
 
 s.waitForBoot {

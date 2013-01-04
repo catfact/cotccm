@@ -114,4 +114,6 @@ p.free;
 
 ~vl_buf.plot;
 
+x.postln;
+
 */

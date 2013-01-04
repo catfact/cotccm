@@ -4,10 +4,10 @@
 // s = Server.new("bunny", ~bunny_server_addr);
 
 
-//~basepath = Document.current.dir ++"/";
-//x = { |p| this.executeFile(~basepath++p); };
-//~topdoc = Document.current;
-//{ ~topdoc.background_(Color.white); }.defer;
+~basepath = Document.current.dir ++"/";
+x = { |p| this.executeFile(~basepath++p); };
+~topdoc = Document.current;
+{ ~topdoc.background_(Color.white); }.defer;
 
 ~switch_func = {};
 /*
@@ -22,7 +22,11 @@ m.pressFunctions.add(\tr -> {
 });
 */
 // arduino:
-
+but_func[1] = { arg state;
+	if(state, { 
+		~switch_func.value(1);
+	});
+};
 
 
 s.waitForBoot {
