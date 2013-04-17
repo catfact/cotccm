@@ -1,0 +1,414 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Sat Feb 23 23:03:46 2013
+;; Desktop file format version 206
+;; Emacs version 23.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("vox_del_in" "def" "p" "k"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/sc/cotccm/130223_pehr/__swycx.scd" "~/sc/cotccm/130223_pehr/gouge_beets.scd" "~/sc/cotccm/130223_pehr/3_savewhatyoucan.scd" "~/sc/cotccm/130223_pehr/_chordgrains.scd" "~/sc/cotccm/130223_pehr/__gouge.scd" "~/sc/cotccm/130223_pehr/gouge_beets.scd" "~/sc/cotccm/130223_pehr/lions_ctl.scd" "~/sc/cotccm/130223_pehr/lions_vox_grain.scd" "~/sc/cotccm/130223_pehr/scr.scd" "~/sc/cotccm/130223_pehr/gouge_beets.scd" "~/sc/cotccm/" "~/sc/cotccm/130223_pehr/__gouge.scd" "~/sc/cotccm/130223_pehr/echotest.scd" "~/sc/cotccm/130223_pehr/" "~/sc/cotccm/130223_pehr/__gouge.scd" "~/sc/cotccm/" "~/sc/cotccm/130223_pehr/def.scd" "~/sc/cotccm/130223_pehr/echotest.scd" "~/sc/cotccm/" "~/sc/cotccm/130223_pehr/" "~/sc/cotccm/130223_pehr/def.scd" "~/sc/cotccm/130223_pehr/_x.scd" "~/sc/cotccm/130223_pehr/echotest.scd" "~/sc/cotccm/130223_pehr/temperance.txt" "~/sc/cotccm/130223_pehr/" "~/sc/cotccm/" "~/sc/cotccm/130223_pehr/"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/gouge_beets.scd"
+  "gouge_beets.scd"
+  'sclang-mode
+  nil
+  1261
+  '(1261 t)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/__gouge.scd"
+  "__gouge.scd"
+  'sclang-mode
+  '(text-scale-mode)
+  2215
+  '(421 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/_chordgrains.scd"
+  "_chordgrains.scd"
+  'sclang-mode
+  nil
+  239
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/3_savewhatyoucan.scd"
+  "3_savewhatyoucan.scd"
+  'sclang-mode
+  nil
+  44
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/lions_ctl.scd"
+  "lions_ctl.scd"
+  'sclang-mode
+  nil
+  4586
+  '(3364 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/lions_vox_grain.scd"
+  "lions_vox_grain.scd"
+  'sclang-mode
+  nil
+  614
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/scr.scd"
+  "scr.scd"
+  'sclang-mode
+  nil
+  185
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/_defs.scd"
+  "_defs.scd<2>"
+  'sclang-mode
+  nil
+  5751
+  '(5175 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130223_pehr"
+  'dired-mode
+  nil
+  445
+  '(1359 nil)
+  t
+  '("/home/emb/sc/cotccm/130223_pehr/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/120729_machine/_defs.scd"
+  "_defs.scd"
+  'sclang-mode
+  nil
+  4530
+  '(3768 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "120729_machine"
+  'dired-mode
+  nil
+  451
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120729_machine/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "cotccm"
+  'dired-mode
+  nil
+  4282
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "120823_machine"
+  'dired-mode
+  nil
+  227
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120823_machine/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/echotest.scd"
+  "echotest.scd"
+  'sclang-mode
+  nil
+  655
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/lion_defs.scd"
+  "lion_defs.scd<2>"
+  'sclang-mode
+  nil
+  1602
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130105_human_ark"
+  'dired-mode
+  nil
+  1478
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130105_human_ark/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "121209_caligari"
+  'dired-mode
+  nil
+  229
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121209_caligari/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "121208_sancho"
+  'dired-mode
+  nil
+  227
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121208_sancho/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "121112"
+  'dired-mode
+  nil
+  869
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121112/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "121019_berlin"
+  'dired-mode
+  nil
+  230
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121019_berlin/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "121006_humanresources"
+  'dired-mode
+  nil
+  235
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121006_humanresources/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "120922_desert"
+  'dired-mode
+  nil
+  230
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120922_desert/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "120921_publicfiction"
+  'dired-mode
+  nil
+  227
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120921_publicfiction/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "120827_hil"
+  'dired-mode
+  nil
+  223
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120827_hil/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "120728_humanresources"
+  'dired-mode
+  nil
+  234
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120728_humanresources/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "120599_tour"
+  'dired-mode
+  nil
+  818
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/120599_tour/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "121009_id1"
+  'dired-mode
+  nil
+  224
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121009_id1/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/def.scd"
+  "def.scd"
+  'sclang-mode
+  nil
+  199
+  '(146 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/temperance.txt"
+  "temperance.txt"
+  'text-mode
+  nil
+  47
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/working.scd"
+  "working.scd"
+  'sclang-mode
+  nil
+  355
+  '(242 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/120599_tour/_justloops.scd"
+  "_justloops.scd"
+  'sclang-mode
+  nil
+  2490
+  '(2656 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/_heal_nothing.scd"
+  "_heal_nothing.scd"
+  'sclang-mode
+  nil
+  916
+  '(nil nil)
+  t
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/lion_defs.scd"
+  "lion_defs.scd"
+  'sclang-mode
+  nil
+  2351
+  '(nil nil)
+  t
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/arduino.scd"
+  "arduino.scd"
+  'sclang-mode
+  nil
+  1105
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/midi.scd"
+  "midi.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  t
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/_hebrew.scd"
+  "_hebrew.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  t
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+

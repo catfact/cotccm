@@ -2,6 +2,15 @@
 
 s = Server.local;
 c = CfAudioContext.new(s, 2, {
+
+Routine {
+	SynthDef.new(\echo_buf, {
+		arg buf, in, out, time, amp=1.0;
+		Out.ar(out, BufDelayL.ar(buf, In.ar(in), time, amp));
+	}).send(s);
+
+	s.sync;
+
 	// patchthrough synths
 	~ps = c.in_s.collect({ arg ins, i;
 		Synth.new(\pan, [
@@ -19,13 +28,14 @@ c = CfAudioContext.new(s, 2, {
 	~dout = Synth.new(\pan, [\in, ~db.index, \out, c.out_b.index], c.og, \addBefore);
 	~ds = b.collect({ arg buf, i;
 	//	buf.bufnum.postln;
-		Synth.new(\bufdelay_fb, [
-			\in, c.in_b.index + i, 
+		Synth.new(\echo_buf, [
+			\in, c.in_b.index + i,
 			\out, ~db.index,
 			\buf, buf.bufnum,
 			\amp, 0.0
 		], c.xg);
 	});
+}.play;
 });
 
 
@@ -33,7 +43,18 @@ c = CfAudioContext.new(s, 2, {
 
 t = [0.0, 0.0];
 
+~startd = { arg i; 
+	~ds[i].set(\amp, 0.0);
+	t[i] = SystemClock.seconds;
+	postln([ "setting", t[i] ]);
+};
 
+
+~stopd = { arg i; 
+	postln(SystemClock.seconds - t[i]);
+	~ds[i].set(\time, SystemClock.seconds - t[i]);
+	~ds[i].set(\amp, 1.0);
+};
 
 //////// ui
 
@@ -79,17 +100,21 @@ t = [0.0, 0.0];
 		$m, {25}
 	);
 	
-	if (wha.notNil, {
-		if (wha<2, {
-			~ps[wha].set(\amp, 0.0);
-		});	
-		if((wha>1) && (wha < 4), {
-			postln("HEYDOWN " ++ wha);
-//			postln(SystemClock.seconds - t[wha-2]);
-			~ds[wha-2].set(\delaytime, SystemClock.seconds - t[wha-2]);
-			~ds[wha-2].set(\amp, 1.0);
-		});
-	});
+	 if(wha==0, {
+		 ~ps[0].set(\amp, 0.0);
+	 });
+
+	 if(wha==1, {
+		 ~stopd.value(0);
+	 });
+
+	 if(wha==2, {
+		 ~ps[1].set(\amp, 0.0);
+	 });
+
+	 if(wha==3, {
+		 ~stopd.value(1);
+	 });
 	
  };
 
@@ -126,16 +151,23 @@ t = [0.0, 0.0];
 		$m, {25}
 	);
 	
-	if (wha.notNil, {
-		if (wha<2, {
-			~ps[wha].set(\amp, 1.0);
-			t[wha] = SystemClock.seconds;
-		});	
-		if((wha>1) && (wha < 4), {
-			postln("HEYUP " ++ wha);
-			~ds[wha-2].set(\amp, 0.0);
-		});
-	});
+
+	 if(wha==0, {
+		 ~ps[0].set(\amp, 1.0);
+	 });
+
+	 if(wha==1, {
+		 ~startd.value(0);
+	 });
+
+	 if(wha==2, {
+		 ~ps[1].set(\amp, 1.0);
+	 });
+
+	 if(wha==3, {
+		 ~startd.value(1);
+	 });
+
 };
 
 ~xw.front;

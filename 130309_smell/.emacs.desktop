@@ -1,0 +1,227 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Sat Mar  9 22:56:56 2013
+;; Desktop file format version 206
+;; Emacs version 23.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("Routine" "grain" "grains" "cho" "grain" "chopgraiu"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/sc/cotccm/130309_smell/_changes.scd" "~/sc/cotccm/130309_smell/_chordgrains.scd" "~/sc/cotccm/130309_smell/_x2.scd" "~/sc/cotccm/130309_smell/__chr.scd" "~/sc/cotccm/130309_smell/_chordgrains.scd" "~/sc/cotccm/130309_smell/" "~/sc/cotccm/130309_smell/_x2.scd" "~/sc/cotccm/130309_smell/_chordgrains.scd" "~/sc/cotccm/130309_smell/handlekey.scd" "~/sc/cotccm/130309_smell/_disast.scd" "~/sc/cotccm/130309_smell/vochshft_no.scd" "~/sc/cotccm/130309_smell/handlekey.scd" "~/sc/cotccm/130309_smell/_x.scd" "~/sc/cotccm/130309_smell/handlekey.scd" "~/sc/cotccm/130309_smell/_x.scd" "./ctl.scd" "_x.scd" "~/sc/cotccm/130309_smell/_chordgrains.scd" "~/sc/cotccm/130309_smell/handlekey.scd" "~/sc/cotccm/130309_smell/ctl.scd" "~/sc/cotccm/130309_smell/_x2.scd" "~/sc/cotccm/130309_smell/" "~/sc/cotccm/130309_smell/_changes.scd" "~/sc/cotccm/130105_human_ark/" "~/sc/cotccm/130309_smell/_chordgrains.scd" "~/sc/cotccm/" "~/sc/cotccm/130309_smell/_justloops.scd" "~/sc/cotccm/130309_smell/_defs.scd" "~/sc/cotccm/130309_smell/_chordgrains.scd" "~/sc/cotccm/130309_smell/working.scd"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_changes.scd"
+  "_changes.scd"
+  'sclang-mode
+  '(text-scale-mode)
+  124
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_chordgrains.scd"
+  "_chordgrains.scd"
+  'sclang-mode
+  nil
+  4344
+  '(3992 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/__chr.scd"
+  "__chr.scd"
+  'sclang-mode
+  nil
+  121
+  '(121 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_disast.scd"
+  "_disast.scd"
+  'sclang-mode
+  nil
+  2450
+  '(2844 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/ctl.scd"
+  "ctl.scd"
+  'sclang-mode
+  nil
+  314
+  '(286 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_x.scd"
+  "_x.scd"
+  'sclang-mode
+  nil
+  2356
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_x2.scd"
+  "_x2.scd"
+  'sclang-mode
+  nil
+  821
+  '(409 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/handlekey.scd"
+  "handlekey.scd"
+  'sclang-mode
+  nil
+  2543
+  '(2648 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130309_smell"
+  'dired-mode
+  nil
+  1329
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130309_smell/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "130105_human_ark"
+  'dired-mode
+  nil
+  1184
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130105_human_ark/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/lion_defs.scd"
+  "lion_defs.scd"
+  'sclang-mode
+  nil
+  5703
+  '(5295 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/lions_crumbler.scd"
+  "lions_crumbler.scd"
+  'sclang-mode
+  nil
+  987
+  '(495 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/3_savewhatyoucan.scd"
+  "3_savewhatyoucan.scd"
+  'sclang-mode
+  nil
+  4017
+  '(3777 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/def.scd"
+  "def.scd"
+  'sclang-mode
+  nil
+  2858
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130223_pehr"
+  'dired-mode
+  nil
+  816
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130223_pehr/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "cotccm"
+  'dired-mode
+  nil
+  4974
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_defs.scd"
+  "_defs.scd"
+  'sclang-mode
+  nil
+  3347
+  '(3469 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_justloops.scd"
+  "_justloops.scd"
+  'sclang-mode
+  nil
+  2850
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/working.scd"
+  "working.scd"
+  'sclang-mode
+  nil
+  1349
+  '(1142 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+

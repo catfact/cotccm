@@ -7,12 +7,14 @@ Routine {
 	// vox delay synths
 	~vox_del4 = CfAdcDelay4.new(s, ~vox_del_g);
 	
-	0.2.wait; 
-	
+	//	0.2.wait; 
+	s.sync;
+
 	~vox_del4.del_in_s.set(\in, 0);
 	
-	0.1.wait;
-	
+	//	0.1.wait;
+	s.sync; 
+
 	// sum them all to the same bus
 	~vox_del4.del_s.do({arg syn;
 		syn.set(\out, ~vox_del_b.index);
@@ -23,10 +25,13 @@ Routine {
 	SynthDef.new(\patch, {arg in=0, out=0, level=1;
 		Out.ar(out, In.ar(in) * level);
 	}).send(s);
-	0.01.wait;
+	//	0.01.wait;
+	s.sync;
+
 	~vox_del_out_s = Synth.new(\patch, [\in, ~vox_del_b.index, \out, 0], ~vox_del_g, \addAfter);
 	
-	1.25.wait;
+	//	1.25.wait;
+	s.sync;
 	
 	~vox_del4.del_s[0].set(\delaytime, 0.125);
 	~vox_del4.del_s[1].set(\delaytime, 0.25);

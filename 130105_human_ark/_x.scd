@@ -84,8 +84,9 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 
 	//// arduino
-	x.value("arduino.scd");
+	//	x.value("arduino.scd");
 
+	/*
 	//// led test
 	~led0_r = Routine{81.do{
 		~ard_led_write.value(0, 1);
@@ -100,7 +101,7 @@ c = CfAudioContext.new(s, 2, { Routine {
 		~ard_led_write.value(1, 0);
 		0.06.wait;
 	}}.play;
-			
+	*/			
 	////
 
 }.play; });

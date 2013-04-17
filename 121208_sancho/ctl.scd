@@ -14,11 +14,19 @@ w.view.keyUpAction = {
 w.view.mouseDownAction = {
 	arg view, x, y, mod, but, clicks;
 
-	var hz;
-	hz = ~hzlist[(x/(w.bounds.width) * ~hzlist.size).floor];
+	var hz, fhz, nx, ny, rq;
+	nx = x/(w.bounds.width);
+	ny = y/(w.bounds.height);
+	hz = ~hzlist[ (nx * ~hzlist.size).floor ];
+	fhz = ~hzlist[(y/(w.bounds.height) * ~hzlist.size).floor];
+	if(ny > nx,  { rq = nx / ny; }, { rq = ny / nx; });
 	Synth.new(\saw_1shot_rez_dist, [
-		\hz, hz, \rhz, hz * 3, \rq, y / (w.bounds.height) * 0.8 + 0.1
+		\hz, hz, \rhz, hz * 3, \rq, rq, \level, -12.dbamp
 	]);
+	//	~post.value("saw_hz:"++hz++"_fhz:"++fhz++"_rq:"++rq);
+	~post.value("saw_rq:"++rq);
+	//	w.view.background = Color.new(ny/nx, 0, 0);
+	//	w.refresh;
 	//	postln("mouse down: " ++ but );
 };
 
@@ -39,7 +47,7 @@ w.view.mouseOverAction = {
 
 
 x.value("handlekey.scd");
-x.value("handlemouse.scd");
+//x.value("handlemouse.scd");
 x.value("viz.scd");
 
 w.acceptsMouseOver = true;

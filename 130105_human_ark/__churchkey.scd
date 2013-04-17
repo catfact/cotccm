@@ -10,6 +10,7 @@
 //{ ~topdoc.background_(Color.white); }.defer;
 
 ~switch_func = {};
+~church_next = {}; 
 /*
 m = Cf40h.new(host:"127.0.0.1", port:8080, prefix:'/40h');
 m.clear;
@@ -22,20 +23,24 @@ m.pressFunctions.add(\tr -> {
 });
 */
 // arduino:
+/*
 ~but_func[1] = { arg state;
 	if(state, { 
-		~switch_func.value(1);
+		~switch_next.value(1);
 	});
 };
+*/
 
+// MIDI:
+~church_bend_r = BendResponder({ arg src, chan, val;
+	postln(" church bend: " ++ val);
+	if(val == 0, {
+		~church_next.value;
+	});
+});
 
 s.waitForBoot {
 	
-	// hid
-	//{ x.value("_hid.scd"); }.defer;
-	 
-	 //x.value("midi_sines.scd");
-	 
 	~period_a = 60.0 / 90.0;  // 80 bpm
 	//~beats_a = (3 + 2 + 3 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
 //	~beats_a = (3 + 2 + 3 + 5 + 4 + 2 + 3 + 6) * 8; // duration in beats
@@ -162,11 +167,14 @@ s.waitForBoot {
 			)
 			*/
 			//// HID:
-			~switch_func = { arg val; if (val>0, {~churchkey_func_b.value; }, {}); };
+			//
+			~church_next = ~churchkey_func_b;
 			
 		}).play;
 	};
 	 
+	~church_next = ~churchkey_func_a;
+
 	~chopgrain =0.5; // chop granularity in beats 
 	~churchkey_func_b = {
 		"churchkey_b".postln;
@@ -229,6 +237,7 @@ s.waitForBoot {
 	}; 
 	 
 	////// HID:
-	SystemClock.sched(1.0, { ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); }; nil});
-	 
+	//	SystemClock.sched(1.0, { ~switch_func = { arg val; if (val>0, {~churchkey_func_a.value; }, {}); }; nil});
+
+
 }; // waitForBoot

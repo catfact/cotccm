@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Fri Dec 21 19:36:52 2012
+;; Created Sat Mar  9 15:52:20 2013
 ;; Desktop file format version 206
 ;; Emacs version 23.3.1
 
@@ -13,7 +13,7 @@
 (setq search-ring '("fmixlag" "out_s" "in_b" "~ch"))
 (setq regexp-search-ring nil)
 (setq register-alist nil)
-(setq file-name-history '("~/sc/cotccm/" "~/sc/cotccm/121209_caligari/" "~/.gitconfig" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/handlemouse.scd" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/handles.scd" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/def.scd" "/usr/local/share/SuperCollider/Extensions/catfact/catfact_util/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/_x.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/working.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/scratch.scd" "~/sc/cotccm/120328_4dattackerz/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/ctl.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121019_berlin/analysis.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/pmdef.scd" "~/sc/cotccm/121209_caligari/"))
+(setq file-name-history '("~/sc/cotccm/121208_sancho/_x.scd" "~/sc/cotccm/121208_sancho/handlekey.scd" "~/sc/cotccm/121208_sancho/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121208_sancho/_x.scd" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/" "~/.gitconfig" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/handlemouse.scd" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/handles.scd" "~/sc/cotccm/121209_caligari/handlekey.scd" "~/sc/cotccm/121209_caligari/hzseq.scd" "~/sc/cotccm/121209_caligari/def.scd" "/usr/local/share/SuperCollider/Extensions/catfact/catfact_util/" "~/sc/cotccm/" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/_x.scd" "~/sc/cotccm/121209_caligari/def.scd" "~/sc/cotccm/121209_caligari/working.scd" "~/sc/cotccm/121209_caligari/" "~/sc/cotccm/121209_caligari/scratch.scd" "~/sc/cotccm/120328_4dattackerz/" "~/sc/cotccm/"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 206
@@ -21,8 +21,30 @@
   "_x.scd<2>"
   'sclang-mode
   nil
-  242
+  468
   '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/handlekey.scd"
+  "handlekey.scd<2>"
+  'sclang-mode
+  nil
+  1270
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/viz.scd"
+  "viz.scd"
+  'sclang-mode
+  nil
+  764
+  '(415 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
@@ -32,10 +54,32 @@
   "121208_sancho"
   'dired-mode
   nil
-  1286
+  1508
   '(nil nil)
   t
   '("/home/emb/sc/cotccm/121208_sancho/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/_z.scd"
+  "_z.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "cotccm"
+  'dired-mode
+  nil
+  4798
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/")
   nil)
 
 (desktop-create-buffer 206
@@ -43,7 +87,7 @@
   "ctl.scd"
   'sclang-mode
   nil
-  463
+  635
   '(671 nil)
   nil
   nil
@@ -51,22 +95,11 @@
 
 (desktop-create-buffer 206
   nil
-  "cotccm"
-  'dired-mode
-  nil
-  5547
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/")
-  nil)
-
-(desktop-create-buffer 206
-  nil
   "121209_caligari"
   'dired-mode
   nil
-  348
-  '(nil nil)
+  1685
+  '(1685 nil)
   t
   '("/home/emb/sc/cotccm/121209_caligari/")
   nil)
@@ -76,7 +109,7 @@
   "_x.scd"
   'sclang-mode
   nil
-  999
+  1686
   '(451 nil)
   nil
   nil
@@ -147,17 +180,6 @@
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "catfact_lib"
-  'dired-mode
-  nil
-  235
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/catfact_lib/")
-  nil)
 
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/121209_caligari/analysis.scd"

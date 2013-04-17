@@ -1,3 +1,16 @@
+~echr = [
+	[1.25, 1.5],
+	[2.0, 1.75],
+	[3.0, 1.5],
+	[1, 1],
+	[0.5, 0.8],
+	[0.5, 0.25],
+	[0.75, 0.5]
+];
+
+~echridx = 0;
+~echridxbase = 3;
+
 ~sethz = { arg idx, param, val;
 	if(val > 0, {
 		~pitch_b.get({ arg hz;
@@ -22,12 +35,13 @@
 		~pm[idx].get(\amp, { arg amp;
 			if(amp > 0, {
 				~post.value("pms_"++idx++"_0");
+				~post.value("wAHSDJLIAJSDSAD");
 				~pm[idx].set(\amplag, 6.0 + 1.0.rand);
 				~pm[idx].set(\amp, 0.0);
 			}, { 
 				~post.value("pms_"++idx++"_1");
 				~pm[idx].set(\amplag, 0.01 + 0.1.rand);
-				~pm[idx].set(\amp, 0.15);
+				~pm[idx].set(\amp, -36.dbamp);
 			});
 		});
 	});
@@ -90,44 +104,55 @@
 
 
 ~setvochshift = { arg idx; 
-	var txt = [ "" , "" ];
-	var v;
+//var txt = [ "" , "" ];
+var v;
+
+~echridx = (~echridx + 1).wrap(0, ~echr.size - 1);
+v = ~echr[~echridx][0];
+~voch1.set(\shift, v);
+~post.value("vs1_"++v);
+v = ~echr[~echridx][1];
+~voch2.set(\shift, v);
+~post.value("vs2_"++v);
+
+/*
 	Routine {
-		if(idx > 0, {
-			~voch1.get(\shift, { arg val;
-				///			postln("voch1shift: " ++ val);
-				v = val * (~vochr1.next);
-				~voch1.set(\shift, v);
-				~post.value("vs1_"++v);
-			});
-			~voch2.get(\shift, { arg val;
-				v = val * (~vochr2.next);
-				//			postln("voch2shift: " ++ val);
-				~voch2.set(\shift, v);
-				~post.value("vs2_"++v);
-			});
-		}, {
-			~voch1.get(\shift, { arg val;
-				v = val / (~vochr1.next);
-				//postln("voch1shift: " ++ val);
-				~voch1.set(\shift, v);
-				~post.value("vs1_"++v);
-			});
-			~voch2.get(\shift, { arg val;
-				v = val / (~vochr2.next);
-				//postln("voch2shift: " ++ val);
-				~voch2.set(\shift, v);
-				~post.value("vs2_"++v);
-			});
-		});
-		s.sync;
-		//		~post.value(txt.flatten);
+	if(idx > 0, {
+	~voch1.get(\shift, { arg val;
+	///			postln("voch1shift: " ++ val);
+	v = val * (~vochr1.next);
+	~voch1.set(\shift, v);
+	~post.value("vs1_"++v);
+	});
+	~voch2.get(\shift, { arg val;
+	v = val * (~vochr2.next);
+	//			postln("voch2shift: " ++ val);
+	~voch2.set(\shift, v);
+	~post.value("vs2_"++v);
+	});
+	}, {
+	~voch1.get(\shift, { arg val;
+	v = val / (~vochr1.next);
+	//postln("voch1shift: " ++ val);
+	~voch1.set(\shift, v);
+	~post.value("vs1_"++v);
+	});
+	~voch2.get(\shift, { arg val;
+	v = val / (~vochr2.next);
+	//postln("voch2shift: " ++ val);
+	~voch2.set(\shift, v);
+	~post.value("vs2_"++v);
+	});
+	});
+	s.sync;
+	//		~post.value(txt.flatten);
 	}.play;
+*/
 };
 
 ~resetvochshift = { 
-~voch1.set(\shift, 1.0);
-~voch2.set(\shift, 1.0);
+//~voch1.set(\shift, 1.0);
+//~voch2.set(\shift, 1.0);
 ~post.value("vs 1.0");
 };
 

@@ -90,7 +90,8 @@ s.waitForBoot { Routine {
 	~jl_start_record = {
 		arg i;
 		postln("jl_ start record " ++ i);
-		~jl_rec_s[i] = Synth.new(\justloop_rec, [\buf, ~jl_bufs[i].bufnum, prelevel:1.0, \in, 1]);		if(~jl_clear_flags[i], {
+		~jl_rec_s[i] = Synth.new(\justloop_rec, [\buf, ~jl_bufs[i].bufnum, prelevel:1.0, \in, 1]);		
+		if(~jl_clear_flags[i], {
 			~jl_taps[i].tap;
 		});
 	};

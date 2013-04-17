@@ -1,0 +1,14 @@
+/// TEMPERANCE
+///  loop -> shift -> var dist
+
+~lblen = 20.0;
+~jlb = Buffer.alloc(s, s.sampleRate * ~lblen);
+
+~jlrs =  Synth.new(\justloop_rec, [\buf, ~jlb.bufnum, prelevel:1.0, \in, 0]);	
+~jlrs.free;
+
+~jlb.plot;
+
+~jlbus = Bus.audio(s, 1);
+
+~jlps = Synth.new(\justloop_play, [\buf, ~jlb.bufnum, \looptime, 10.0, \rate, 0.25, \level, -12.dbamp, \out, 0]);
