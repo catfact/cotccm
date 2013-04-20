@@ -68,7 +68,8 @@ Routine {
 	
 	~snapshot = { arg which; Routine {
 		~freeze[which] = 0; ~freezer_s.set(\freeze, ~freeze);
-		0.1.wait;
+		//	0.1.wait;
+		s.sync;
 		~freeze[which] = 1; ~freezer_s.set(\freeze, ~freeze);
 	}.play; };
 	

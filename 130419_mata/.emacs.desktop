@@ -1,0 +1,535 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Apr 19 21:26:06 2013
+;; Desktop file format version 206
+;; Emacs version 23.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("patch" "tilklt" "saw" "ech" "~post" "1shot_rez" "send" "postln;"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/sc/cotccm/130419_mata/ctl.scd" "~/sc/cotccm/130419_mata/_chordgrains.scd" "~/sc/cotccm/130419_mata/_x2.scd" "~/sc/cotccm/130419_mata/_recordcycle.scd" "~/sc/cotccm/130419_mata/__chr.scd" "~/sc/" "~/sc/cotccm/130419_mata/monome.scd" "~/sc/cotccm/130419_mata/bleec.scd" "~/sc/cotccm/130419_mata/voch_ctl.scd" "~/sc/cotccm/130419_mata/_chordgrains.scd" "~/sc/cotccm/130419_mata/monome.scd" "~/sc/cotccm/130419_mata/_defs.scd" "~/sc/cotccm/130419_mata/tilt.scd" "~/sc/cotccm/130419_mata/___chh.scd" "~/sc/cotccm/130419_mata/_justloops.scd" "~/sc/cotccm/130419_mata/_chordgrains.scd" "~/sc/cotccm/130419_mata/_x2.scd" "~/sc/cotccm/130419_mata/__chr.scd" "~/sc/cotccm/130419_mata/_x_mata.scd" "~/sc/cotccm/130419_mata/_justloops.scd" "~/sc/cotccm/130419_mata/_recordcycle.scd" "~/sc/cotccm/130419_mata/_x2.scd" "~/sc/cotccm/130419_mata/_chordgrains.scd" "~/sc/cotccm/130419_mata/__chr.scd" "~/sc/cotccm/130419_mata/" "~/sc/cotccm/130419_mata/pm.scd" "~/sc/cotccm/130419_mata/voch_ctl.scd" "~/sc/cotccm/130419_mata/_sines.scd" "~/sc/cotccm/130419_mata/voch.scd" "~/sc/cotccm/130419_mata/voch_ctl.scd"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/ctl.scd"
+  "ctl.scd<2>"
+  'sclang-mode
+  nil
+  322
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_chordgrains.scd"
+  "_chordgrains.scd"
+  'sclang-mode
+  nil
+  1444
+  '(4491 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_recordcycle.scd"
+  "_recordcycle.scd"
+  'sclang-mode
+  nil
+  195
+  '(115 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_x2.scd"
+  "_x2.scd<2>"
+  'sclang-mode
+  nil
+  231
+  '(200 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/__chr.scd"
+  "__chr.scd"
+  'sclang-mode
+  nil
+  73
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_x_mata.scd"
+  "_x_mata.scd"
+  'sclang-mode
+  nil
+  395
+  '(451 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/pad.scd"
+  "pad.scd"
+  'sclang-mode
+  nil
+  285
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "sc"
+  'dired-mode
+  nil
+  1978
+  '(nil nil)
+  t
+  '("/home/emb/sc/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/monome.scd"
+  "monome.scd"
+  'sclang-mode
+  nil
+  655
+  '(899 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/bleec.scd"
+  "bleec.scd"
+  'sclang-mode
+  nil
+  373
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/voch_ctl.scd"
+  "voch_ctl.scd"
+  'sclang-mode
+  nil
+  745
+  '(112 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/pm_ctl.scd"
+  "pm_ctl.scd"
+  'sclang-mode
+  nil
+  1863
+  '(597 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/tilt.scd"
+  "tilt.scd"
+  'sclang-mode
+  nil
+  1240
+  '(1188 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix) (overwrite-mode)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_defs.scd"
+  "_defs.scd"
+  'sclang-mode
+  nil
+  508
+  '(340 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/___chh.scd"
+  "___chh.scd"
+  'sclang-mode
+  nil
+  24
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_justloops.scd"
+  "_justloops.scd"
+  'sclang-mode
+  nil
+  2888
+  '(2855 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/usr/local/share/SuperCollider/Extensions/catfact/monome_sc/MonomeProtocol.sc"
+  "MonomeProtocol.sc"
+  'sclang-mode
+  nil
+  1434
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130419_mata"
+  'dired-mode
+  nil
+  825
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130419_mata/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/pm.scd"
+  "pm.scd"
+  'sclang-mode
+  nil
+  2537
+  '(367 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/_sines.scd"
+  "_sines.scd"
+  'sclang-mode
+  nil
+  600
+  '(600 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/voch.scd"
+  "voch.scd"
+  'sclang-mode
+  nil
+  1030
+  '(1339 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/monome/grid_test.scd"
+  "grid_test.scd"
+  'sclang-mode
+  nil
+  1281
+  '(984 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/scr.scd"
+  "scr.scd"
+  'sclang-mode
+  nil
+  2002
+  '(2025 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/handlekey.scd"
+  "handlekey.scd"
+  'sclang-mode
+  nil
+  3351
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/frz_ctl.scd"
+  "frz_ctl.scd"
+  'sclang-mode
+  nil
+  1
+  '(423 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_x2.scd"
+  "_x2.scd"
+  'sclang-mode
+  nil
+  376
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130309_smell"
+  'dired-mode
+  nil
+  1813
+  '(1 nil)
+  t
+  '("/home/emb/sc/cotccm/130309_smell/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/def.scd"
+  "def.scd"
+  'sclang-mode
+  nil
+  4872
+  '(4103 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/ctl.scd"
+  "ctl.scd"
+  'sclang-mode
+  nil
+  261
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_x.scd"
+  "_x.scd<2>"
+  'sclang-mode
+  nil
+  305
+  '(1580 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/handlemouse.scd"
+  "handlemouse.scd"
+  'sclang-mode
+  nil
+  512
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_changes.scd"
+  "_changes.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_disast.scd"
+  "_disast.scd"
+  'sclang-mode
+  nil
+  928
+  '(1195 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/lp.scd"
+  "lp.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/vochshft_no.scd"
+  "vochshft_no.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/viz.scd"
+  "viz.scd"
+  'sclang-mode
+  nil
+  700
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/_x.scd"
+  "_x.scd"
+  'sclang-mode
+  nil
+  241
+  '(624 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/vgr.scd"
+  "vgr.scd"
+  'sclang-mode
+  nil
+  104
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/frz.scd"
+  "frz.scd"
+  'sclang-mode
+  nil
+  267
+  '(897 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130419_mata/analysis.scd"
+  "analysis.scd"
+  'sclang-mode
+  nil
+  805
+  '(805 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/Desktop/MonoMSC/MonoM.sc"
+  "MonoM.sc"
+  'sclang-mode
+  nil
+  585
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/Desktop/MonoMSC/MonoM.scd"
+  "MonoM.scd"
+  'sclang-mode
+  nil
+  594
+  '(395 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/usr/local/share/SuperCollider/Extensions/catfact/monome_sc/MonomeClient.sc"
+  "MonomeClient.sc"
+  'sclang-mode
+  nil
+  15000
+  '(14805 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "MonoMSC"
+  'dired-mode
+  nil
+  261
+  '(nil nil)
+  t
+  '("/home/emb/Desktop/MonoMSC/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "monome_sc"
+  'dired-mode
+  nil
+  436
+  '(nil nil)
+  t
+  '("/usr/local/share/SuperCollider/Extensions/catfact/monome_sc/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "Extensions"
+  'dired-mode
+  nil
+  230
+  '(nil nil)
+  t
+  '("/usr/local/share/SuperCollider/Extensions/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130309_smell/_bleecs.scd"
+  "_bleecs.scd"
+  'sclang-mode
+  nil
+  1123
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+

@@ -154,11 +154,11 @@ s.sync;
 
 ~chgrfn = [
 
-~grch1, // CM
-~grch2, // am
-~grch3, // em
-~grch4, // dm
-~grch5, // FM
+~grch1, /lue/ CM
+~grch2.value, // am
+~grch3.value; // em
+~grch4.value; // dm
+~grch5.value; // FM
 ~setgr	
 ];
 
@@ -168,6 +168,24 @@ s.sync;
 	~chgrfn[~chgridx].value;	
 	~chgridx = (~chgridx + dir).wrap(0, ~chgrfn.size - 1);
 };
+
+
+
+~voch_key = OSCdef.newMatching('voch_key', { arg msg, time, addr, rec;
+	var x, y, val;
+	var t;
+
+	x=msg[1];
+	y=msg[2];
+	val=msg[3];
+	
+	if(y == 5, {
+		~chgrfn[x].value;
+		~row.value(5, 1 << x)
+
+	});
+}, ~prefix++'/grid/key');
+
 
 
 

@@ -1,4 +1,4 @@
-//~basepath = "/home/emb/sc/cotccm/130309_smell/";
+~basepath = "/home/emb/sc/cotccm/130309_smell/";
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.local;

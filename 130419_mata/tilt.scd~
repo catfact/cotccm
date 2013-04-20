@@ -1,0 +1,36 @@
+
+
+~tilt = Point.new;
+
+~tilt_r = OSCdef.newMatching('frz_key', { 
+	arg msg, time, addr, rec;
+	//msg.postln;
+
+	~tilt.x= (msg[2] - 127) >> 2;
+	~tilt.y = (msg[3] - 127) >> 2;
+
+}, ~prefix++'/tilt');
+
+
+~tilt_draw_r = Routine { inf.do {
+
+	~tilt.postln;
+
+	if( (~tilt_x != 0) || (~tilt_y != 0) , {
+		8.do({ arg x; 8.do({ arg y;
+			if(Point(x,y).dist(~tilt + Point(3.5, 3.5)) < 4, {
+				~ledmask.value(x, y, 0);
+			}, {
+				~ledmask.value(x, y, 1);
+			});
+			
+		})});
+	});
+
+	0.1.wait;
+} }.play;
+
+
+/*
+	~tilt_draw_r.stop;
+*/

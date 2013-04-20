@@ -8,20 +8,9 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 	x.value("_justloops.scd");
 
-	
-	
-	
 		4.wait;
-		8.do({ arg i;
-			~jl_start_record.value(i);
-			~notify.value(i.asString, Color.red);
-			16.wait;
-			~jl_stop_record.value(i);
-			~notify.value(i.asString, Color.black);
-			4.wait;
-		});
 
-
+	x.value("_recordcycle.scd");
 
 }.play; });
 
