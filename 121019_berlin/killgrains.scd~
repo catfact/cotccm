@@ -1,0 +1,1 @@
+~gr.do({ arg gr; gr.kill; });

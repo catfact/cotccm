@@ -1,0 +1,11 @@
+~jlw0 = Window.new("jl0");
+CfBufferDisplay.new(s, ~jl_bufs[0], ~jlw0, 64);
+~jlw0.front;
+
+~jlw1 = Window.new("jl_1");
+CfBufferDisplay.new(s, ~jl_bufs[1], ~jlw1, 64);
+~jlw1.front;
+
+~jlw2 = Window.new("jl_2");
+CfBufferDisplay.new(s, ~jl_bufs[2], ~jlw2, 64);
+~jlw2.front;

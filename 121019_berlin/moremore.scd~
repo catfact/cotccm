@@ -1,0 +1,13 @@
+
+	~gr = Array.newClear(4);
+	~grg = Group.new(s);
+	0.01.wait;
+	Routine { 4.do({ arg i;
+		~gr[i] = BusGrainer.new(s, ~bbuf, ~grg, 0);
+		0.125.wait;
+		~gr[i].grtrig_s.set(\hz, 6 + (i * 2));
+		~gr[i].grdur_b.set(4.0 / (6 + (i * 2)));
+		~gr[i].grpos_s.set(\hz, 1 / (i + 4) * 1.0 / ~bbuf.duration);
+		~gr[i].gr_s.set(\amp, -36.dbamp);
+		(8.0 + i).wait;
+	}); }.play;

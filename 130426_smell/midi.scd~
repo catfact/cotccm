@@ -1,0 +1,13 @@
+MIDIClient.init;
+MIDIClient.sources
+
+/*
+NoteOnResponder.removeAll;
+BendResponder.removeAll;
+*/
+
+~noteon_r = NoteOnResponder({ arg src, chan, num, vel; ["on:",src,chan,num,vel].postln; });
+~noteoff_r = NoteOnResponder({ arg src, chan, num, vel; ["off",src,chan,num,vel].postln; });
+~cc_r = CCResponder({ arg src, chan, num, vel; ["cc",src,chan,num,vel].postln; });
+
+~bend_r = BendResponder({ arg src, chan, num, vel; ["bend",src,chan,num,vel].postln; });

@@ -1,0 +1,227 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Fri Apr 26 20:05:02 2013
+;; Desktop file format version 206
+;; Emacs version 23.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("buf" "buf_rings" "rec"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130426_smell/wolves/ch.scd" "~/sc/cotccm/130426_smell/wolves/sss_sss.scd" "~/sc/cotccm/130426_smell/wolves/sss.scd" "~/sc/cotccm/130426_smell/wolves/frz_ctl.scd" "~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130419_mata/_x_mata.scd" "~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130419_mata/_sines.scd" "~/sc/cotccm/130426_smell/wolves/_x.scd" "~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130426_smell/wolves/sss.scd" "~/sc/cotccm/130105_human_ark/__lions.scd" "~/sc/cotccm/" "~/sc/cotccm/130419_mata/" "~/sc/cotccm/130426_smell/wolves/frz_ctl.scd" "~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130426_smell/" "~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130426_smell/requiem/" "~/sc/cotccm/130426_smell/wolves/_x.scd" "~/sc/cotccm/130426_smell/wolves/" "~/sc/cotccm/130426_smell/wolves" "~/sc/cotccm/130426_smell/" "~/sc/cotccm/130419_mata/_justloops.scd" "~/sc/cotccm/130419_mata/"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/_justloops.scd"
+  "_justloops.scd"
+  'sclang-mode
+  nil
+  2760
+  '(2733 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/sss_sss.scd"
+  "sss_sss.scd"
+  'sclang-mode
+  nil
+  803
+  '(378 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/ch.scd"
+  "ch.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/frz_ctl.scd"
+  "frz_ctl.scd"
+  'sclang-mode
+  nil
+  398
+  '(212 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/bleec.scd"
+  "bleec.scd"
+  'sclang-mode
+  nil
+  315
+  '(3046 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/_recordcycle.scd"
+  "_recordcycle.scd"
+  'sclang-mode
+  nil
+  302
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/_sines.scd"
+  "_sines.scd"
+  'sclang-mode
+  nil
+  596
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130419_mata"
+  'dired-mode
+  nil
+  1986
+  '(3064 nil)
+  t
+  '("/home/emb/sc/cotccm/130419_mata/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/_x.scd"
+  "_x.scd"
+  'sclang-mode
+  nil
+  178
+  '(152 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "wolves"
+  'dired-mode
+  nil
+  860
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130426_smell/wolves/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/_defs.scd"
+  "_defs.scd"
+  'sclang-mode
+  nil
+  7414
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130426_smell/wolves/frz.scd"
+  "frz.scd"
+  'sclang-mode
+  nil
+  315
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/__lions.scd"
+  "__lions.scd"
+  'sclang-mode
+  nil
+  1636
+  '(1356 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130105_human_ark/lion_defs.scd"
+  "lion_defs.scd"
+  'sclang-mode
+  nil
+  1667
+  '(991 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "130105_human_ark"
+  'dired-mode
+  nil
+  1724
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130105_human_ark/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "cotccm"
+  'dired-mode
+  nil
+  5087
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "130223_pehr"
+  'dired-mode
+  nil
+  1768
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130223_pehr/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "requiem"
+  'dired-mode
+  nil
+  813
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130426_smell/requiem/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "130426_smell"
+  'dired-mode
+  nil
+  225
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130426_smell/")
+  nil)
+

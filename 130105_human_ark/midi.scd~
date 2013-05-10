@@ -1,0 +1,20 @@
+MIDIClient.init;
+
+//There are three possibilities to connect for example to the first device:
+
+//MIDIIn.connect(0, MIDIClient.sources.at(0));
+
+//MIDIIn.connect(0, MIDIClient.sources.at(0).uid);
+MIDIIn.connect;
+MIDIIn.connect(0, 0);
+
+//set the action:
+
+MIDIIn.control = {arg src, chan, num, val;
+
+val.postln;
+
+};
+
+
+

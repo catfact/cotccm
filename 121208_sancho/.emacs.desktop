@@ -1,0 +1,95 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Sat Mar  9 15:52:45 2013
+;; Desktop file format version 206
+;; Emacs version 23.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("1shot"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/sc/cotccm/121208_sancho/hzseq.scd" "~/sc/cotccm/121208_sancho/handlekey.scd" "~/sc/cotccm/121208_sancho/def.scd" "~/sc/cotccm/121208_sancho/" "~/sc/cotccm/121208_sancho/_z.scd" "~/sc/cotccm/121208_sancho/ctl.scd" "~/sc/cotccm/121208_sancho/_x.scd"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/hzseq.scd"
+  "hzseq.scd"
+  'sclang-mode
+  nil
+  21
+  '(21 t)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/handlekey.scd"
+  "handlekey.scd"
+  'sclang-mode
+  nil
+  593
+  '(638 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/ctl.scd"
+  "ctl.scd"
+  'sclang-mode
+  nil
+  764
+  '(184 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/def.scd"
+  "def.scd"
+  'sclang-mode
+  nil
+  4163
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/_x.scd"
+  "_x.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/121208_sancho/lp.scd"
+  "lp.scd"
+  'sclang-mode
+  nil
+  1115
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "121208_sancho"
+  'dired-mode
+  nil
+  990
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/121208_sancho/")
+  nil)
+

@@ -1,0 +1,12 @@
+
+		~bufbass = Synth.new(\buf_ringz_lpf_env, [
+			\buf, ~norm_buf.bufnum,
+			\pulsehz, (0.5 / 1.2),
+			\lpfhz, 55.midicps,
+			\ringhz, 43.midicps,
+			\rate, 0.5,
+			\ringdecay, 0.007,
+			\out, ~rhythm_out_b.index,
+			\amp, 0.dbamp
+		], ~rhythm_g);
+		~bufbass.set(\amp, -12.dbamp);

@@ -1,0 +1,38 @@
+// counter
+~mi = 0;
+// flag
+~reset = 1;
+
+~metro_event = {
+
+
+
+	//// play viola loop
+	if((~mi % 2) == 0, {
+		~vlop_play.value((~mi/2) % 8);
+	});
+	
+	// ignore first bars
+	if((~mi == 32) && (~reset == 1), {
+		~reset = 0;
+	});
+	
+	//// voch nasty
+	if( (~mi % 96) == 82, {
+		~voch_s[0].set(\amp, 0.6, \feedback, -6.dbamp, \shift, 2.0);
+		~voch_s[1].set(\amp, 0.8, \feedback, -6.dbamp, \shift, 1.5);
+		~voch_s[2].set(\delaytime, 60.0/70.0 * 0.125, \amp, 0.8, \feedback, 2.dbamp, \shift, 2.0);
+	}, {
+		if( (~mi % 32) == 24, {
+			~voch_s[0].set(\amp, 0.6, \feedback, -6.dbamp, \shift, 1.0);
+			~voch_s[1].set(\amp, 0.8, \feedback, -3.dbamp, \shift, 1.0);
+		});
+		
+		if( (~mi % 16) == 0, {
+			~voch_s[0].set(\amp, 0.6, \feedback, -30.dbamp, \shift, 1.0);
+			~voch_s[1].set(\amp, 0.0, \feedback, -30.dbamp, \shift, 1.0);
+			~voch_s[2].set(\amp, 0.0);
+		});
+	});
+	~mi = ~mi + 1;
+};

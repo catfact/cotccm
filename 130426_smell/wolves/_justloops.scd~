@@ -9,7 +9,7 @@ s.waitForBoot { Routine {
 */	
 	~jl_numloops = 8;
 	
-	~jl_buflen = 8.0;
+	~jl_buflen = 60;
 	~jl_bufs = Array.fill(~jl_numloops, { Buffer.alloc(s, s.sampleRate * ~jl_buflen, 1, completionMessage: { }) });
 	
 	SynthDef.new(\justloop_rec, {

@@ -1,0 +1,1 @@
+~gr0 = BusGrainer.new(s, ~jl_bufs[0], c.xg, c.out_b);

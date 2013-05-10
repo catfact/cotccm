@@ -1,0 +1,41 @@
+
+	SynthDef.new(\justloop_rec, {
+		arg in=0, buf=0,
+			reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1,
+			atk=0.01, rel=0.01, gate=1;
+			
+		RecordBuf.ar(SoundIn.ar(in, 1),
+			bufnum: buf, 
+			offset:0,
+			recLevel:reclevel,
+			preLevel:prelevel,
+			run:run,
+			loop:loop,
+			trigger:trig
+		);
+	}).send(s);
+
+	SynthDef.new(\justloop_play, {
+		arg out=0, buf=0,
+		pos=0.0, rate=1.0, loop=0,
+		atk=0.01, dur=10.0, rel=0.01, gate=1, doneaction=2,
+		looptime=2.0, level=0.63,
+		ratelag=0.01,
+		shift_ratio=0.5, shift_amp=0.0, shift_amplag=1.0, shift_window=0.125;
+		
+		var sig, amp, env, trig, shift;
+		
+		env = Env.asr(atk, 1.0, rel);
+		amp = EnvGen.ar(env, gate, doneAction:doneaction);
+		trig = Impulse.kr(1.0 / looptime);
+		rate = Lag.kr(rate, ratelag);
+		sig = PlayBuf.ar(1, buf, rate, trig, pos, loop:loop);
+		
+		shift_amp = Lag.kr(shift_amp, shift_amplag);
+		shift = PitchShift.ar(sig, shift_window, shift_ratio);
+		sig = sig + (shift * shift_amp);
+		
+		Out.ar(out, sig * amp * level);
+	}).send(s);
+	
+	

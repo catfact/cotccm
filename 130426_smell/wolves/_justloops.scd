@@ -1,15 +1,7 @@
-/*
-~basepath = Document.current.dir ++"/";
-x = { |p| this.executeFile(~basepath++p); };
-
-s = Server.default;
-s.options.memSize = 8192 * 64;
-s.boot;
-s.waitForBoot { Routine {
-*/	
+Routine {
 	~jl_numloops = 8;
 	
-	~jl_buflen = 8.0;
+	~jl_buflen = 60;
 	~jl_bufs = Array.fill(~jl_numloops, { Buffer.alloc(s, s.sampleRate * ~jl_buflen, 1, completionMessage: { }) });
 	
 	SynthDef.new(\justloop_rec, {
@@ -121,11 +113,14 @@ s.waitForBoot { Routine {
 	~jl_play_s[i] = Synth.new(\justloop_play, [\buf, ~jl_bufs[i].bufnum, \looptime, ~jl_taps[i].time / ~jl_rates[i], \rate, ~jl_rates[i], \level, -12.dbamp, \out, 0]);
 };
 
-//}.play; }
-
-/*
-			~jl_bufs[0].normalize(0.25);
+}.play;
 
 
 
-*/
+~jl_shifts = [4/3, 4/6, 4/3, 1.0, 4/3, 4/6, 4/6, 1.0];
+~jl_shift = { arg shift;
+	~jl_play_s.do({ arg syn, i;
+		[syn, i].postln;
+		syn.set(\rate, ~jl_rates[i] * (if(shift, {~jl_shifts[i]}, {1.0}) ) );
+	});
+}

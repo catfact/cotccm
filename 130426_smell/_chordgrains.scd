@@ -97,7 +97,7 @@ s.sync;
 	~grl[0].set(\buf, ~jl_bufs[1].bufnum, \rate, 1.0);
 	~grl[1].set(\buf, ~jl_bufs[1].bufnum, \rate, -1.0);
 	~grl[2].set(\buf, ~jl_bufs[1].bufnum, \rate, 0.5);
-	~grl[3].set(\buf, ~jl_bufs[0].bufnum, \rate, 4.0);
+	~grl[3].set(\buf, ~jl_bufs[1].bufnum, \rate, 2.0);
 	~grl[4].set(\buf, ~jl_bufs[4].bufnum, \rate, 1.0);
 	~grl[5].set(\buf, ~jl_bufs[6].bufnum, \rate, 5/4);
 	~grl[6].set(\buf, ~jl_bufs[6].bufnum, \rate, 5/4.0);
@@ -110,9 +110,9 @@ s.sync;
 	~grl[1].set(\buf, ~jl_bufs[2].bufnum, \rate, -1.0);
 	~grl[2].set(\buf, ~jl_bufs[2].bufnum, \rate, 0.5);
 	~grl[3].set(\buf, ~jl_bufs[2].bufnum, \rate, 2.0);
-	~grl[4].set(\buf, ~jl_bufs[1].bufnum, \rate, 3);
+	~grl[4].set(\buf, ~jl_bufs[3].bufnum, \rate, 10/9);
 	~grl[5].set(\buf, ~jl_bufs[6].bufnum, \rate, 5/4);
-	~grl[6].set(\buf, ~jl_bufs[1].bufnum, \rate, 1.5);
+	~grl[6].set(\buf, ~jl_bufs[6].bufnum, \rate, 2.0 * 15/16);
 	~grl[7].set(\buf, ~jl_bufs[6].bufnum, \rate, 10/6);
 };
 
@@ -122,7 +122,7 @@ s.sync;
 	~grl[1].set(\buf, ~jl_bufs[3].bufnum, \rate, -1.0);
 	~grl[2].set(\buf, ~jl_bufs[3].bufnum, \rate, 0.5);
 	~grl[3].set(\buf, ~jl_bufs[3].bufnum, \rate, 2.0);
-	~grl[4].set(\buf, ~jl_bufs[2].bufnum, \rate, 8/9);
+	~grl[4].set(\buf, ~jl_bufs[3].bufnum, \rate, 1.0);
 	~grl[5].set(\buf, ~jl_bufs[1].bufnum, \rate, 4/3);
 	~grl[6].set(\buf, ~jl_bufs[1].bufnum, \rate, 2/3);
 	~grl[7].set(\buf, ~jl_bufs[1].bufnum, \rate, -4/3);
@@ -136,9 +136,9 @@ s.sync;
 	~grl[2].set(\buf, ~jl_bufs[0].bufnum, \rate, -4/3);
 	~grl[3].set(\buf, ~jl_bufs[0].bufnum, \rate, -2/3);
 	~grl[4].set(\buf, ~jl_bufs[5].bufnum, \rate, 8/3);
-	~grl[5].set(\buf, ~jl_bufs[4].bufnum, \rate, 0.5);
-	~grl[6].set(\buf, ~jl_bufs[4].bufnum, \rate, 1);
-	~grl[7].set(\buf, ~jl_bufs[4].bufnum, \rate, 2);
+	~grl[5].set(\buf, ~jl_bufs[6].bufnum, \rate, 0.5);
+	~grl[6].set(\buf, ~jl_bufs[6].bufnum, \rate, 1);
+	~grl[7].set(\buf, ~jl_bufs[6].bufnum, \rate, 10/6);
 };
 
 
@@ -154,12 +154,12 @@ s.sync;
 
 ~chgrfn = [
 
-	~grch1,
-	~grch2, // am
-	~grch3, // em
-	~grch4, // dm
-	~grch5, // FM
-	~grch2b, // FM
+~grch1, /lue/ CM
+~grch2.value, // am
+~grch3.value; // em
+~grch4.value; // dm
+~grch5.value; // FM
+~setgr	
 ];
 
 ~chgridx = 0;
@@ -171,7 +171,7 @@ s.sync;
 
 
 
-~ch_key = OSCdef.newMatching('ch_key', { arg msg, time, addr, rec;
+~voch_key = OSCdef.newMatching('voch_key', { arg msg, time, addr, rec;
 	var x, y, val;
 	var t;
 

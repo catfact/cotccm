@@ -15,9 +15,3 @@ x.value("_x2.scd");
 ~post.value("chordgrains rec");
 
 }.play;
-
-
-/*
-~grg.run(false);
-~grg.run(true);
-*/
