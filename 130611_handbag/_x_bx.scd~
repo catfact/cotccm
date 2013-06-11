@@ -2,8 +2,6 @@
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.local;
-s.options.numAudioBusChannels = 512;
-s.options.numAudioBusChannels.postln;
 
 c = CfAudioContext.new(s, 2, { Routine {
 
@@ -15,7 +13,7 @@ c = CfAudioContext.new(s, 2, { Routine {
 	x.value("analysis.scd");
 	x.value("hzseq.scd");
 
-	x.value("frz.scd");
+	x.value("frz.scd")
 	x.value("frz_ctl.scd");
 
 	x.value("bleec.scd");	
@@ -23,32 +21,18 @@ c = CfAudioContext.new(s, 2, { Routine {
 	x.value("pm.scd");
 	x.value("pm_ctl.scd"); // map monome to oscs
 
-	x.value("fltswp.scd"); 
-	x.value("fltswp_ctl.scd"); 
-
-	//	x.value("spurs.scd");
-
-	/*	
-		////////////////////////
-		////////////
-
-	 	x.value("fltl.scd");
-
-		///////////////
-		////////////
-	*/
-
-
+	//	x.value("voch.scd");
+	//	0.1.wait;
+	//	x.value("voch_ctl.scd");
+	x.value("spurs.scd");
 
 	/*
 		x.value("ctl.scd");
 		w.fullScreen;
 	*/
 
-	/*
-	q = { WhiteNoise.ar.dup * -24.dbamp }.play;
-	q.free;
-	*/
+	
+
 
 }.play; });
 

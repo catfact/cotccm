@@ -4,8 +4,7 @@
 ~sethz = { arg idx, param, val;
 	if(val > 0, {
 		~pitch_b.get({ arg hz;
-			//			~post.value(""++param++"_"++idx++"_"++hz);
-			postln(""++param++"_"++idx++"_"++hz);
+			~post.value(""++param++"_"++idx++"_"++hz);
 			~hz_add.value(hz);
 			~pm[idx].set(param, hz)
 		});
@@ -26,13 +25,13 @@
 			if(amp > 0, {
 				~led.value(0, idx, 0);
 				~post.value("pms_"++idx++"_0");
-				~pm[idx].set(\amplag, 6.0 + 4.0.rand);
+				~pm[idx].set(\amplag, 6.0 + 1.0.rand);
 				~pm[idx].set(\amp, 0.0);
 			}, { 
 				~led.value(0, idx, 1);
 				~post.value("pms_"++idx++"_1");
 				~pm[idx].set(\amplag, 0.01 + 0.1.rand);
-				~pm[idx].set(\amp, -24.dbamp);
+				~pm[idx].set(\amp, -44.dbamp);
 			});
 		});
 	});

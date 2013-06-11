@@ -1,0 +1,43 @@
+~rbl = 30.0;
+
+~rb = Buffer.alloc(s, s.sampleRate * ~rbl, 1);
+
+
+SynthDef.new(\rec, {
+	arg in=0, buf=0,
+	reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=1, run=1;
+
+	
+	RecordBuf.ar(SoundIn.ar(in, 1),
+		bufnum: buf, 
+		offset:0,
+		recLevel:reclevel,
+		preLevel:prelevel,
+		run:run,
+		loop:loop,
+		trigger:trig
+	);
+
+}).send(s);
+
+SynthDef.new(\amptrig, {
+	arg in=0, thresh = -32.dbamp, lagdown=1.0, lagup=0.001;
+	var amp;
+	amp = Amplitude.kr(SoundIn.ar(in));
+	amp = LagUD.kr(amp, lagup, lagdown);
+	SendTrig.kr(amp > thresh, 0, 0.9);
+}).send(s);
+
+
+o = OSCFunc({ arg msg, time;
+[time, msg].postln;
+},'/tr', s.addr);
+
+
+z = Synth("amptrig");
+z.set(\thresh, 0.9);
+
+
+o.free;
+
+

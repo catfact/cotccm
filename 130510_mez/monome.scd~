@@ -1,0 +1,22 @@
+~serialoscAddr = NetAddr.new("localhost", 12002);
+~monomeAddr = NetAddr.new("localhost", 0);
+~prefix = '/monome';
+
+Routine {
+	var c = Condition.new(false);
+
+	OSCdef.newMatching(\monomeDiscover, { arg msg, time, addr, recPort;
+		msg.postln;
+		~monomeAddr.port = msg[3];
+		c.test = true; c.signal;
+	}, '/serialosc/device',  ~serialoscAddr);
+			
+	~serialoscAddr.sendMsg('/serialosc/list', '127.0.0.1', NetAddr.langPort);
+
+	c.wait; c.test=false;
+
+	~led = { arg x, y, val;
+		~monomeAddr.sendBundle(0.0, [~prefix++'/grid/led/set', x, y, val ]);
+	};
+
+}.play;

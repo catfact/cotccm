@@ -1,0 +1,12 @@
+//~basepath = "/home/emb/sc/cotccm/121/";
+x = { |p| this.executeFile(~basepath++p); };
+
+s = Server.local;
+
+~npm = 4;
+
+c = CfAudioContext.new(s, 2, { Routine {
+
+	x.value("def.scd");
+	x.value("analysis.scd");
+	x.value("hzseq.scd");

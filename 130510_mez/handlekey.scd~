@@ -1,11 +1,21 @@
-//// monome, no echo
+~echr = [
+	[1.25, 1.5],
+	[2.0, 1.75],
+	[3.0, 1.5],
+	[1, 1],
+	[0.5, 0.8],
+	[0.5, 0.25],
+	[0.75, 0.5]
+];
 
+~echridx = 0;
+~echridxbase = 3;
 
 ~sethz = { arg idx, param, val;
 	if(val > 0, {
 		~pitch_b.get({ arg hz;
-			//			~post.value(""++param++"_"++idx++"_"++hz);
-			postln(""++param++"_"++idx++"_"++hz);
+			//	hz.postln;
+			~post.value(""++param++"_"++idx++"_"++hz);
 			~hz_add.value(hz);
 			~pm[idx].set(param, hz)
 		});
@@ -24,12 +34,10 @@
 	if(val > 0, { // toggle
 		~pm[idx].get(\amp, { arg amp;
 			if(amp > 0, {
-				~led.value(0, idx, 0);
 				~post.value("pms_"++idx++"_0");
-				~pm[idx].set(\amplag, 6.0 + 4.0.rand);
+				~pm[idx].set(\amplag, 6.0 + 1.0.rand);
 				~pm[idx].set(\amp, 0.0);
 			}, { 
-				~led.value(0, idx, 1);
 				~post.value("pms_"++idx++"_1");
 				~pm[idx].set(\amplag, 0.01 + 0.1.rand);
 				~pm[idx].set(\amp, -24.dbamp);
@@ -55,28 +63,79 @@
 	~pm[idx].set(\pm31, val * 0.8);
 };
 
-~pm_key = OSCdef.newMatching('pm_key', { arg msg, time, addr, rec;
-	var x, y, val;
+~setvochamp = { arg val;
+	~post.value("vdin_"++val);
+	~vinp.set(\amp, val);
+};
 
-	x=msg[1];
-	y=msg[2];
-	val=msg[3];
-	
-	if(y < ~npm, {
-		x.switch(
-			0, { ~setamp.value( y, val); },
-			1, { ~sethz.value(y, \hz1, val);  ~led.value(x, y, val); },
-			2, { ~sethz.value(y, \hz2, val);  ~led.value(x, y, val); },
-			3, { ~sethz.value(y, \hz3, val);  ~led.value(x, y, val); },
-			4, { ~setpm12.value(y, val, 8.0); ~led.value(x, y, val); },
-			5, { ~setpm23.value(y, val, 8.0); ~led.value(x, y, val); },
-			6, { ~setpm31.value(y, val, 8.0); ~led.value(x, y, val); },
-		);
-	});
-}, ~prefix++'/grid/key');
+~setvochdel = { arg idx; 
+	//	postln("vohcdel" ++ idx);
+	var txt = [ "" , "" ];
+	var v;
+	Routine {
+		if(idx > 0, {
+			~voch1.get(\delaytime, { arg val;
+				v = val * ~vochdelr;
+				~post.value("vd1_" ++ v);
+				~voch1.set(\delaytime, v);
+			});
+			~voch2.get(\delaytime, { arg val;
+				v = val * ~vochdelr;
+				~post.value("vd2_" ++ v);
+				~voch2.set(\delaytime, v);
+			});
+		}, {
+			~voch1.get(\delaytime, { arg val;
+				v = val / ~vochdelr;
+				~post.value("vd1_ " ++ v);
+				~voch1.set(\delaytime, v);
+			});
+			~voch2.get(\delaytime, { arg val;
+				v = val / ~vochdelr;
+				~post.value("vd2_ " ++ v);
+				~voch2.set(\delaytime, v);
+			});
+		});
+		s.sync;
+		//		~post.value(txt);
+	}.play;
+};
 
-	/*
-	~pm_key.free;
+
+~setvochshift = { arg dir;
+var v; 
+
+~echridx = (~echridx + dir).wrap(0, ~echr.size - 1);
+
+v = ~echr[~echridx][0];
+~voch1.set(\shift, v);
+~post.value("vs1_"++v);
+v = ~echr[~echridx][1];
+~voch2.set(\shift, v);
+~post.value("vs2_"++v);
+};
+
+~resetvochshift = { 
+//~voch1.set(\shift, 1.0);
+//~voch2.set(\shift, 1.0);
+~post.value("vs 1.0");
+};
+
+~setgrains = {
+
+if(true, { //~chordgrainsinit > 0, {
+	 ~changegrains.value;
+	 ~post.value("changegrains");
+ }, { 
+	 //	 x.value("_chordgrains.scd");
+	 x.value("_x2.scd");
+	 //// distrasters
+	 y.free;
+	 z.free;
+	 ~beet_r.stop;
+	 ~post.value("chordgrains");
+ }); 
+};
 
 ~handleKey= { arg ch, val;
 [ch, val].postln;
@@ -141,4 +200,4 @@ ch.switch(
 	//	$\\, { if(val > 0, { 4.do({ arg i; ~setamp.value(i, 0); }); }); }
 ); };
 
-	*/
+~chordgrainsinit = 0;

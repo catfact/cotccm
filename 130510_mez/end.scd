@@ -1,0 +1,1 @@
+~jl_rec_s[0] = Synth.new(\justloop_rec, [\buf, ~jl_bufs[0].bufnum, prelevel:0.0, \in, 0]);

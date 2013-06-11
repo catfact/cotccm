@@ -36,9 +36,7 @@ Routine {
 	~flto = Synth.new(\patch_pan, [\in, ~fltb.index, \out, 0], ~ins, \addAfter);
 	s.sync;
 
-	~flt = Synth.new(\normrlpf, [\in, ~inb.index, \out, ~fltb.index, \rq, 0.05, \hz, 20], ~flto, \addBefore);
-	~hzb.set(20);
-	s.sync;
+	~flt = Synth.new(\normrlpf, [\in, ~inb.index, \out, ~fltb.index], ~flto, \addBefore);
 	~flt.map(\hz, ~hzb);
 
 	/// sweep function
@@ -47,7 +45,7 @@ Routine {
 		s.sync;				
 		~hzb.get({ arg hz; 
 			hz.postln;
-			~swps =  { Out.kr(~hzb.index, Line.kr(hz.cpsmidi, target.cpsmidi, dur).midicps) }.play;
+			~swps =  { Out.kr(~hzb.index, Line.kr(hz, target, dur)) }.play;
 		});
 	}.play; };
 	/// record and stop-record functions

@@ -1,0 +1,34 @@
+SynthDef(\pv_inv_ins, { arg in=0,  amp=0.5;
+	var snd, chain;
+	snd = In.ar(in, 1);
+	chain = FFT(LocalBuf(2048), snd);
+
+	chain = PV_Invert(chain);
+	ReplaceOut.ar(in, 0.5 * IFFT(chain).dup);
+}).play;
+
+
+
+
+
+~spcnv = Array.fill(8, { arg i; Array.fill(5, { arg j; nil }); });
+
+~spc = { arg i, j;
+	if(~spcnv[i][j].isNil, {
+		~spcnv[i][j] = Synth.new(\pv_inv_ins, [
+			\in, ~fltlb[i][j].index
+		], ~fltlg, \addAfter);
+	}, {
+		~spcnv[i][j].free;
+		~spcnv[i][j] = nil;
+	});
+};
+
+
+/*
+~spc.value(0, 0);
+
+Server.node
+
+.free(1535)
+*/
