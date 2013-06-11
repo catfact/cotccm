@@ -8,6 +8,10 @@
 	
 	if( y == 5, {
 		if(val > 0, {	
+			if (x % 1 > 0, {
+				~fltrin = 1;
+			}, { ~fltrin = 0;
+			});
 			~flt_recstart.value;
 			~led.value(x, y, 1);
 		}, {
@@ -18,7 +22,6 @@
 }, ~prefix++'/grid/key');
 
 
-~lastpair = 
-~flt_swp_key = {
-	
-}
+/*
+~flt_rec_key.remove;
+*/

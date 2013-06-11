@@ -14,9 +14,6 @@ c = CfAudioContext.new(s, 2, { Routine {
 	x.value("monome.scd");
 
 	x.value("analysis.scd");
-	//	x.value("anal_guix.scd");
-
-
 
 	x.value("hzseq.scd");
 
@@ -30,6 +27,11 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 	x.value("fltswp.scd"); 
 	x.value("fltswp_ctl.scd"); 
+
+	x.value("voch.scd");
+	s.sync;
+
+	
 
 	//	x.value("spurs.scd");
 

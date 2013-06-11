@@ -19,8 +19,9 @@ Routine {
 
 	/// normalized filter
 	SynthDef.new(\normrlpf, {
-		arg in=0, out=0, hz=110, rq=1.0, normlev=0.5, normmix=0.5, amp=0.5, dur=1.0;
+		arg in=0, out=0, hz=20, rq=1.0, normlev=0.5, normmix=0.5, amp=0.5, amplag = 1.0, dur=1.0;
 		var snd;
+		amp = Lag.kr(amp, amplag);
 		snd = In.ar(in);
 		snd = (snd * 1-normmix) + (normmix * Normalizer.ar(snd, level:normlev, dur:dur) );
 		snd = RLPF.ar(snd, hz, rq);
@@ -61,26 +62,35 @@ Routine {
 			~swps[n] =  { Out.kr(~hzb[n].index, Line.kr(hz.cpsmidi, target.cpsmidi, dur).midicps) }.play;
 		});
 	}.play; };
+
 	/// record and stop-record functions
-	
+	~fltrin = 0;
+	~nrecbuts = 0;
 	~flt_recstart = {
-		~fltr = Synth.new(\rec, [\in, ~fltb.index, \buf, ~fltr_buf.bufnum], ~fltg, \addAfter);
-		~fltr1 = Synth.new(\rec, [\in, c.in_b.index + 1, \buf, ~fltr_buf.bufnum, \prelevel, 1.0], ~fltr, \addAfter);
+		if(~fltrin == 0, { 
+			~fltr = Synth.new(\rec, [\in, ~fltb.index, \buf, ~fltr_buf.bufnum], ~fltg, \addAfter);
+		}, {
+			~fltr = Synth.new(\rec, [\in, c.in_b.index + 1, \buf, ~fltr_buf.bufnum], c.ig, \addAfter);
+		});
 		~flt_rect = SystemClock.seconds;
+		~nrecbuts = ~nrecbuts + 1;
 	};
 	
 	
 	~flt_recstop = { arg target;
 		var dur;
-		~fltr.free;
-		~fltr1.free;
+		~nrecbuts = ~nrecbuts - 1;
+		if(~nrecbuts == 0, { ~fltr.free; });
 		dur = SystemClock.seconds - ~flt_rect;
-		~fltr_buf.copyData(~fltl_buf[target], numSamples:(dur * s.sampleRate));
+		if(~fltrin == 1, {
+			~fltr_buf.normalize(0.5);
+			~fltr_buf.copyData(~fltl_buf[target], numSamples:(dur * s.sampleRate));
+		});
 	};
 
-	
+
 	//// playback at pitched ratio
 	
 }.play;
 
-// spectral invert
+// spectral invertscr

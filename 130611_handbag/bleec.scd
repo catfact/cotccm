@@ -2,7 +2,7 @@ Routine {
 	//~beet_t = 60/55 * 0.5;
 	~beet_t = 22/5;
 	//	~beet_rbase = 0.0625;
-	~beet_rbase = 1/64;
+	~beet_rbase = 1/4;
 	~beet_dur_base = 1/3;
 	~beet_dur_len_mul = 11.0;
 	~beet_level = -9.dbamp;
@@ -45,7 +45,8 @@ Routine {
 
 	], inf).asStream;
 
-
+	~maxio = 0.0;
+	~minio = 0.0;
 	~beet_r = Routine {
 		var dur, rate, io, hz, rq, ratio, pos, trigrate, buf;
 		inf.do({ arg i;
@@ -71,7 +72,7 @@ Routine {
 				\trigrate, ~beet_trig_seq.next / ~beet_t  * ~beet_trig_rbase,
 				\hz, hz,
 				\rq, rq,
-				\insideout, io,
+				\insideout, io.max(~minio).min(~maxio);,
 				\atk, 0.01, \rel, dur * 4.0,
 				\level, ~beet_level, //i.min(32) / 32
 				\pan, -0.5

@@ -99,23 +99,30 @@ Routine {
 
 
 	~anapop = {
-		arg r=1.0;
+		arg r=1.0, t=60;
 		var ev;
 		ev = ~analist_pick.pop;
+
+		ev.removeAt(\amp);
+		ev.removeAt(\flat);
+		ev.removeAt(\clar);
+		~post.value(ev.asString);
+		
 		ev.postln;
+
 		if(0.5.coin, {
-			~swp.value(0, ev.cent * r, 60);
+			~swp.value(0, ev.cent * r, t);
 		},  {
-			~swp.value(0, ev.pitch * r, 60);
+			~swp.value(0, ev.pitch * r, t);
 		});
 		if(0.5.coin, {
 			ev = ~analist_pick.pop;
 			ev.postln;
 		});
 		if(0.5.coin, {
-			~swp.value(1, ev.cent * r, 120);
+			~swp.value(1, ev.cent * r, t * 2);
 		},  {
-			~swp.value(1, ev.pitch * r, 120);
+			~swp.value(1, ev.pitch * r, t * 2);
 		});
 	};
 
