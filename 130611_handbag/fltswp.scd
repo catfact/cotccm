@@ -2,6 +2,8 @@
 x = { |p| this.executeFile(~basepath++p); };
 
 
+~nflt = 2;
+
 Routine {
 
 	~rlen = 30.0;
@@ -26,34 +28,44 @@ Routine {
 	}).send(s);
 	s.sync;
 
-	~hzb = Bus.control(s, 1);
+	~hzb = Array.fill(~nflt, { Bus.control(s, 1); });
 	~inb = Bus.audio(s, 1);
 	~ins = Synth.new(\adc, [\in, 0, \out, ~inb.index]);
+
 	s.sync;
 
 	~fltb = Bus.audio(s, 1);
+	~fltg = Group.new(~ins, \addAfter);
 	//	~flto = { Out.ar(0, In.ar(~fltb.index).dup); }.play(target:~ins, addAction:\addAfter);
-	~flto = Synth.new(\patch_pan, [\in, ~fltb.index, \out, 0], ~ins, \addAfter);
+	~flto = Synth.new(\patch_pan, [\in, ~fltb.index, \out, 0], ~fltg, \addAfter);
 	s.sync;
 
-	~flt = Synth.new(\normrlpf, [\in, ~inb.index, \out, ~fltb.index, \rq, 0.05, \hz, 20], ~flto, \addBefore);
-	~hzb.set(20);
-	s.sync;
-	~flt.map(\hz, ~hzb);
+	~flt = Array.fill(~nflt, { 
+		Synth.new(\normrlpf, [\in, ~inb.index, \out, ~fltb.index, \rq, 0.05, \hz, 20], ~fltg);
+	});
+	
+	~nflt.do({ arg i;
+		~hzb[i].set(20 * (i + 1));
+		s.sync;
+		~flt[i].map(\hz, ~hzb[i]);
+	});
+
+	~swps = Array.newClear(~nf);
 
 	/// sweep function
-	~swp = { arg target, dur; Routine{
-		~swps.free;
+	~swp = { arg n, target, dur; Routine{
+		if(~swps[n].notNil, { ~swps[n].free; });
 		s.sync;				
-		~hzb.get({ arg hz; 
+		~hzb[n].get({ arg hz; 
 			hz.postln;
-			~swps =  { Out.kr(~hzb.index, Line.kr(hz.cpsmidi, target.cpsmidi, dur).midicps) }.play;
+			~swps[n] =  { Out.kr(~hzb[n].index, Line.kr(hz.cpsmidi, target.cpsmidi, dur).midicps) }.play;
 		});
 	}.play; };
 	/// record and stop-record functions
 	
 	~flt_recstart = {
-		~fltr = Synth.new(\rec, [\in, ~fltb.index, \buf, ~fltr_buf.bufnum], ~flt, \addAfter);
+		~fltr = Synth.new(\rec, [\in, ~fltb.index, \buf, ~fltr_buf.bufnum], ~fltg, \addAfter);
+		~fltr1 = Synth.new(\rec, [\in, c.in_b.index + 1, \buf, ~fltr_buf.bufnum, \prelevel, 1.0], ~fltr, \addAfter);
 		~flt_rect = SystemClock.seconds;
 	};
 	
@@ -61,6 +73,7 @@ Routine {
 	~flt_recstop = { arg target;
 		var dur;
 		~fltr.free;
+		~fltr1.free;
 		dur = SystemClock.seconds - ~flt_rect;
 		~fltr_buf.copyData(~fltl_buf[target], numSamples:(dur * s.sampleRate));
 	};

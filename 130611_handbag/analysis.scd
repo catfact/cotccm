@@ -49,12 +49,15 @@ Routine {
 
 	~ana_wait = 0.125;
 
-	~ampt = -32.dbamp;
-	~clart = 0.5;
+	~ampt = -40.dbamp;
+	~clart = 0.1;
 
+	// all pitch/amp/clar/flat/cent events:
 	~analist = List.new;
+	// a copy that we will sort and pick from
+	~analist_pick = List.new;
 
-	/*
+	
 	~anar = Routine {
 		var amp, pitch, clar, flat, cent;
 		inf.do { 
@@ -81,6 +84,7 @@ Routine {
 					});
 					
 					~analist.last.postln;
+					~analist_pick.add(~analist.last);
 					
 				});			
 			});
@@ -89,10 +93,35 @@ Routine {
 		}
 	}.play;
 
-		~anar.stop;
-		
+	/*
+	~anar.stop;
 	*/
 
 
+	~anapop = {
+		arg r=1.0;
+		var ev;
+		ev = ~analist_pick.pop;
+		ev.postln;
+		if(0.5.coin, {
+			~swp.value(0, ev.cent * r, 60);
+		},  {
+			~swp.value(0, ev.pitch * r, 60);
+		});
+		if(0.5.coin, {
+			ev = ~analist_pick.pop;
+			ev.postln;
+		});
+		if(0.5.coin, {
+			~swp.value(1, ev.cent * r, 120);
+		},  {
+			~swp.value(1, ev.pitch * r, 120);
+		});
+	};
+
+	
 
 }.play;
+
+
+

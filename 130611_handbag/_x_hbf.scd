@@ -12,7 +12,12 @@ c = CfAudioContext.new(s, 2, { Routine {
 	s.sync;
 
 	x.value("monome.scd");
+
 	x.value("analysis.scd");
+	//	x.value("anal_guix.scd");
+
+
+
 	x.value("hzseq.scd");
 
 	x.value("frz.scd");
@@ -20,8 +25,8 @@ c = CfAudioContext.new(s, 2, { Routine {
 
 	x.value("bleec.scd");	
 
-	x.value("pm.scd");
-	x.value("pm_ctl.scd"); // map monome to oscs
+	//	x.value("pm.scd");
+	//	x.value("pm_ctl.scd"); // map monome to oscs
 
 	x.value("fltswp.scd"); 
 	x.value("fltswp_ctl.scd"); 
@@ -29,6 +34,7 @@ c = CfAudioContext.new(s, 2, { Routine {
 	//	x.value("spurs.scd");
 
 	/*	
+~swps
 		////////////////////////
 		////////////
 

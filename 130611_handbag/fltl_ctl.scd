@@ -1,7 +1,7 @@
 if(~pm_key.notNil, {~pm_key.free;});
 
 ~fltlamp = -24.dbamp;
-~fltl_key = OSCdef.newMatching('pm_key', { arg msg, time, addr, rec;
+~fltl_key = OSCdef.newMatching('fltl_key', { arg msg, time, addr, rec;
 	var x, y, val;
 
 	x=msg[1];

@@ -63,6 +63,7 @@ SynthDef(\pv_inv_ins, { arg in=0,  amp=0.5;
  ~spc.value(5, 2)
  ~spc.value(6, 2)
  ~spc.value(7, 2)
+
  ~spc.value(0, 3)
  ~spc.value(1, 3)
  ~spc.value(2, 3)

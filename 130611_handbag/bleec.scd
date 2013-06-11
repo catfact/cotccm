@@ -2,7 +2,7 @@ Routine {
 	//~beet_t = 60/55 * 0.5;
 	~beet_t = 22/5;
 	//	~beet_rbase = 0.0625;
-	~beet_rbase = 0.25;
+	~beet_rbase = 1/64;
 	~beet_dur_base = 1/3;
 	~beet_dur_len_mul = 11.0;
 	~beet_level = -9.dbamp;
@@ -21,9 +21,9 @@ Routine {
 	], inf).asStream;
 
 	~beet_rate_seq = Pseq([
-		1, 2, 4, 1, 2, 4, 1, 2, 4, 1, 3, 8, 
-		1, 2, 15/8, 3, 2, 4, 1, 12/5, 2,
-		1, 2, 4, 1, 2, 4, 1, 4, 2,
+		1, 2, 4/3, 1, 2, 4, 1, 2, 4, 9/8, 3, 8, 
+		1, 5, 15/8, 3, 2, 4, 1, 12/5, 2,
+		1, 2, 4, 11/7, 2, 4, 1, 4, 2,
 		1, 2, 4, 1, 2, 4, 1
 	], inf).asStream;
 

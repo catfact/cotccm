@@ -45,8 +45,8 @@ Routine {
 
 	~voch_s = ~voch_buf.collect({ arg buf, i;
 		Synth.new(\echo_rlpf_shift_dist, [
-			\in, c.in_b.index,
-			\out, i % 2,
+			\in, c.in_b.index + 1,
+			\out, 0,
 			\buf, buf,
 			\amp, 0.0,
 			\shift, 1.0,
@@ -63,4 +63,4 @@ Routine {
 
 /*
 ~voch_s.do({ arg syn; syn.free; });
-*/i
+*/
