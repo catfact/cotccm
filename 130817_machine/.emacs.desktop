@@ -1,0 +1,172 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Sat Aug 17 20:32:54 2013
+;; Desktop file format version 206
+;; Emacs version 23.3.1
+
+;; Global section:
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring nil)
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/sc/cotccm/130817_machine/monome.scd" "~/sc/cotccm/130817_machine/echo_set_viz.scd" "~/sc/scratch/echosetviz.scd" "~/sc/scratch" "~/sc/cotccm/130817_machine/" "~/sc/cotccm/130817_machine/touchosc_xy34.scd" "~/sc/cotccm/130817_machine/touchosc_xy12.scd" "~/sc/cotccm/130817_machine/" "~/sc/cotccm/130817_machine/monome_ctl.scd" "~/sc/cotccm/130817_machine/svf.scd" "~/sc/cotccm/130817_machine/" "~/sc/cotccm/130817_machine/echo.scd" "~/sc/cotccm/130817_machine/touchosc_xy1.scd" "~/sc/cotccm/130817_machine/" "~/.config/serialosc/" "~/sc/cotccm/130817_machine/touchosc_patch.scd"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/_x.scd"
+  "_x.scd"
+  'sclang-mode
+  nil
+  281
+  '(450 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/monome.scd"
+  "monome.scd"
+  'sclang-mode
+  nil
+  1461
+  '(1460 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/echo_set_viz.scd"
+  "echo_set_viz.scd"
+  'sclang-mode
+  nil
+  490
+  '(121 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "scratch"
+  'dired-mode
+  nil
+  206
+  '(nil nil)
+  t
+  '("/home/emb/sc/scratch/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "130817_machine"
+  'dired-mode
+  nil
+  227
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130817_machine/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/touchosc_xy34.scd"
+  "touchosc_xy34.scd"
+  'sclang-mode
+  nil
+  1046
+  '(1024 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/touchosc_xy12.scd"
+  "touchosc_xy12.scd"
+  'sclang-mode
+  nil
+  985
+  '(845 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/monome_ctl.scd"
+  "monome_ctl.scd"
+  'sclang-mode
+  nil
+  520
+  '(449 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "200e"
+  'dired-mode
+  nil
+  200
+  '(nil nil)
+  t
+  '("/home/emb/200e/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/svf.scd"
+  "svf.scd"
+  'sclang-mode
+  nil
+  94
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/echo.scd"
+  "echo.scd"
+  'sclang-mode
+  nil
+  716
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130817_machine/touchosc_patch.scd"
+  "touchosc_patch.scd"
+  'sclang-mode
+  nil
+  69
+  '(1 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/.config/serialosc/m64-1200.conf"
+  "m64-1200.conf"
+  'conf-unix-mode
+  nil
+  101
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  nil
+  "serialosc"
+  'dired-mode
+  nil
+  343
+  '(nil nil)
+  t
+  '("/home/emb/.config/serialosc/")
+  nil)
+

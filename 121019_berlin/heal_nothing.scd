@@ -3,9 +3,11 @@ Routine {
 
 	10.wait;
 
-	//	x.value("killgrains.scd");
-	// x.value("killsynth.scd");
-	
+	/*
+	x.value("killgrains.scd");
+	 x.value("killsynth.scd");
+	*/
+
 	~vox_b = Bus.audio(s, 2);
 	~vla_b = Bus.audio(s, 2);
 
@@ -172,21 +174,22 @@ Routine {
 	} }.play;
 	
 
-	/*
+	
 	120.wait;
 	~vla_longdel_amp_line = { Out.kr(~vla_delamp_b.index, Line.kr(0.1, 1.0, 240); ) }.play(s);
 
 	~vox_delt_line = { Out.kr(~vox_delt_b.index, Line.kr(0.1, 0.5, 120.0); ) }.play(s); 
 
 	~vox_fb_line = { Out.kr(~vox_fb_b.index, Line.kr(0.1, 0.85, 120); ) }.play(s); 
-	*/
+	
 	// test:
+		/*
 	~vla_longdel_amp_line = { Out.kr(~vla_delamp_b.index, Line.kr(0.1, 1.0, 24); ) }.play(s);
 
 	~vox_delt_line = { Out.kr(~vox_delt_b.index, Line.kr(0.1, 0.5, 12.0); ) }.play(s); 
 
 	~vox_fb_line = { Out.kr(~vox_fb_b.index, Line.kr(0.1, 0.85, 12); ) }.play(s); 
-
+		*/
 
 }.play
  });

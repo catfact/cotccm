@@ -1,0 +1,25 @@
+~key_amp = [-inf, -40, -32, -28, -24, -20, -16, -12].dbamp;
+
+~key_time = Array.fill(8, { 0 });
+
+~monome_grid = OSCdef.newMatching('grid_amp_time', { arg msg, time, addr, rec;
+	var x, y, z;
+	x=msg[1];
+	y=msg[2];
+	z=msg[3];
+	[x, y, z].postln;
+
+	if (z == 1, {
+		~key_time = SystemClock.seconds;
+	}, { 
+		~echo_set_time.value(x, (SystemClock.seconds - ~key_time).min(~echo_dur) );
+		~echo_set_amp.value(x, ~key_amp[y]);
+
+		8.do({ arg i;
+			~led.value(x, i, if(i <=y, {1}, {0}) ); 
+		});
+	});
+
+}, ~prefix++'/grid/key');
+
+

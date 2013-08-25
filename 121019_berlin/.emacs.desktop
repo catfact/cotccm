@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Fri Oct 19 16:27:23 2012
+;; Created Thu Aug  8 22:12:10 2013
 ;; Desktop file format version 206
 ;; Emacs version 23.3.1
 
@@ -17,12 +17,12 @@
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 206
-  "/home/emb/sc/cotccm/121019_berlin/heal_nothing.scd"
-  "heal_nothing.scd"
+  "/home/emb/sc/cotccm/121019_berlin/x.scd"
+  "x.scd"
   'sclang-mode
   nil
-  111
-  '(3250 nil)
+  187
+  '(nil nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
@@ -48,17 +48,6 @@
   t
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/121019_berlin/x.scd"
-  "x.scd"
-  'sclang-mode
-  nil
-  187
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/121019_berlin/synth.scd"
@@ -213,17 +202,6 @@
   t
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/usr/local/share/SuperCollider/Extensions/catfact/catfact_util/CfContext.sc"
-  "CfContext.sc"
-  'sclang-mode
-  nil
-  3138
-  '(3159 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
 
 (desktop-create-buffer 206
   "/usr/local/share/SuperCollider/SCClassLibrary/Common/Audio/PitchShift.sc"

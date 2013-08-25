@@ -1,0 +1,35 @@
+if(~pm_key.notNil, {~pm_key.free;});
+
+~fltlamp = -24.dbamp;
+~fltl_key = OSCdef.newMatching('fltl_key', { arg msg, time, addr, rec;
+	var x, y, val;
+
+	x=msg[1];
+	y=msg[2];
+	val=msg[3];
+	
+	if((y < 5) && (val == 1), {
+		~fltl[x][y].get(\amp, {
+			arg val;
+			val.postln;
+			if (val < -60.dbamp, {	
+				~fltl[x][y].set(\amp, ~fltlamp);
+				~led.value(x, y, 1);
+			}, {
+				~fltl[x][y].set(\amp, 0.0);
+				~led.value(x, y, 0);
+			});
+		});
+	});
+}, ~prefix++'/grid/key');
+
+
+/*
+~fltl[0][0]
+
+~fltl_key.free;
+
+~fltl_buf[0].plot
+*/
+
+~led.value(0, 0, 0);

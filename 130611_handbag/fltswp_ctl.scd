@@ -8,7 +8,7 @@
 	
 	if( y == 5, {
 		if(val > 0, {	
-			if (x % 1 > 0, {
+			if (x % 2 > 0, {
 				~fltrin = 1;
 			}, { ~fltrin = 0;
 			});
@@ -24,4 +24,5 @@
 
 /*
 ~flt_rec_key.remove;
+~fltrin
 */

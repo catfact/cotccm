@@ -14,10 +14,21 @@ Routine {
 
 64.wait;
 
+
+
+~gr2.do({ arg gr, i; var rate;
+	rate = ~analist[i].cent / ~analist[i].pitch; 
+	while( {rate > 2.0}, {rate = rate / 2; }); 
+	rate.postln; 
+	gr.grrate_b.set(rate );
+});
+
+/*
 ~gr2.do({ arg gr, i; var rate; rate = ~analist[i].cent / ~analist[i].pitch;  while( {rate > 2.0}, {rate = rate / 2; }); rate.postln; gr.grrate_b.set(rate ); });
 
 64.wait;
 
 ~gr.do({ arg gr, i; var rate = i + 1; while( {rate > 2.0}, {rate = rate / 2; }); gr.grrate_b.set(rate); });
+*/
 
 }.play;

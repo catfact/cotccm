@@ -1,0 +1,12 @@
+~echo_s[2].set(\svf_mix, 1.0);
+~echo_s[2].set(\svf_hz, 330.0);
+~echo_s[2].set(\svf_lo, 1.0);
+~echo_s[2].set(\svf_res, 0.8);
+
+~echo_s.do({ arg syn;
+	syn.set(\svf_mix, 1.0);
+	syn.set(\svf_hz, 330.0);
+	syn.set(\svf_lo, 1.0);
+	syn.set(\svf_res, 0.2);
+	syn.set(\fb, 0.2);
+});

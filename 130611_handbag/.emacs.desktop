@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Tue Jun 11 11:57:19 2013
+;; Created Tue Jun 11 19:23:25 2013
 ;; Desktop file format version 206
 ;; Emacs version 23.3.1
 
@@ -13,16 +13,49 @@
 (setq search-ring '("1shot_rez" "action" "index" "grain" "valure"))
 (setq regexp-search-ring nil)
 (setq register-alist nil)
-(setq file-name-history '("~/sc/cotccm/130523_bsfx/spcnv.scd" "~/sc/cotccm/130523_bsfx/" "~/sc/cotccm/130523_bsfx/noblc.scd" "~/sc/cotccm/130523_bsfx/fltl_ctl.scd" "~/sc/cotccm/130523_bsfx/_x_bx.scd" "~/sc/cotccm/130523_bsfx/spcnv.scd" "~/sc/cotccm/130523_bsfx/" "~/sc/cotccm/130523_bsfx/pm_ctl.scd" "~/sc/cotccm/130523_bsfx/hzseq.scd" "~/sc/cotccm/130523_bsfx/analysis.scd" "~/sc/cotccm/130523_bsfx/hzseq.scd" "~/sc/cotccm/130523_bsfx/pm_ctl.scd" "~/sc/cotccm/130523_bsfx/_defs.scd" "~/sc/cotccm/130523_bsfx/frz.scd" "~/sc/cotccm/130523_bsfx/fltl_ctl.scd" "~/sc/cotccm/130523_bsfx/fltswp_ctl.scd" "~/sc/cotccm/130523_bsfx/frz_ctl.scd" "~/sc/cotccm/130523_bsfx/fltswp.scd" "~/sc/cotccm/130523_bsfx/flt.scd" "~/sc/cotccm/130523_bsfx/fltswp.scd" "~/sc/cotccm/130523_bsfx/" "~/sc/cotccm/130523_bsfx/fltl_ctl.scd" "~/sc/cotccm/130523_bsfx/_x_bx.scd" "~/sc/cotccm/130523_bsfx/fltl.scd" "~/sc/cotccm/130523_bsfx/fltlpl_ctl.scd" "~/sc/cotccm/130523_bsfx/specx.scd" "~/sc/cotccm/130523_bsfx/scr.scd" "~/sc/cotccm/130523_bsfx/pm_ctl.scd" "~/sc/cotccm/130523_bsfx/fltswp.scd" "~/sc/cotccm/130523_bsfx/fltlpl_ctl.scd"))
+(setq file-name-history '("~/sc/cotccm/130611_handbag/_fltl_ctl.scd" "~/sc/cotccm/130611_handbag/_fltlpl.scd" "~/sc/cotccm/130611_handbag/scr.scd" "~/sc/cotccm/130523_bsfx/spcnv.scd" "~/sc/cotccm/130523_bsfx/" "~/sc/cotccm/130523_bsfx/noblc.scd" "~/sc/cotccm/130523_bsfx/fltl_ctl.scd" "~/sc/cotccm/130523_bsfx/_x_bx.scd" "~/sc/cotccm/130523_bsfx/spcnv.scd" "~/sc/cotccm/130523_bsfx/" "~/sc/cotccm/130523_bsfx/pm_ctl.scd" "~/sc/cotccm/130523_bsfx/hzseq.scd" "~/sc/cotccm/130523_bsfx/analysis.scd" "~/sc/cotccm/130523_bsfx/hzseq.scd" "~/sc/cotccm/130523_bsfx/pm_ctl.scd" "~/sc/cotccm/130523_bsfx/_defs.scd" "~/sc/cotccm/130523_bsfx/frz.scd" "~/sc/cotccm/130523_bsfx/fltl_ctl.scd" "~/sc/cotccm/130523_bsfx/fltswp_ctl.scd" "~/sc/cotccm/130523_bsfx/frz_ctl.scd" "~/sc/cotccm/130523_bsfx/fltswp.scd" "~/sc/cotccm/130523_bsfx/flt.scd" "~/sc/cotccm/130523_bsfx/fltswp.scd" "~/sc/cotccm/130523_bsfx/" "~/sc/cotccm/130523_bsfx/fltl_ctl.scd" "~/sc/cotccm/130523_bsfx/_x_bx.scd" "~/sc/cotccm/130523_bsfx/fltl.scd" "~/sc/cotccm/130523_bsfx/fltlpl_ctl.scd" "~/sc/cotccm/130523_bsfx/specx.scd" "~/sc/cotccm/130523_bsfx/scr.scd"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130611_handbag/_fltl_ctl.scd"
+  "_fltl_ctl.scd"
+  'sclang-mode
+  nil
+  453
+  '(453 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130611_handbag/_fltlpl.scd"
+  "_fltlpl.scd"
+  'sclang-mode
+  nil
+  1
+  '(nil nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130611_handbag/scr.scd"
+  "scr.scd<2>"
+  'sclang-mode
+  nil
+  424
+  '(54 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/130611_handbag/_x_hbf.scd"
   "_x_hbf.scd"
   'sclang-mode
   nil
-  1
-  '(nil nil)
+  756
+  '(718 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))

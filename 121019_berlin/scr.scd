@@ -11,3 +11,4 @@
 t = SystemClock.seconds;
 t = SystemClock.seconds - t;
 
+~bb

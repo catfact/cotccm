@@ -1,6 +1,12 @@
 q = { WhiteNoise.ar.dup * -30.dbamp }.play;
 q.free;
 
+x.value("ctl.scd");
+x.value("_fltlpl.scd");
+x.value("_fltl_ctl.scd");
+
+
+
 ~fltg.set(\amplag, 10.0);
 ~fltg.set(\amp, -22.dbamp);
 
@@ -16,8 +22,8 @@ q.free;
 
 ~fltg.set(\amp, -40.dbamp);
 
-~ar = 0.25;
-~at = 60.0;
+~ar = 2.0;
+~at = 16.0;
 ~anapop.value(0.5, 60);
 
 ~fltrin = 1;

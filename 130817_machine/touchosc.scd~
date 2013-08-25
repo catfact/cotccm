@@ -1,0 +1,49 @@
+NetAddr.langPort.postln;
+OSCFunc.trace(true);
+OSCFunc.trace(false);
+
+
+
+/// map multislider to cross-patch amplitudes
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+~xpatch_0_0 = OSCFunc( {
+	|msg, time, addr, recvPort|
+	~echo_patch[0][0].set(\amp, msg[1] * 0.25);
+}, '/2/multifader1/1');
+
+

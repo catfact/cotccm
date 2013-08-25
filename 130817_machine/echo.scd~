@@ -1,0 +1,7 @@
+Routine {
+	SynthDef.new(\echo_buf, {
+		arg buf, in, out, time, amp=1.0;
+		Out.ar(out, BufDelayL.ar(buf, In.ar(in), time, amp));
+	}).send(s);
+
+	~echo_dur = 

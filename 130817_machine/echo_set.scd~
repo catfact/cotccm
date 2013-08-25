@@ -1,0 +1,9 @@
+~echo_set_time = { arg i, t;
+	//	Routine {
+	~echo_s[i].set(\time, t);
+		// }.play;
+};
+
+~echo_set_amp = { arg i, v;
+	~echo_s[i].set(\amp, v);
+};

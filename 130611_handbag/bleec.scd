@@ -1,6 +1,8 @@
 Routine {
 	//~beet_t = 60/55 * 0.5;
 	~beet_t = 22/5;
+	(120 / ~beet_t).postln;
+
 	//	~beet_rbase = 0.0625;
 	~beet_rbase = 1/4;
 	~beet_dur_base = 1/3;

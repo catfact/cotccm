@@ -1,0 +1,3 @@
+~zero = { arg i; ~echo_buf[i].zero; };
+
+~zero.value(

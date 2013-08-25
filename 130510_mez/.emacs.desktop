@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Sat May 11 00:59:46 2013
+;; Created Fri Jul  5 23:08:31 2013
 ;; Desktop file format version 206
 ;; Emacs version 23.3.1
 
@@ -10,205 +10,18 @@
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
-(setq search-ring '("free" "1shot" "grain" "copyData" "1shot_rez" "copyData" "copy" "zero" "clear" "normali"))
+(setq search-ring nil)
 (setq regexp-search-ring nil)
 (setq register-alist nil)
-(setq file-name-history '("~/sc/cotccm/130510_mez/spurs.scd" "~/sc/cotccm/130510_mez/handlemouse.scd" "~/sc/cotccm/130510_mez/pm.scd" "~/sc/cotccm/130510_mez/voch.scd" "~/sc/cotccm/130510_mez/end.scd" "~/sc/cotccm/130510_mez/_justloops.scd" "~/sc/cotccm/130510_mez/viz.scd" "~/sc/cotccm/130510_mez/bleec.scd" "~/sc/cotccm/130510_mez/_chordgrains.scd" "~/sc/cotccm/130510_mez/_recordcycle.scd" "~/sc/cotccm/130510_mez/" "~/sc/cotccm/130510_mez/__chr.scd" "~/sc/cotccm/130510_mez/" "~/sc/cotccm/130510_mez/_x2.scd" "~/sc/cotccm/130510_mez/monome.scd" "~/sc/cotccm/130510_mez/" "/usr/local/share/SuperCollider/Help/UGens/Info/" "~/sc/cotccm/130510_mez/spurs.scd" "~/sc/cotccm/130510_mez/" "~/sc/cotccm/130510_mez/_defs.scd" "~/sc/cotccm/130510_mez/handlemouse.scd" "~/sc/cotccm/130510_mez/" "~/sc/cotccm/130510_mez/_defs.scd" "~/sc/cotccm/130510_mez/voch_ctl.scd" "~/sc/cotccm/130510_mez/voch.scd" "~/sc/cotccm/130510_mez/spurs.scd" "~/sc/cotccm/130510_mez/" "~/sc/cotccm/130510_mez/_defs.scd" "~/sc/cotccm/130510_mez/frz.scd" "~/sc/cotccm/130510_mez/_x_mez.scd"))
+(setq file-name-history '("~/sc/cotccm/130510_mez/monome.scd" "~/sc/cotccm/130510_mez/"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/scr.scd"
-  "scr.scd"
-  'sclang-mode
-  nil
-  2620
-  '(2547 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/_chordgrains.scd"
-  "_chordgrains.scd"
-  'sclang-mode
-  nil
-  1320
-  '(1283 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/_justloops.scd"
-  "_justloops.scd"
-  'sclang-mode
-  nil
-  531
-  '(2849 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/_recordcycle.scd"
-  "_recordcycle.scd"
-  'sclang-mode
-  nil
-  323
-  '(46 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/__chr.scd"
-  "__chr.scd"
-  'sclang-mode
-  nil
-  177
-  '(127 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/130510_mez/_x_mez.scd"
   "_x_mez.scd"
   'sclang-mode
   nil
-  477
-  '(520 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/handlemouse.scd"
-  "handlemouse.scd"
-  'sclang-mode
-  nil
-  1526
-  '(820 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/spurs.scd"
-  "spurs.scd"
-  'sclang-mode
-  nil
-  1719
-  '(2128 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/bleec.scd"
-  "bleec.scd"
-  'sclang-mode
-  nil
-  1463
-  '(533 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/voch.scd"
-  "voch.scd"
-  'sclang-mode
-  nil
-  1415
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/pm.scd"
-  "pm.scd"
-  'sclang-mode
-  nil
-  4624
-  '(688 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/_defs.scd"
-  "_defs.scd"
-  'sclang-mode
-  nil
-  6928
-  '(8848 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/voch_ctl.scd"
-  "voch_ctl.scd"
-  'sclang-mode
-  nil
-  406
-  '(775 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/ctl.scd"
-  "ctl.scd"
-  'sclang-mode
-  nil
-  3
-  '(500 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/end.scd"
-  "end.scd"
-  'sclang-mode
-  nil
-  91
-  '(91 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/viz.scd"
-  "viz.scd"
-  'sclang-mode
-  nil
-  880
-  '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "130510_mez"
-  'dired-mode
-  nil
-  3003
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/130510_mez/")
-  nil)
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/_x2.scd"
-  "_x2.scd"
-  'sclang-mode
-  nil
-  686
+  523
   '(nil nil)
   nil
   nil
@@ -219,41 +32,8 @@
   "monome.scd"
   'sclang-mode
   nil
-  700
-  '(551 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/frz.scd"
-  "frz.scd"
-  'sclang-mode
-  nil
-  1590
-  '(817 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "Info"
-  'dired-mode
-  nil
-  987
-  '(nil nil)
-  t
-  '("/usr/local/share/SuperCollider/Help/UGens/Info/")
-  nil)
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130510_mez/pm_ctl.scd"
-  "pm_ctl.scd"
-  'sclang-mode
-  nil
-  729
-  '(799 nil)
+  145
+  '(53 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))

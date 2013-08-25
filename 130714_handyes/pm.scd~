@@ -1,0 +1,19 @@
+
+	~pmg = Group.new(c.og, \addBefore);
+	~pmb = Bus.audio(s, 1);
+
+	~pm = Array.fill(~npm, { arg i;
+		Synth.new(\pm3, [
+			\hz1, 110,
+			\amp, 0.0,
+			\amplag, 1.0,
+			\pm12, 0,
+			\pm23, 0,
+			\pm31, 0,
+			\pm12lag, 0.125,
+			\pm23lag, 0.125,
+			\pm31lag, 0.125,
+			\out, ~pmb.index
+		], ~pmg);
+	});
+	~pmout = Synth.new(\pan, [\in, ~pmb.index, \out, c.out_b.index], c.og, \addBefore);

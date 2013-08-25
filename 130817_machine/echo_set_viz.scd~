@@ -1,0 +1,91 @@
+
+
+Routine {
+
+	~echo_dur = 120;
+
+	SynthDef.new(\adc, {arg in=0, out=0, amp=1, amplag = 0.01;
+		var sig;
+		amp = Lag.kr(amp, amplag);
+		sig = SoundIn.ar(in);
+		Out.ar(out, sig * amp);
+	}).send(s);
+
+	SynthDef.new(\echo_buf, {
+		arg buf, in, out, time, amp=1.0;
+		Out.ar(out, BufDelayL.ar(buf, In.ar(in), time, amp));
+	}).send(s);
+	
+	~echo_buf = Buffer.alloc(s, s.sampleRate * ~echo_dur, 1);
+	~echo_in_b = Bus.audio(s, 1);
+
+	s.sync;
+
+	~echo_adc = Synth.new(\adc, [\in, 0, \out, ~echo_in_b]);
+	~echo_s = Synth.new(\echo_buf, [\in, ~echo_in_b, \time, 2.0, \buf, ~echo_buf[i], ~adc, \addAfter);
+	
+
+}.play;
+
+
+// plot amplitudes
+w = Window.new("wave", Rect(0, 0, 800, 110));
+w.view.decorator = FlowLayout(w.view.bounds);
+w.front;
+
+~slw =  w.view.bounds.width - 10;
+~sl = MultiSliderView(w, Rect(0, 0, ~slw, 100)); 
+~sl.readOnly_(true);
+
+~sl.drawLines_(true);
+~sl.drawRects_(false);
+~sl.isFilled_(true);
+~sl.selectionSize_(10);
+~sl.index_(10);
+~sl.thumbSize_(1);
+~sl.gap_(0);
+~sl.background_(Color.new(0.15, 0.15, 0.15));
+~sl.colors_(Color.new(0.5, 0.5, 1.0), Color.new(0.7, 0.7, 0.7) );
+w.refresh;
+
+~draw_val = FloatArray.newClear(~slw);
+
+~plot_dt = 1 / 16;
+~plot_idx = 0;
+
+~plot_func = { arg i;
+	~amp_b.get({ arg v; 
+		~draw_val[~plot_idx] = v; 
+		~plot_idx = ~plot_idx + 1;
+		if(~plot_idx == ~slw, { ~plot_idx = 0; });
+		{ 
+			~sl.value_(~draw_val); 
+			w.refresh;
+		}.defer;
+	});
+};
+
+~plot_r = Routine {
+	var i = 0;
+	inf.do {
+		~plot_func.value(i);
+		~plot_dt.wait;
+	}
+}.play;
+
+~sl.action = { arg xb; 
+	var dif_i;
+	var dif_t;
+	dif_i = ~plot_idx - xb.index;
+	if (dif_i < 0, { dif_i = dif_i + ~slw; });
+	dif_t = dif_i * ~plot_dt;
+	~echo_s.set(\time, dif_t.min(~echo_dur));
+	post(" dif_t : ");
+	postln(dif_t);
+};	
+
+
+/*
+~plot_func = { };
+~plot_r.stop;
+*/ 
