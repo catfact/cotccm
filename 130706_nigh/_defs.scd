@@ -5,14 +5,6 @@ SynthDef.new(\adc, {arg in=0, out=0, amp=1, amplag = 0.01;
 	Out.ar(out, sig * amp);
 }).send(s);
 
-SynthDef.new(\adc_mix2, {arg in=0, out=0, amp=1, amplag = 0.01;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = Mix.new( SoundIn.ar( [in, in+1] ) );
-	Out.ar(out, sig * amp);
-}).send(s);
-
-
 SynthDef.new(\patch_pan, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
 	var sig;
 	amp = Lag.kr(amp, amplag);
@@ -28,27 +20,11 @@ SynthDef.new(\patch, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
 	Out.ar(out, sig * amp);
 }).send(s);
 
-SynthDef.new(\patch_mix2, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = Mix.ar( In.ar( [in, in+1] ) );
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
-
-SynthDef.new(\patch_fb, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = InFeedback.ar(in);
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
 
 SynthDef.new(\rec, {
 	arg in=0, buf=0,
-		reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1;
+		reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1,
+		atk=0.01, rel=0.01, gate=1;
 		
 	RecordBuf.ar(In.ar(in, 1),
 		bufnum: buf, 
@@ -261,7 +237,7 @@ SynthDef.new(\buf_ringz_lpf_env, {
 	//	output = player * amp;
 	output = lpf * amp;
 	Out.ar(out, Pan2.ar(output) * level);
-}).send(s);
+}).load(s);
 
 
 

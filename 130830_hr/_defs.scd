@@ -5,14 +5,6 @@ SynthDef.new(\adc, {arg in=0, out=0, amp=1, amplag = 0.01;
 	Out.ar(out, sig * amp);
 }).send(s);
 
-SynthDef.new(\adc_mix2, {arg in=0, out=0, amp=1, amplag = 0.01;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = Mix.new( SoundIn.ar( [in, in+1] ) );
-	Out.ar(out, sig * amp);
-}).send(s);
-
-
 SynthDef.new(\patch_pan, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
 	var sig;
 	amp = Lag.kr(amp, amplag);
@@ -20,35 +12,11 @@ SynthDef.new(\patch_pan, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
 	Out.ar(out, Pan2.ar(sig * amp, pan));
 }).send(s);
 
-SynthDef.new(\patch, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = In.ar(in);
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
-SynthDef.new(\patch_mix2, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = Mix.ar( In.ar( [in, in+1] ) );
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
-
-SynthDef.new(\patch_fb, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = InFeedback.ar(in);
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
 
 SynthDef.new(\rec, {
 	arg in=0, buf=0,
-		reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1;
+		reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1,
+		atk=0.01, rel=0.01, gate=1;
 		
 	RecordBuf.ar(In.ar(in, 1),
 		bufnum: buf, 
@@ -154,31 +122,6 @@ SynthDef.new(\chopgrain_1shot, {
 }).send(s);
 
 
-SynthDef.new(\chopgrain_1shot_fixpos, {
-	arg buf, out=0, level=1.0,
-	rate=1.0, choprate=1.0, posrate=0.25,
-	atk=1.0, rel=1.0, gate=1,
-	minframes=0, maxframes=44100,
-	dur=4.0, pos=0.0;
-	
-	var ampenv, trig, phase, read,
-	sr, frames, ratescale, framediff;
-	
-	sr = SampleRate.ir;
-	frames = BufFrames.kr(buf);
-	ratescale = BufRateScale.kr(buf);
-	framediff = maxframes - minframes;
-	
-	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
-	
-	trig = Impulse.ar(choprate);
-	
-	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
-	
-	Out.ar(out, (read * ampenv * level * 0.6).dup);
-}).send(s);
-
-
 SynthDef.new(\chopgrain_1shot_rez_dist, {
 	arg buf, out=0, level=1.0,
 	hz=(440 * 8/9), rq=0.4,
@@ -234,33 +177,27 @@ SynthDef.new(\cmpcho, {
 
 SynthDef.new(\buf_ringz_lpf_env, {
 	arg out=0,
-	buf=0,
-	amp = 1.0,
-	ringhz = 200,
-	lpfhz = 2000,
-	pulsehz = 1.0,
-	ringmix = 0.0625,
-	envattack=0.01, envdecay = 5.0,
-	ringdecay =  0.01,
-	startpos=0.0,
-	rate=1.0,
-	level = 1.0,
-	loop = 0,
-	trig = 0;
-	
+		buf=0,
+		amp = 1.0,
+		ringhz = 200,
+		lpfhz = 600,
+		pulsehz = 1.0,
+		ringmix = 0.5,
+		envattack=0.08, envdecay = 5.0,
+		ringdecay =  0.01,
+		startpos=0.0,
+		rate=1.0;
+		
 	var pulse, player, env, ring, lpf, output;
 	
 	pulse = Impulse.ar(pulsehz);
-	player = PlayBuf.ar(1, buf, rate:rate, trigger:trig, startPos:startpos, loop:loop);
-	player = PlayBuf.ar(1, buf, rate:rate, trigger:pulse, startPos:startpos, loop:loop);
+	player = PlayBuf.ar(1, buf, rate:rate, trigger:pulse, startPos:startpos, loop:0);
 	ring = Ringz.ar(player, ringhz, ringdecay);
 	ring = (ring * ringmix) + (player * (1.0 - ringmix));
 	lpf = LPF.ar(ring, lpfhz);
-	//	env = Decay2.ar(pulse, envattack, envdecay);
-	//output = env * lpf * amp;
-	//	output = player * amp;
-	output = lpf * amp;
-	Out.ar(out, Pan2.ar(output) * level);
+	env = Decay2.ar(pulse, envattack, envdecay);
+	output = env * lpf * amp;
+	Out.ar(out, Pan2.ar(output));
 }).send(s);
 
 
@@ -291,74 +228,3 @@ SynthDef.new(\grain_1shot_rez_dist, {
 //	read = BPF.ar(read, hz, rq) * rezmix;
 	Out.ar(out, (read * ampenv * level * 0.6).dup);
 }).send(s);
-
-
-SynthDef.new(\grain_1shot_rez_env, {
-	arg buf, out=0, level=1.0,
-	hz=(440 * 8/9), hz2 = 220, rq=0.4, rezmix=1.0,
-	rate=1.0, pos=0.0,
-	atk=1.0, rel=1.0, gate=1,
-	minframes=0, maxframes=44100,
-	dur=4.0, insideout=0.0,
-	trigrate = 1,
-	rezenv = 1/64, rezdec=0.1,
-	pan = 0.0;
-	
-	var ampenv, trig, phase, read,
-	sr, frames, ratescale, framediff;
-	
-	sr = SampleRate.ir;
-	frames = BufFrames.kr(buf);
-	ratescale = BufRateScale.kr(buf);
-	framediff = maxframes - minframes;
-	
-	trig = LFPulse.ar(trigrate);
-	
-	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
-
-	rezenv = trig * rezenv;
-	rezenv = Decay.ar(rezenv, rezdec);
-
-	//	rq = rq * (1 + rezenv);
-	//	hz = Line.ar(hz, hz2, dur);
-	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:0);
-	//	read = read + InsideOut.ar(read, insideout);
-	//	read = Resonz.ar(read, hz, rq) * rezmix;
-	read = RLPF.ar(read, hz, rq) * rezmix;
-//	read = BPF.ar(read, hz, rq) * rezmix;
-	Out.ar(out, Pan2.ar(read * ampenv * level * 0.6, pan));
-}).send(s);
-
-SynthDef.new(\saw_1shot_rez_dist, {
-	arg buf, out=0, level=1.0,
-	hz=440, rhz = 880, rq=0.4,
-	rate=1.0, choprate=1.0, posrate=0.25,
-	atk=1.0, rel=1.0, gate=1,
-	minframes=0, maxframes=44100,
-	dur=4.0, posphase=0.0, insideout=0.0,
-	pan=0.0;
-	
-	var ampenv, pos, trig, phase, read,
-	sr, frames, ratescale, framediff;
-	
-	sr = SampleRate.ir;
-	frames = BufFrames.kr(buf);
-	ratescale = BufRateScale.kr(buf);
-	framediff = maxframes - minframes;
-	
-	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
-	
-	//	trig = Impulse.ar(choprate);
-	
-	//	pos = LFSaw.kr(posrate / framediff * sr, posphase, framediff, minframes).wrap(minframes, maxframes - (sr / choprate));
-	//	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
-	
-	//	read = read + InsideOut.ar(read, insideout);
-	
-	
-	read = SinOsc.ar(hz * 0.5) + Saw.ar(hz);
-	read = Resonz.ar(read, rhz, rq);
-	
-	Out.ar(out, Pan2.ar(read * ampenv * level * 0.6, pan) );
-}).send(s);
-

@@ -5,14 +5,6 @@ SynthDef.new(\adc, {arg in=0, out=0, amp=1, amplag = 0.01;
 	Out.ar(out, sig * amp);
 }).send(s);
 
-SynthDef.new(\adc_mix2, {arg in=0, out=0, amp=1, amplag = 0.01;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = Mix.new( SoundIn.ar( [in, in+1] ) );
-	Out.ar(out, sig * amp);
-}).send(s);
-
-
 SynthDef.new(\patch_pan, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
 	var sig;
 	amp = Lag.kr(amp, amplag);
@@ -28,27 +20,11 @@ SynthDef.new(\patch, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
 	Out.ar(out, sig * amp);
 }).send(s);
 
-SynthDef.new(\patch_mix2, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = Mix.ar( In.ar( [in, in+1] ) );
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
-
-SynthDef.new(\patch_fb, {arg in=0, out=0, amp=1, amplag = 0.01, pan=0.0;
-	var sig;
-	amp = Lag.kr(amp, amplag);
-	sig = InFeedback.ar(in);
-	//	Out.ar(out, Pan2.ar(sig * amp, pan));
-	Out.ar(out, sig * amp);
-}).send(s);
-
 
 SynthDef.new(\rec, {
 	arg in=0, buf=0,
-		reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1;
+		reclevel=1.0, prelevel=0.0, offset=0.0, trig=1.0, loop=0, run=1,
+		atk=0.01, rel=0.01, gate=1;
 		
 	RecordBuf.ar(In.ar(in, 1),
 		bufnum: buf, 
@@ -261,7 +237,7 @@ SynthDef.new(\buf_ringz_lpf_env, {
 	//	output = player * amp;
 	output = lpf * amp;
 	Out.ar(out, Pan2.ar(output) * level);
-}).send(s);
+}).load(s);
 
 
 
@@ -287,7 +263,7 @@ SynthDef.new(\grain_1shot_rez_dist, {
 	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
 	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:0);
 	//	read = read + InsideOut.ar(read, insideout);
-	read = Resonz.ar(read, hz, rq) * rezmix;
+	read = (read * (1.0 - rezmix)) + Resonz.ar(read, hz, rq) * rezmix;
 //	read = BPF.ar(read, hz, rq) * rezmix;
 	Out.ar(out, (read * ampenv * level * 0.6).dup);
 }).send(s);
@@ -324,7 +300,7 @@ SynthDef.new(\grain_1shot_rez_env, {
 	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:0);
 	//	read = read + InsideOut.ar(read, insideout);
 	//	read = Resonz.ar(read, hz, rq) * rezmix;
-	read = RLPF.ar(read, hz, rq) * rezmix;
+	read = (read * (1.0 - rezmix)) + RLPF.ar(read, hz, rq) * rezmix;
 //	read = BPF.ar(read, hz, rq) * rezmix;
 	Out.ar(out, Pan2.ar(read * ampenv * level * 0.6, pan));
 }).send(s);
@@ -362,3 +338,69 @@ SynthDef.new(\saw_1shot_rez_dist, {
 	Out.ar(out, Pan2.ar(read * ampenv * level * 0.6, pan) );
 }).send(s);
 
+
+SynthDef.new(\sine_1shot, {
+	arg buf, out=0, level=1.0,
+	hz=440, rhz = 880, rq=0.4,
+	rate=1.0, choprate=1.0, posrate=0.25,
+	atk=1.0, rel=1.0, gate=1,
+	minframes=0, maxframes=44100,
+	dur=4.0, posphase=0.0, insideout=0.0,
+	pan=0.0;
+	
+	var ampenv, pos, trig, phase, read,
+	sr, frames, ratescale, framediff;
+	
+	sr = SampleRate.ir;
+	frames = BufFrames.kr(buf);
+	ratescale = BufRateScale.kr(buf);
+	framediff = maxframes - minframes;
+	
+	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
+	
+	//	trig = Impulse.ar(choprate);
+	
+	//	pos = LFSaw.kr(posrate / framediff * sr, posphase, framediff, minframes).wrap(minframes, maxframes - (sr / choprate));
+	//	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
+	
+	//	read = read + InsideOut.ar(read, insideout);
+	
+	
+	read = SinOsc.ar(hz);
+	//	read = Resonz.ar(read, rhz, rq);
+	
+	Out.ar(out, Pan2.ar(read * ampenv * level * 0.6, pan) );
+}).send(s);
+
+SynthDef.new(\noise_1shot_rez, {
+	arg buf, out=0, level=1.0,
+	hz=440, rhz = 880, rq=0.4,
+	rate=1.0, choprate=1.0, posrate=0.25,
+	atk=1.0, rel=1.0, gate=1,
+	minframes=0, maxframes=44100,
+	dur=4.0, posphase=0.0, insideout=0.0,
+	pan=0.0;
+	
+	var ampenv, pos, trig, phase, read,
+	sr, frames, ratescale, framediff;
+	
+	sr = SampleRate.ir;
+	frames = BufFrames.kr(buf);
+	ratescale = BufRateScale.kr(buf);
+	framediff = maxframes - minframes;
+	
+	ampenv = EnvGen.ar(Env.linen(atk, dur, rel), gate:gate, doneAction:2);
+	
+	//	trig = Impulse.ar(choprate);
+	
+	//	pos = LFSaw.kr(posrate / framediff * sr, posphase, framediff, minframes).wrap(minframes, maxframes - (sr / choprate));
+	//	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
+	
+	//	read = read + InsideOut.ar(read, insideout);
+	
+	
+	read = WhiteNoise.ar;
+	read = Resonz.ar(read, rhz, rq);
+	
+	Out.ar(out, Pan2.ar(read * ampenv * level * 0.6, pan) );
+}).send(s);

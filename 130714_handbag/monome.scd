@@ -1,4 +1,5 @@
-~serialoscAddr = NetAddr.new("localhost", 11094);
+~serialoscAddr = NetAddr.new("localhost", 12002);
+//~serialoscAddr = NetAddr.new("localhost", 11094);
 ~monomeAddr = NetAddr.new("localhost", 0);
 ~prefix = '/monome';
 
@@ -10,6 +11,7 @@ Routine {
 	var led_update; // private update function
 
 	OSCdef.newMatching(\monomeDiscover, { arg msg, time, addr, recPort;
+		"discover: ".post; 
 		msg.postln;
 		~monomeAddr.port = msg[3];
 		c.test = true; c.signal;
@@ -18,6 +20,7 @@ Routine {
 	~serialoscAddr.sendMsg('/serialosc/list', '127.0.0.1', NetAddr.langPort);
 
 	c.wait; c.test=false;
+	postln("hi");
 
 	~led = { arg x, y, val;
 		leds[x][y] = val;
@@ -39,12 +42,8 @@ Routine {
 	};
 
 	/// enable tilt
-	//	~monomeAddr.sendBundle(0.0, [~prefix++'/tilt/set', 0, 1 ]);
-	//	~monomeAddr.sendBundle(0.0, [~prefix++'/tilt/set', 1, 1 ]);
-	/// disable tilt
-	~monomeAddr.sendBundle(0.0, [~prefix++'/tilt/set', 0, 0 ]);
-	~monomeAddr.sendBundle(0.0, [~prefix++'/tilt/set', 1, 0 ]);
-	~monomeAddr.sendBundle(0.0, [~prefix++'/grid/led/intensity', 0 ]);
+	~monomeAddr.sendBundle(0.0, [~prefix++'/tilt/set', 0, 1 ]);
+	~monomeAddr.sendBundle(0.0, [~prefix++'/tilt/set', 1, 1 ]);
 
 	
 		// a little startup dance
@@ -64,8 +63,5 @@ Routine {
 		});
 	}.play;
 
-
-
-	
 
 }.play;

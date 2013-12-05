@@ -2,7 +2,7 @@
 ;; --------------------------------------------------------------------------
 ;; Desktop File for Emacs
 ;; --------------------------------------------------------------------------
-;; Created Sun Jan 27 17:30:30 2013
+;; Created Tue Aug 27 11:39:37 2013
 ;; Desktop file format version 206
 ;; Emacs version 23.3.1
 
@@ -10,63 +10,30 @@
 (setq desktop-missing-file-warning nil)
 (setq tags-file-name nil)
 (setq tags-table-list nil)
-(setq search-ring '("~norm_" "{P" "~v_p, " "pitch" "p" "vla_del" "patch" "topdoc"))
+(setq search-ring nil)
 (setq regexp-search-ring nil)
 (setq register-alist nil)
-(setq file-name-history '("~/sc/cotccm/130105_human_ark/_heal_nothing.scd" "~/sc/cotccm/130105_human_ark/_need.scd" "~/sc/cotccm/130105_human_ark/_heal_nothing.scd" "~/sc/cotccm/130105_human_ark/__churchkey.scd" "~/sc/cotccm/130105_human_ark/" "~/sc/cotccm/130105_human_ark/__churchkey.scd" "~/sc/cotccm/130105_human_ark/_x.scd" "~/sc/cotccm/130105_human_ark/_hebrew.scd" "~/sc/cotccm/130105_human_ark/_need.scd" "~/sc/cotccm/130105_human_ark/" "~/sc/cotccm/" "~/sc/cotccm/130105_human_ark/" "~/sc/cotccm/130105_human_ark/__lions.scd" "~/sc/cotccm/130105_human_ark/vox_echo_churchkey.scd" "~/sc/cotccm/130105_human_ark/__churchkey.scd" "~/sc/cotccm/130105_human_ark/lions_vox_grain.scd" "~/sc/cotccm/130105_human_ark/__lions.scd" "~/sc/cotccm/130105_human_ark/__churchkey.scd" "~/sc/cotccm/130105_human_ark/midi.scd" "~/sc/cotccm/130105_human_ark/lions_ctl.scd" "~/sc/cotccm/130105_human_ark/" "~/sc/cotccm/" "~/sc/cotccm/130105_human_ark/_church_ctl.scd" "~/sc/cotccm/130105_human_ark/__churchkey.scd" "~/sc/cotccm/130105_human_ark/_x.scd" "~/sc/cotccm/130105_human_ark/_church_ctl.scd" "~/sc/cotccm/130105_human_ark/__churchkey.scd" "~/sc/cotccm/130105_human_ark/__lions.scd" "_x.scd" "~/sc/cotccm/130105_human_ark/"))
+(setq file-name-history '("~/sc/cotccm/130105_human_ark/" "~/sc/cotccm/" "~/sc/cotccm/130223_pehr/"))
 
 ;; Buffer section -- buffers listed in same order as in buffer list:
 (desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/_heal_nothing.scd"
-  "_heal_nothing.scd"
+  "/home/emb/sc/cotccm/130105_human_ark/_x.scd"
+  "_x.scd<2>"
   'sclang-mode
   nil
-  684
-  '(84 nil)
+  1400
+  '(nil nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/_need.scd"
-  "_need.scd"
-  'sclang-mode
-  nil
-  146
-  '(433 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
 
 (desktop-create-buffer 206
   "/home/emb/sc/cotccm/130105_human_ark/__lions.scd"
   "__lions.scd"
   'sclang-mode
   nil
-  2306
-  '(90 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/__churchkey.scd"
-  "__churchkey.scd"
-  'sclang-mode
-  nil
-  3215
-  '(4520 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/_hebrew.scd"
-  "_hebrew.scd"
-  'sclang-mode
-  nil
-  119
-  '(4187 nil)
+  289
+  '(188 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
@@ -76,32 +43,10 @@
   "130105_human_ark"
   'dired-mode
   nil
-  1766
+  1477
   '(nil nil)
   t
   '("/home/emb/sc/cotccm/130105_human_ark/")
-  nil)
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/_x.scd"
-  "_x.scd"
-  'sclang-mode
-  nil
-  1
-  '(99 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  nil
-  "121112"
-  'dired-mode
-  nil
-  987
-  '(nil nil)
-  t
-  '("/home/emb/sc/cotccm/121112/")
   nil)
 
 (desktop-create-buffer 206
@@ -109,129 +54,63 @@
   "cotccm"
   'dired-mode
   nil
-  4742
+  5084
   '(nil nil)
   t
   '("/home/emb/sc/cotccm/")
   nil)
 
 (desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/vox_echo_churchkey.scd"
-  "vox_echo_churchkey.scd"
-  'sclang-mode
   nil
-  660
+  "130419_mata"
+  'dired-mode
+  nil
+  228
   '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+  t
+  '("/home/emb/sc/cotccm/130419_mata/")
+  nil)
 
 (desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/lions_vox_grain.scd"
-  "lions_vox_grain.scd"
-  'sclang-mode
   nil
-  2324
-  '(2447 nil)
+  "130426_smell"
+  'dired-mode
   nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/lions_ctl.scd"
-  "lions_ctl.scd"
-  'sclang-mode
-  nil
-  2366
-  '(2650 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/midi.scd"
-  "midi.scd"
-  'sclang-mode
-  nil
-  320
-  '(321 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/121112/0_audio.scd"
-  "0_audio.scd"
-  'sclang-mode
-  nil
-  1
+  226
   '(nil nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
+  t
+  '("/home/emb/sc/cotccm/130426_smell/")
+  nil)
 
 (desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/_church_ctl.scd"
-  "_church_ctl.scd"
-  'sclang-mode
   nil
-  26
-  '(25 nil)
+  "130714_handyes"
+  'dired-mode
   nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . utf-8-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/defs.scd"
-  "defs.scd"
-  'sclang-mode
-  nil
-  366
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/def.scd"
-  "def.scd"
-  'sclang-mode
-  nil
-  3072
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/lion_defs.scd"
-  "lion_defs.scd"
-  'sclang-mode
-  nil
-  54
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . iso-latin-1-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/_defs.scd"
-  "_defs.scd"
-  'sclang-mode
-  nil
-  41
-  '(1 nil)
-  nil
-  nil
-  '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))
-
-(desktop-create-buffer 206
-  "/home/emb/sc/cotccm/130105_human_ark/arduino.scd"
-  "arduino.scd"
-  'sclang-mode
-  nil
-  747
+  231
   '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130714_handyes/")
+  nil)
+
+(desktop-create-buffer 206
+  nil
+  "130223_pehr"
+  'dired-mode
+  nil
+  1112
+  '(nil nil)
+  t
+  '("/home/emb/sc/cotccm/130223_pehr/")
+  nil)
+
+(desktop-create-buffer 206
+  "/home/emb/sc/cotccm/130223_pehr/_x.scd"
+  "_x.scd"
+  'sclang-mode
+  nil
+  415
+  '(1982 nil)
   nil
   nil
   '((tab-width . 4) (indent-tabs-mode . t) (buffer-file-coding-system . undecided-unix)))

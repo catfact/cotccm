@@ -3,17 +3,22 @@
  
 ~xt = 0;
 ~xtthresh = 4.0;
- 
- ~xevents = Pseq([
+
+~xevents = Pseq([
 	//========== GOLD CHAINS
  	{ 
 	 	~xnotify.value("GOLD CHAINS");
 	 	x.value("_grandel.scd");
-	 },
+	},
 	// add vla delay
 	{
 	 	~xnotify.value("vla delay");
 	 	x.value("vla_echo_goldchains.scd");
+	},
+	// high feedback
+	{
+		~xnotify.value("feedback");
+		~vla_del4.del_s.do({ arg syn; syn.set (\fb, 0.99, \filtermix, 0.0); }); 
 	},
 	// add grains
 	{
@@ -24,6 +29,13 @@
 	 	~gran_out_s[5].set(\amplag, 20).set(\amp, 0.25);
 	 	~gran_out_s[6].set(\amplag, 20).set(\amp, 0.25);
 	},
+
+	// input from mic
+	{
+		~xnotify.value("mic in");
+		~vla_del4.del_in_s.set(\in, 0);
+	},
+
 	// add all grains
 	{
 	 	~xnotify.value("all grains");
@@ -40,7 +52,8 @@
 		 	gro.set(\amp, 0.0);
 	 	});
 	 	x.value("vla_echo_goldchains_stop.scd");
-	},
+	}
+	 /*,
 	
 	//============ LIONS
 	{
@@ -57,7 +70,7 @@
 	},
 
 	
-	//===== ====== CHURCH KEY
+	//=========== CHURCH KEY
 	{
 		~xnotify.value("CHURCH KEY");
 		x.value("__churchkey.scd");
@@ -70,12 +83,13 @@
 		~xnotify.value("churchkey play B");
 		~churchkey_func_b.value;
 	}
+	 */
  ]).asStream; 
  
- ~xw = SCWindow.new("XXXXXXXXXXXXXX", Rect(0, 0, 500, 500)); //SCWindow.screenBounds);
+ ~xw = Window.new("XXXXXXXXXXXXXX", Rect(0, 0, 500, 500)); //SCWindow.screenBounds);
  
- ~xw.view.background = Color.white;
- ~xtxt = SCStaticText(~xw, ~xw.view.bounds);
+ ~xw.view.background = Color.white;
+ ~xtxt = StaticText(~xw, ~xw.view.bounds);
  ~xtxt.font = Font("Andale Mono", 56);
  
  ~xw.view.keyDownAction = { arg view, char;
@@ -89,8 +103,8 @@
  
  ~xnotify = { |txt| { ~xtxt.string = txt; ~xw.refresh; }.defer; };
  
-~clock_w = SCWindow.new("clock", Rect(300, 600, 300, 80));
-~clock_t = SCStaticText(~clock_w, ~clock_w.view.bounds);
+~clock_w = Window.new("clock", Rect(300, 600, 300, 80));
+~clock_t = StaticText(~clock_w, ~clock_w.view.bounds);
 ~clock_t.setProperty(\font, Font(\Monaco, 60));
 ~clock_r = Routine{ inf.do({ arg i;
 	{ ~clock_t.string = "" ++ (i / 60).floor ++ "." ++ i; }.defer;
