@@ -74,7 +74,8 @@ Routine {
 				\rate, ~vhz_ratio,
 				\out, 0,
 				\amp, -12.dbamp,
-				\pan, ~vgrainpan;
+				//				\pan, ~vgrainpan;
+				\pan, 0;
 			]); 
 		}, {
 			~vhz = hz;

@@ -23,14 +23,16 @@ s.waitForBoot {
 		~norm_buf = Buffer.alloc(s, 16 * 1.2 * s.sampleRate, 1);
 		s.sync;
 
-		x.value("metrovis.scd");
+		{ x.value("metrovis.scd"); }.defer;
 
 		/// pre-delay, short loop
 		~vla_predel_buf = Buffer.alloc(s, 10 * s.sampleRate, 1);
+		~vla_predel2_buf = Buffer.alloc(s, 10 * s.sampleRate, 1);
 		s.sync;
 		~vla_predel_in_b = Bus.audio(s, 1);
 		~vla_predel_out_b = Bus.audio(s, 1);
 		~vla_predel_in_s = Synth.new(\in_hw, [\in, 1, \out, ~vla_predel_in_b.index], ~god_vox, \addAfter);
+		/// longish
 		~vla_predel_s = Synth.new(\bufdelay_fb, [
 			\buf, ~vla_predel_buf.bufnum,
 			\in, ~vla_predel_in_b.index,
@@ -38,31 +40,42 @@ s.waitForBoot {
 			\feedback, 1.0,
 			\out, ~vla_predel_out_b.index;
 		], ~vla_predel_in_s, \addAfter);
+		// shortish
+		~vla_predel2_s = Synth.new(\bufdelay_fb, [
+			\buf, ~vla_predel2_buf.bufnum,
+			\in, ~vla_predel_in_b.index,
+			\delaytime, 1.2 * 0.5,
+			\feedback, 0.1,
+			\amp, 0.5,
+			\out, ~vla_predel_out_b.index;
+		], ~vla_predel_in_s, \addAfter);
 		// dry signal to predelay output bus
 		~vla_dry = Synth.new(\adc_patch, [\in, 1, \out, ~vla_predel_out_b.index], ~vla_predel_out_s, \addBefore);
 		// predelay to DAC
 		~vla_predel_out_s = Synth.new(\patch_pan, [\in, ~vla_predel_out_b, \out, 0, \amp, -6.dbamp], 
 			~vla_predel_s, \addAfter);
+		~vla_predel2_s.set(\amp, 1.0);
 
 
+		(1.2 * 32).wait;
 		(1.2 * 32).wait;
 
 		//---------- - -   ----             ----- vox
 
 		~gvb = Bus.audio(s, 2);
 		~god_vox = Synth.new(\god_vox, [\in, 0, \gate_thresh, -42.dbamp, \amp, -4.dbamp]);
-		~god_vox.set(\amp, -6.dbamp);
+		~god_vox.set(\amp, 2.dbamp);                                  
 		~god_vox.set(\delaydc, 0.02);
-		~god_vox.set(\delaytime, 0.3);
+		~god_vox.set(\delaytime, 1.2 * 0.25);
 		~god_vox.set(\delaytime, \verb_mix, 0.7);
-		~god_vox.set(\delaytime, \verb_damp, 0.7);
+		~god_vox.set(\delaytime, \verb_damp, 0.2);
 		~god_vox.set(\out, ~gvb.index);
 		~god_vod_out_s = Synth.new(\patch_s, [\in, ~gvb.index, \out, 0], ~god_vox, \addAfter);
 
 		//		~rec_norm_s = Synth.new(\norm_rec, [\input, 1, \buf, ~norm_buf.bufnum; ]);
 
 		// input from predelay bus
-		~rec_norm_s = Synth.new(\norm_rec_bus, [\input, ~vla_predel_out_s.index, \buf, ~norm_buf.bufnum; ],
+		~rec_norm_s = Synth.new(\norm_rec_bus, [\input, ~vla_predel_out_b.index, \buf, ~norm_buf.bufnum; ],
 			~vla_predel_out_s, \addAfter);
 
 		SystemClock.sched(~norm_buf.duration + 0.01, { ~rec_norm_s.free; nil });
@@ -122,9 +135,10 @@ s.waitForBoot {
 		
 		x.value("gouge_beets.scd");
 
-		// shorten predelay
-		~vla_predelay_s.set(\fb, 0.2);
-		~vla_predelay_s.set(\delaytime, 1.2);
+		// shorten predelay and lower feedback
+		~vla_predel_s.set(\feedback, 0.4);
+		(1.2 * 8).wait;
+		~vla_predel_s.set(\delaytime, 1.2);
 
 		// - ----------- - --------------- vla, long delay
 		~loop_buf = Buffer.alloc(s, 100 * s.sampleRate, 1); 

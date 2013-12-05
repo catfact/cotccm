@@ -5,7 +5,7 @@
 	\posrate, 0.25 / 1.2,
 	\dur, 0.25 / 1.2,
 	\out, ~vla_del_out_b.index,
-	\pan, -0.8,
+	\pan, 0,
 	\amplag, 8.0,
 	\amp, -15.dbamp
 ], ~vla_del_g);
@@ -18,7 +18,7 @@
 	\posrate, 0.125 / 1.2,
 	\dur, 0.25 / 1.2,
 	\out, ~vla_del_out_b.index,
-	\pan, -0.8,
+	\pan, 0,
 	\amplag, 16.0,
 	\amp, -15.dbamp
 ], ~vla_del_g);
