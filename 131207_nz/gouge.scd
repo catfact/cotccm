@@ -23,9 +23,29 @@ s.waitForBoot {
 		~norm_buf = Buffer.alloc(s, 16 * 1.2 * s.sampleRate, 1);
 		s.sync;
 
-		(1.2 * 8).wait;
-
 		x.value("metrovis.scd");
+
+		/// pre-delay, short loop
+		~vla_predel_buf = Buffer.alloc(s, 10 * s.sampleRate, 1);
+		s.sync;
+		~vla_predel_in_b = Bus.audio(s, 1);
+		~vla_predel_out_b = Bus.audio(s, 1);
+		~vla_predel_in_s = Synth.new(\in_hw, [\in, 1, \out, ~vla_predel_in_b.index], ~god_vox, \addAfter);
+		~vla_predel_s = Synth.new(\bufdelay_fb, [
+			\buf, ~vla_predel_buf.bufnum,
+			\in, ~vla_predel_in_b.index,
+			\delaytime, 1.2 * 4.0,
+			\feedback, 1.0,
+			\out, ~vla_predel_out_b.index;
+		], ~vla_predel_in_s, \addAfter);
+		// dry signal to predelay output bus
+		~vla_dry = Synth.new(\adc_patch, [\in, 1, \out, ~vla_predel_out_b.index], ~vla_predel_out_s, \addBefore);
+		// predelay to DAC
+		~vla_predel_out_s = Synth.new(\patch_pan, [\in, ~vla_predel_out_b, \out, 0, \amp, -6.dbamp], 
+			~vla_predel_s, \addAfter);
+
+
+		(1.2 * 32).wait;
 
 		//---------- - -   ----             ----- vox
 
@@ -39,8 +59,12 @@ s.waitForBoot {
 		~god_vox.set(\out, ~gvb.index);
 		~god_vod_out_s = Synth.new(\patch_s, [\in, ~gvb.index, \out, 0], ~god_vox, \addAfter);
 
-		//~rec_norm_s = { RecordBuf.ar(Normalizer.ar(SoundIn.ar(1), 1.0), ~norm_buf.bufnum) }.play;
-		~rec_norm_s = Synth.new(\norm_rec, [\input, 1, \buf, ~norm_buf.bufnum; ]);
+		//		~rec_norm_s = Synth.new(\norm_rec, [\input, 1, \buf, ~norm_buf.bufnum; ]);
+
+		// input from predelay bus
+		~rec_norm_s = Synth.new(\norm_rec_bus, [\input, ~vla_predel_out_s.index, \buf, ~norm_buf.bufnum; ],
+			~vla_predel_out_s, \addAfter);
+
 		SystemClock.sched(~norm_buf.duration + 0.01, { ~rec_norm_s.free; nil });
 
 		/*
@@ -63,7 +87,6 @@ s.waitForBoot {
 			\envattack, 0.6 * 0.126,
 			\envdecay, 1.2,
 		], ~rhythm_g);
-		//		~bufbass.set(\amp, -16.dbamp)
 		~bufbass.set(\envdecay, 1.2 * 4);
 		~bufbass.set(\amp, -14.dbamp);
 		~bufbass.set(\pulsehz, (0.25 / 1.2));
@@ -95,57 +118,55 @@ s.waitForBoot {
 		*/
 
 		//---------------      - -  -           -- -    metro
-		//		SystemClock.sched(24.0 * 1.2, {
 		(16.0 * 1.2).wait;
 		
 		x.value("gouge_beets.scd");
 
-		/*
-		~metro = Synth.new(\metro, [
-			\impulsehz, 1.0 / 1.2, //1.15,
-			\ringhz, (55.midicps / 4.0),
-			\ringtime, 6.0,
-			\out, ~rhythm_out_b.index,
-			\lpfhz, 300,
-			\amp, -8.dbamp
-		], ~rhythm_g);
-		~metro.set(\amp, -4.dbamp);
-		*/
+		// shorten predelay
+		~vla_predelay_s.set(\fb, 0.2);
+		~vla_predelay_s.set(\delaytime, 1.2);
 
-		// - ----------- - --------------- vla
+		// - ----------- - --------------- vla, long delay
 		~loop_buf = Buffer.alloc(s, 100 * s.sampleRate, 1); 
 		s.sync;
 				
+
+		/// long delay input bus
 		~vla_del_in_b = Bus.audio(s, 1);	
-		~vla_del_in_s = Synth.new(\in_hw, [\in, 1, \out, ~vla_del_in_b.index], ~god_vox, \addAfter);
-		//	~vla_del_in_s = Synth.new(\in_hw, [\in, 0, \out, ~vla_del_in_b.index], s);
-		// ???? 
-		//		~vox_del_in_s = Synth.new(\patch, [\in, ~gvb.index, \out, ~vla_del_in_b.index, \amp, 0.0], ~vla_del_in_s, \addAfter);
-		//		~vox_del_in_s.set(\amp, 1.0);
+		// ADC -> long delay
+		~vla_del_in_hw_s = Synth.new(\in_hw, [\in, 1, \out, ~vla_del_in_b.index], ~god_vox, \addAfter);
+		// predelay -> long delay
+		~vla_del_in_predel_s = Synth.new(\patch, [
+			\in, ~vla_predel_out_b.index, 
+			\out, ~vla_del_in_b.index
+		], ~vla_predel_s, \addAfter);
+
+		// vox to delay... don't think we want this
+		/* 
+			~vox_del_in_s = Synth.new(\patch, [\in, ~gvb.index, \out, ~vla_del_in_b.index, \amp, 0.0], 
+			~vla_del_in_s, \addAfter);
+			~vox_del_in_s.set(\amp, 1.0);
+		*/
 
 		~vla_del_out_b = Bus.audio(s, 1);
-
-		//	~bass_del_in_s = Synth.new(\in_hw, [\in, 1, \out, ~vla_del_in_b.index], ~vla_del_in_s, \addAfter);
 		
-		~vla_del = Synth.new(\bufdelay_fb, [
+		~vla_del_s = Synth.new(\bufdelay_fb, [
 			\buf, ~loop_buf.bufnum,
 			\in, ~vla_del_in_b.index,
 			\delaytime, 1.2 * 4.0,
 			\out, ~vla_del_out_b.index;
-		], ~vox_del_in_s, \addAfter);
+		], ~vla_del_in_predel_s, \addAfter);
 		
 		
-		~vla_del_out_s = Synth.new(\patch_pan, [\in, ~vla_del_out_b, \out, 0, \amp, -6.dbamp], ~vla_del, \addAfter);
-		~vla_playthrough = Synth.new(\adc_patch, [\in, 1, \out, ~vla_del_out_b.index], ~vla_del_out_s, \addBefore);
+		~vla_del_out_s = Synth.new(\patch_pan, [\in, ~vla_del_out_b, \out, 0, \amp, -6.dbamp], ~vla_del_s, \addAfter);
+		~vla_del_s.set(\delaytime, 1.2 * 11.0 * 4.0);
+		
+		~vla_del_s.set(\feedback, 1.0);
+		~vla_del_s.set(\inputamp, 1.0);
 
-
-		~vla_del.set(\delaytime, 1.2 * 11.0 * 4.0);
-		
-		~vla_del.set(\feedback, 1.0);
-		~vla_del.set(\inputamp, 1.0);
-		~vla_del_out_s.set(\amp, 0.dbamp);
+		//		~vla_del_out_s.set(\amp, 0.dbamp);
 		/*
-			~vla_del.free;
+			~vla_del_s.free;
 		*/
 		
 		

@@ -35,6 +35,12 @@ SynthDef.new(\norm_rec, {arg input, buf, norm_dur=1.0, run=1, loop=0;
 	RecordBuf.ar(Normalizer.ar(SoundIn.ar(input), norm_dur), buf, run:run, loop:loop);
 }).send(s);
 
+
+SynthDef.new(\norm_rec_bus, {arg input, buf, norm_dur=1.0, run=1, loop=0; 
+	RecordBuf.ar(Normalizer.ar(In.ar(input), norm_dur), buf, run:run, loop:loop);
+}).send(s);
+
+
 SynthDef.new(\buf_ringz_lpf_env, {
 	arg out=0,
 		buf=0,
