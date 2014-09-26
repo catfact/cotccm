@@ -11,7 +11,7 @@ w.view.keyUpAction = {
 	~handleKey.value(ch, 0);
 };
 
-//x.value("handlekey.scd");
+x.value("handlekey.scd");
 x.value("handlemouse.scd");
 x.value("viz.scd");
 

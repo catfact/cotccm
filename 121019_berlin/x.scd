@@ -26,6 +26,7 @@ c = CfAudioContext.new(s, 2, { Routine {
 	
 	~blen.wait;
 
+	/*
 	x.value("happens.scd");
-
+	*/
 }.play; });

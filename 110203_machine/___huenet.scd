@@ -3,7 +3,7 @@ x = { |p| this.executeFile(~basepath++p); };
 //Document.current.background_(Color.white.alpha_(0.8));
 
 
-c = CfHueMorphCanvas.new;
+c = CfHueMorphCanvas.new("___");
 c.layers.add(CfGridTrace2d.new(c.window.view.bounds, 32, 16));
 
 x.value("_hid.scd");

@@ -191,7 +191,10 @@ s.sync;
 	},
 	
 	//// part 2
-	{
+
+	///// try automatic timing
+	Routine { 
+	//	{
 		~tempo = 0.9;
 		~vox_delay = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo1_buf.bufnum, \time, ~tempo, \out, 0, \amp, 0.5], ~xg);
 		~chopr.stop;
@@ -201,25 +204,26 @@ s.sync;
 		~vlabeet_t = ~tempo;
 		~vlabeet_level = 1.0;
 		~notify.value("PART 2 [vox echo]");
-	},
-	{
+	//	},
+	//	{
 		~vla_loop_del.set(\amplag, 0.0);
 		~vla_loop_del.set(\amp, 0.0);
 		~vla_loop_del.set(\feedback, 1.0);
 		~vla_loop_del.set(\inputamp, 1.0);
 		~vla_loop_del.set(\buf, ~vla_loop2_buf.bufnum);
+
 		~notify.value("recording [viola loop 2]", Color.red);
-	},
-	{	arg val, time;
-		time.postln;
-		~vla_loop_del.set(\delaytime, time);
+	//	},
+	//	arg val, time;
+	//		time.postln;
+		~vla_loop_del.set(\delaytime, ~tempo * 32);
 		~vla_loop_del.set(\amp, 1.0);
-		time.postln;
-		~notify.value("playback [viola loop 2]", Color.green);
-		~tempo = time / 8;
+	//		time.postln;
+	//		~notify.value("playback [viola loop 2]", Color.green);
+	//~tempo = time / 8;
 		~bufbass = Synth.new(\buf_ringz_lpf_env, [
 			\buf, ~vla_loop1_buf.bufnum,
-			\pulsehz, 1.0 / time,
+			\pulsehz, 1.0 / ~tempo * 32,
 			\lpfhz, 110 * 4 / 3,
 			\ringhz, 55 * 4 / 3,
 			\rate, 0.25,
@@ -228,11 +232,14 @@ s.sync;
 			\out, 0,
 			\amp, -18.dbamp
 		]);
+
+	
+
 		/// grab first two take only
-		SystemClock.sched(time, {
-			~vla_loop2_buf.copyData(~vla_chord2_buf, 0, 0, -1);
-			nil
-		});
+		//		SystemClock.sched(time, {
+	//			~vla_loop2_buf.copyData(~vla_chord2_buf, 0, 0, -1);
+		//			nil
+		//		});
 	},
 	{
 		~notify.value("stop recording [viola loop 2]", Color.grey);

@@ -30,7 +30,9 @@ Routine {
 			~freezer_s.set(\stretch, val.wrap(1.0, 1.5));
 		};
 		
-//		~canvas.play;
+		/*
+	~canvas.play;
+		*/
 	}.defer;
 }.play;
 

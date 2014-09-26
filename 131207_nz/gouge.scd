@@ -9,7 +9,7 @@ s.waitForBoot {
 	//s.freeAll;
 
 	Routine {
-		// god dammit
+		// god dammit<
 		x.value("lion_defs.scd");
 		s.sync;
 		x.value("defs.scd");
@@ -57,7 +57,7 @@ s.waitForBoot {
 		~vla_predel2_s.set(\amp, 1.0);
 
 
-		(1.2 * 32).wait;
+		(1.2 * 64).wait;
 		(1.2 * 32).wait;
 
 		//---------- - -   ----             ----- vox

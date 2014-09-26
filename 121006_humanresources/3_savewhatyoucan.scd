@@ -140,6 +140,7 @@ s.sync;
 			\in, ~vla_in_b.index,
 			\delaytime, 60/80,
 			\amp, -14.0.dbamp,
+			\feedback, 0.
 			\out, 0;
 		], ~xg);
 		

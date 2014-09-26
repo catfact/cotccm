@@ -237,7 +237,7 @@ SynthDef.new(\buf_ringz_lpf_env, {
 	//	output = player * amp;
 	output = lpf * amp;
 	Out.ar(out, Pan2.ar(output) * level);
-}).load(s);
+}).send(s);
 
 
 
