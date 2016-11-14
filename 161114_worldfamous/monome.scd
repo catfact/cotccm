@@ -1,47 +1,30 @@
 g = CfGridRaw.new;
 
 // 2 big buttons
-~quad0_on = { 
-	g.led_map(0, 0, Int8Array.fill(8, { 0xff }); );
-};
-~quad0_off = { 
-	g.led_map(0, 0, Int8Array.fill(8, { 0x00 }); );
-};
+~quad_on = [
+	{ 
+		g.led_map(0, 0, Int8Array.fill(8, { 0xff }); );
+	}, { 
+		g.led_map(0x08, 0x00, Int8Array.fill(8, { 0xff }); );
+	}
+];
 
-~quad1_on= { 
-	g.led_map(0x08, 0x00, Int8Array.fill(8, { 0xff }); );
-};
+~quad_off = [
+	{ 
+		g.led_map(0, 0, Int8Array.fill(8, { 0x00 }); );
+	}, { 
+		g.led_map(0x08, 0x00, Int8Array.fill(8, { 0x00 }); );
+	}
+];
 
-~quad1_off= { 
-	g.led_map(0x08, 0x00, Int8Array.fill(8, { 0x00 }); );
-};
 
-/*
-~quad0_on.value
-~quad0_off.value
-~quad1_on.value
-~quad1_off.value
-
-*/
-
-~showgrains = {
+~show_grains = {
 	var b = 0x00;
-	~gsyn.size.do({|i| b = b | (1<<i) });
+	~grsyn.size.do({|i| b = b | (1<<i) });
+	b.asHexString.postln;
 	g.led_row(0, 0, b);
 };
 
-/*
-g.keyDown = { |x,y|
-	g.led_set(x, y, true);
-};
-
-g.keyUp = { |x,y|
-	g.led_set(x, y, true);
-};
-
-g.led_set(0, 0, true);
-g.led_set(0, 0, false);
-*/
 
 g.led_intensity(0x3);
 
@@ -49,19 +32,38 @@ g.led_intensity(0x3);
 // set of keys held down
 ~quad_keys = [Set.new, Set.new];
 
+~quad_key_downfunc = [
+	{  ~grstartrec.value;},
+	{ ~grstopplay.value; }
+];
+
+~quad_key_upfunc = [
+	{ ~grstoprec.value; },
+	{  }
+];
+
 g.keyDown = { |x,y|
 	var q = x >> 3;
 	~quad_keys[x >> 3].add(Point(x,y));
+	//	~quad_keys[q].postln;
+	if(~quad_keys[q].size ==1 , {
+		postln("quad key down " ++ q);
+		~quad_key_downfunc[q].value;
+		~quad_on[q].value;
+	});
 	
 };
 
 g.keyUp = { |x,y|
 	var q = x >> 3;
 	~quad_keys[q].remove(Point(x,y));
+	//	~quad_keys[q].postln;
 	if(~quad_keys[q].isEmpty, {
-		[
-			{~grstartrecord.value},
-			{}
-		][q].value;
+		postln("quad key up " ++ q); 
+		~quad_key_upfunc[q].value;
+		~quad_off[q].value;
+		~show_grains.value;
 	});
 };
+
+

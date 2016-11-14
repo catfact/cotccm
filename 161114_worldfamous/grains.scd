@@ -8,7 +8,8 @@
 SynthDef.new(\gr, {arg buf, out=0, amp=1.0,
 	trigrate=0.0, trignoise = 0.5, trignoiserate=0.25,
 	rate=1.0, posrate=0.25, len=1.0,
-	durmin=0.24, durmax=0.4, durnoiserate=1.0,
+	durnoise=0.25, durbase=1.5, durnoiserate=1.0,
+	posnoise=0.125, posnoiserate=0.25,
 	gate=1, atk=0.1, rel=0.1, curve=0.0,
 	lpfhz=6000.0, hpfhz=20.0;
 
@@ -17,10 +18,13 @@ SynthDef.new(\gr, {arg buf, out=0, amp=1.0,
 
 	env = EnvGen.ar(Env.asr(atk, 1.0, rel, curve), gate, doneAction:2);
 
-	trig = Impulse.kr(trigrate * (1.0 + LFNoise1.kr(trignoiserate, trignoise)));
-	dur = LFNoise1.kr(durnoiserate, durmax-durmin, durmin);
-	pos = LFTri.kr(posrate / len * (1.0 + LFNoise1.kr([0.5, 0.75], 0.125)),
-		0, // initial phasae
+	trigrate = trigrate * (1.0 + LFNoise1.kr(trignoiserate, trignoise));
+	trig = Impulse.kr(trigrate);
+	dur = (1 + LFNoise1.kr(durnoiserate, durnoise, durbase)) / trigrate;
+	//	pos = LFTri.kr(posrate / len * (1.0 + LFNoise1.kr([0.5, 0.75], 0.125)),
+	
+	pos = LFTri.kr(posrate / len * (1.0 + LFNoise1.kr(posnoiserate, posnoise)),
+		0, // initial phase
 		len / BufDur.kr(buf) * 0.9 // multiplier
 	).abs; 
 	snd = BufGrain.ar(trig, dur, buf, rate, pos);
@@ -55,15 +59,18 @@ SynthDef.new(\rec, {arg buf, in;
 		s.sync;
 		~grbuf.last.copyData(buf, numSamples:dur * s.sampleRate);
 		s.sync;
-		buf.normalize;
-		s.sync;
+		//		buf.normalize;
+		//		s.sync;
 
 		~grsyn.add( Synth.new(\gr, [
 			\buf, buf.bufnum,
 			\amp, 0.5,
-			\trigrate, 10.0,
-			\trignoise, 0.5,
-			\len, dur
+			\trigrate, 4,
+			\trignoise, 0.25,
+			\len, dur,
+			\posnoise, 0.0,
+			\durmin: 2.245,
+			\durmax: 2.8
 			//			\len, dur / ~grbuflen * 0.9
 		], ~grg) );
 	}.play;
@@ -71,7 +78,8 @@ SynthDef.new(\rec, {arg buf, in;
 
 ~grstopplay = {
 	~grsyn.last.set(\gate, 0);
-	~grsyn.pop;
+~grsyn.pop;
+~grsyn.postln;
 };
 
 

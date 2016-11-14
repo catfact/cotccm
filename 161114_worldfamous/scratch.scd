@@ -7,10 +7,30 @@
 ~grstartrec.value;
 ~grstoprec.value;
 
+~grstopplay.value;
 
-~grsyn[0].set(\rate, 0.25);
-~grsyn[0].set(\durmax, 2.0);
-~grsyn[0].set(\durmin, 0.8);
+
+~grsyn[0].set(\trigrate, 4.0);
+~grsyn[0].set(\trignoise, 0.125);
+~grsyn[0].set(\rate, 0.5);
+
+//~grsyn[0].set(\durmin, 0.5);
+//~grsyn[0].set(\durmax, 0.75);
+~grsyn[0].set(\durnoise, 0.25);
+~grsyn[0].set(\durbase, 1.0);
+~grsyn[0].set(\posnoise, 0.0);
+
+//~grsyn[0].set(\durmin, 0.5);
+//~grsyn[0].set(\durmax, 0.75);
+~grsyn[1].set(\rate, 0.25);
+~grsyn[1].set(\amp, 1.0);
+~grsyn[1].set(\durnoise, 0.25);
+~grsyn[1].set(\durbase, 1.0);
+~grsyn[1].set(\posnoise, 0.125);
+
+
+
+
 
 
 a = [0, 0, [0, 0, 1] ].flatten;
@@ -26,3 +46,5 @@ a = Int8Array.with(0x1, 0x2);
 b = Int8Array.with(3, 4);
 
 c = a ++ b
+
+~quad_keys[0].isEmpty
