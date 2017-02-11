@@ -3,7 +3,7 @@
 	inf.do({
 		~vla_amp_b.get({ arg v; amp = v;
 			~vla_pitch_b.get({ arg w; hz = w;
-				if((amp > -30.dbamp) && (hz < 880) && (hz > 110), {
+				if((amp > -3.dbamp) && (hz < 880) && (hz > 110), {
 					atk = 0.05;
 					if (0.7.coin, {atk = atk + 6.0.rand});
 					[amp, hz].postln;

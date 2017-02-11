@@ -20,6 +20,7 @@ g = CfGridRaw.new;
 
 ~show_grains = {
 	var b = 0x00;
+	postln("showing grains: " ++ ~grsyn.size);
 	~grsyn.size.do({|i| b = b | (1<<i) });
 	b.asHexString.postln;
 	g.led_row(0, 0, b);
@@ -58,11 +59,13 @@ g.keyUp = { |x,y|
 	var q = x >> 3;
 	~quad_keys[q].remove(Point(x,y));
 	//	~quad_keys[q].postln;
-	if(~quad_keys[q].isEmpty, {
+	if(~quad_keys[q].isEmpty, { Routine { 
 		postln("quad key up " ++ q); 
 		~quad_key_upfunc[q].value;
 		~quad_off[q].value;
-		~show_grains.value;
+		0.001.wait;
+		{ ~show_grains.value; }.defer;
+	}.play;
 	});
 };
 

@@ -5,6 +5,8 @@
 ~grmaxbufs = 8;
 ~grbuf= Array.fill(~grmaxbufs, { Buffer.alloc(s, s.sampleRate * ~grbuflen, 1); });
 
+~norm_buf = Buffer.alloc(s, s.sampleRate * ~grbuflen, 1);
+
 SynthDef.new(\gr, {arg buf, out=0, amp=1.0,
 	trigrate=0.0, trignoise = 0.5, trignoiserate=0.25,
 	rate=1.0, posrate=0.25, len=1.0,
@@ -58,11 +60,17 @@ SynthDef.new(\rec, {arg buf, in;
 		buf.zero;
 		s.sync;
 		~grbuf.last.copyData(buf, numSamples:dur * s.sampleRate);
+		~norm_buf.clear;
+		s.sync;
+		/*
+		~grbuf.last.copyData(~norm_buf, numSamples:dur * s.sampleRate);
+		~norm_buf.normalize;
+		*/
 		s.sync;
 		//		buf.normalize;
 		//		s.sync;
 
-		~grsyn.add( Synth.new(\gr, [
+		~grsyn.addFirst( Synth.new(\gr, [
 			\buf, buf.bufnum,
 			\amp, 0.5,
 			\trigrate, 4,
@@ -81,6 +89,14 @@ SynthDef.new(\rec, {arg buf, in;
 ~grsyn.pop;
 ~grsyn.postln;
 };
+
+
+~grstopfirst = {
+	~grsyn.first.set(\gate, 0);
+~grsyn.removeAt(0);
+~grsyn.postln;
+};
+
 
 
 ~grkill = {

@@ -63,6 +63,7 @@ m.pressFunctions.add(\swyc -> { arg x, y;
 });
 	*/
 
+	/*
 ~but_func[0] = { arg state;
 	if(state, {
 		~event_tap.tap;
@@ -71,6 +72,14 @@ m.pressFunctions.add(\swyc -> { arg x, y;
 		});
 	});
 };
+	*/
+
+	~quad_key_downfunc = [ { ~event_tap.tap;
+			if (~event_tap.time > 1.0, {
+				~events.next.value(1, ~event_tap.time);
+			});
+	}, {
+	}];
 
 /*
 

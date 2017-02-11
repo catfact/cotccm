@@ -4,6 +4,7 @@
 
 
 ~syn_sort_amp = -24.dbamp;
+~pitchmax = 900;
 
 ~clar = { arg n=8, sus=8.0, off=0;
 	n.do({
@@ -21,7 +22,8 @@
 			durscale = (pitch.cpsmidi.linlin(0.0, 64.0, 16.0, 0.0));
 		});
 
-
+		
+		
 		[i, pitch, durscale].postln;
 
 		Synth.new(\noise_form, [
