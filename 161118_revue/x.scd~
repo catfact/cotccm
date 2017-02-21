@@ -1,0 +1,9 @@
+x = { |f| this.executeFile(PathName(Document.current.path).pathOnly ++ f); };
+
+~notify = { arg msg; msg.postln; };
+
+x.value("0_audio.scd");
+
+x.value("monome.scd");
+
+x.value("3_savewhatyoucan.scd");

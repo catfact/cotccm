@@ -1,0 +1,41 @@
+SynthDef.new(\noise_form, {
+	arg out=0, amp=0.25, pan=0.0,
+	atk=4.0, rel=4.0, sus=1.0,
+	hz,
+	lpf_hz=10000, rq=1.0,
+	form_hz, form_bw,
+	sine_mix=0.5, form_mix = 0.5, noise_mix=0.0;
+	var ampenv, sine, form, noise, sig;
+
+	ampenv = EnvGen.ar(Env.linen(atk, sus, rel), 1, doneAction:2);
+	sine = SinOsc.ar(hz) * sine_mix;
+	form = BPF.ar(Saw.ar(hz), form_hz, form_bw) * form_mix;
+	noise = WhiteNoise.ar * noise_mix;
+	sig = Mix.new([sine, form, noise]);
+	sig = RLPF.ar(sig, lpf_hz, rq);
+
+	Out.ar(out, Pan2.ar(sig * ampenv * amp, pan));
+
+}).send(s);
+
+
+~wraphz = { arg val, max=200.0;
+	var ret = val;
+	while( {ret > max}, {ret = ret * 0.5; });
+	ret
+};
+
+~do_cluster = { arg n=8, stride=1, atk=4.0, dur=4.0, rel=8.0, amp=0.125, ioff=10;
+	n.do({ arg i;
+		var hz = ~wraphz.value(~analist_pitch[(i*stride)+ioff].pitch);
+		hz.postln;
+		
+		{
+			var ampenv = EnvGen.ar(
+				Env.new([0, 1, 1, 0], [atk * (1.0 + 0.125.rand), dur, rel * (1.0 + 0.125.rand)]),
+				doneAction:2
+			);
+			Out.ar( 0, amp / n * ampenv * Pan2.ar(SinOsc.ar(hz), 0.4.rand));
+		}.play(s);
+	});
+};

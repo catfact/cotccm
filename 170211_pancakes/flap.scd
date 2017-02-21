@@ -96,3 +96,5 @@ Routine {
 	};
 	w.front;
 }.defer;
+
+z.do({ arg syn; syn.set(\fb, 0.25); });

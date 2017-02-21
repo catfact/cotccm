@@ -7,7 +7,8 @@
 	voc = Vocoder.ar(car, mod, 6);
 }.play(target:s, addAction:\addToTail);
 
-//~screm_out_s.run(false);
+//
+~screm_out_s.run(false);
 
 
 //~scremvoc.free;

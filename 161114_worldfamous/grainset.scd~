@@ -1,0 +1,53 @@
+// =====================================================================
+// SuperCollider Workspace
+// =====================================================================
+
+~grkill.value
+ 
+~grstartrec.value;
+~grstoprec.value;
+
+~grstopplay.value;
+
+~grsyn[0].set(\trigrate, 2.0, \durbase, 1.0);
+
+
+~grsyn[0].set(\trigrate, 6.0);
+~grsyn[0].set(\trignoise, 0.25);
+~grsyn[0].set(\rate, 0.25);
+
+//~grsyn[0].set(\durmin, 0.5);
+//~grsyn[0].set(\durmax, 0.75);
+~grsyn[0].set(\durnoise, 0.5);
+~grsyn[0].set(\durbase, 4.0);
+~grsyn[0].set(\posnoise, 0.50);
+~grsyn[0].set(\amp, 1.0);
+
+//~grsyn[0].set(\durmin, 0.5);
+//~grsyn[0].set(\durmax, 0.75);
+~grsyn[1].set(\rate, 0.25);
+~grsyn[1].set(\amp, 1.0);
+~grsyn[1].set(\durnoise, 0.25);
+~grsyn[1].set(\durbase, 1.0);
+~grsyn[1].set(\posnoise, 0.125);
+
+
+
+
+
+
+a = [0, 0, [0, 0, 1] ].flatten;
+~ia = Int8Array(a);
+
+a.class
+a = [1, 2, 3]
+~ia = Int8Array([1, 2, 3]);
+
+Int8Array.fill(8, {0x0});
+
+a = Int8Array.with(0x1, 0x2);
+b = Int8Array.with(3, 4);
+
+c = a ++ b
+
+~quad_keys[0].isEmpty
