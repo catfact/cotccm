@@ -7,23 +7,23 @@ var flat_b;
 
 
 ~poll_data = List.new;
-
-~sort_data_by_clar = {
-}
-
-
-~group_by_pitch = { arg quant=0.5;
-	ret = Dictionary.new;
-	~poll_data.do({ arg ev;
-		var pitch = ev.hz.cpsmidi.round(quant);
-		if (ret[pitch].isNil, {
-
-			ret[pitch] = List.new;
-		});
-		ret[pitch].add(ev);
-	});
-	ret
-};
+//
+// ~sort_data_by_clar = {
+// 	~poll_data.sort({ arg a, b; a.clar > b.clar })
+// };
+//
+//
+// ~group_data_by_pitch = { arg quant=0.5;
+// 	var ret = Dictionary.new;
+// 	~poll_data.do({ arg ev;
+// 		var pitch = ev.hz.cpsmidi.round(quant);
+// 		if (ret[pitch].isNil, {
+// 			ret[pitch] = List.new;
+// 		});
+// 		ret[pitch].add(ev);
+// 	});
+// 	ret
+// };
 
 Routine {
 	// ~pitch_b = Bus.control(s, 1);
@@ -33,8 +33,6 @@ Routine {
 	//
 
 	~spec_bus = Bus.control(s, 5);
-
-	~fftbuf = Buffer.alloc(s, 2048, 1);
 
 
 	s.sync;
@@ -49,7 +47,7 @@ Routine {
 
 		fft = FFT(LocalBuf(2048), snd);
 		fft2= PV_Copy(fft, LocalBuf(2048));
-		fft3= PV_Copy(fft, LocalBuf(2048));
+		//fft3= PV_Copy(fft, LocalBuf(2048));
 
 		amp = Amplitude.kr(snd);
 		#hz, clar = Pitch.kr(snd, clar:1);
@@ -59,10 +57,11 @@ Routine {
 		// onsets = Onsets.kr(fft3, odftype:'wphase');
 		// SendTrig.kr(onsets, trigid);
 
-		Out.kr(out, hz);
-		Out.kr(out+1, clar);
-		Out.kr(out+2, cent);
-		Out.kr(out+3, flat);
+		Out.kr(out, amp);
+		Out.kr(out+1, hz);
+		Out.kr(out+2, clar);
+		Out.kr(out+3, cent);
+		Out.kr(out+4, flat);
 	}).play(s, [\out, ~spec_bus]);
 
 
@@ -70,7 +69,7 @@ Routine {
 	~poll_period = 0.1;
 	~clar_thresh = 0.5;
 
-	r = Routine {
+	~poll_task = Routine {
 		var t = 0;
 		inf.do {
 
@@ -79,7 +78,7 @@ Routine {
 				if (vals[1] > ~clar_thresh, {
 					~poll_data.add(
 						(
-							time: t;
+							time: t,
 							amp: vals[0],
 							hz: vals[1],
 							clar: vals[2],
@@ -101,4 +100,8 @@ Routine {
 	// 	["trig", vals].postln; });
 	// }, '/tr', s.addr);
 
+	/*
+	r.stop;
+	~poll_task.stop;
+	*/
 }.play;

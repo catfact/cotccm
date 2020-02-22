@@ -7,23 +7,61 @@ Routine {
 	s.boot;
 	s.sync;
 
-	~tremloop = x.value("tremloop.scd");
+	x.value("tremloop.scd");
+
+	x.value("remains.scd");
 
 
 	4.0.wait;
+
+	postln("3...");
+	1.0.wait;
+	postln("2...");
+	1.0.wait;
+	postln("1...");
+	1.0.wait;
+
+	postln("--------------------");
+	postln("---- start ---------");
+	postln("--------------------");
+
+	110.wait;
+
+
+	postln("10...");
+	1.0.wait;
+	postln("9...");
+	1.0.wait;
+	postln("8...");
+	1.0.wait;
+	postln("7...");
+	1.0.wait;
+	postln("6...");
+	1.0.wait;
+	postln("5...");
+	1.0.wait;
+	postln("4...");
+	1.0.wait;
+	postln("3...");
+	1.0.wait;
+	postln("2...");
+	1.0.wait;
+	postln("1...");
+	1.0.wait;
+
+	postln("");
+	postln("--------------------");
+	postln("---- recording ---------");
+	postln("--------------------");
+	postln("");
+
 	~tremloop.rec(0);
 	~tremloop.rec(1, 1);
 
-//	1.0.wait;
-//	~loop0 = ~tremloop.run(0);
-//
-	~loop1 = ~tremloop.run(0, 1, -1, 6/5);
+	16.wait;
+	x.value("sine_sequence.scd");
 
-	~loop2 = ~tremloop.run(0, 1, 1, 9/7, 7/6);
-
-	~loop3 = ~tremloop.run(1, 1, -1, 9/8, 7/6);
-
-	~loop3 = ~tremloop.run(1, 1, 1, 11/7, 6/5);
+	~poll_task.stop;
 
 //~loop0
 
