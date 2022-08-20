@@ -8,11 +8,11 @@
 
 ~move_loops_f = {
 	8.do { arg i;
-		if (0.25.coin, { ~inc_pos.value(i, 0.2.rand); });
+		if (0.25.coin, { ~inc_pos.value(i, 2.2.rand); });
 	}
 };
 
-~move_loops_t = 2;
+~move_loops_t = 0.1;
 ~move_loops_r = Routine { inf.do {
 	~move_loops_f.value;
 	~move_loops_t.wait;

@@ -4,7 +4,7 @@ x = { |p| this.executeFile(~basepath++p); };
 Routine {
 
 	//	x.value("0_40h.scd");
-	x.value("arduino.scd");
+	//	x.value("arduino.scd");
 	x.value("0_audio.scd");
 	x.value("defs.scd");
 

@@ -5,7 +5,7 @@ var nloops, loop_data, loops;
 Routine {
 	// set up buffers
 	nbuf = 4;
-	buflen = 8.0;
+	buflen = 32.0;
 
 	buf = Array.fill(nbuf, {Buffer.alloc(s, buflen * s.sampleRate, 1); });
 

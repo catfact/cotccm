@@ -1,4 +1,5 @@
 //~basepath = "/home/emb/sc/cotccm/121/";
+~basepath = Document.current.dir ++ "/";
 x = { |p| this.executeFile(~basepath++p); };
 
 s = Server.local;

@@ -234,10 +234,10 @@ s.sync;
 	/*
 	~vla_loop_del.set(\delaytime, ~tempo * 32);
 	*/	
-		~vla_loop_del.set(\delaytime, time);
-		~vla_loop_del.set(\amp, 1.0);
+	~vla_loop_del.set(\delaytime, time);
+	~vla_loop_del.set(\amp, 1.0);
 	//		time.postln;
-			~notify.value("playback [viola loop 2]", Color.green);
+	~notify.value("playback [viola loop 2]", Color.green);
 	~tempo = time* 2.0;
 		~bufbass = Synth.new(\buf_ringz_lpf_env, [
 			\buf, ~vla_loop1_buf.bufnum,

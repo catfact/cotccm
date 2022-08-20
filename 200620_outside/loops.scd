@@ -39,7 +39,7 @@
 ~tremloop.loop_data[4].ix = 1;
 ~tremloop.loop_data[4].looprate = 9/8 * 0.25;
 ~tremloop.loop_data[4].pos = 0;
-~tremloop.loop_data[4].dur= 3.0;
+~tremloop.loop_data[4].dur= 3.6;
 ~tremloop.loop_data[4].tremrate = 6/5 * 0.25;
 ~tremloop.loop_data[4].pan = 0.5;
 ~tremloop.loop_data[4].bufrate = 1/3;

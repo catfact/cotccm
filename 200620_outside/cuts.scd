@@ -13,7 +13,7 @@ n.sendMsg("/set/param/cut/rec_flag", 0, 1);
 n.sendMsg("/set/param/cut/play_flag", 0, 1);
 n.sendMsg("/set/level/cut", 0, 0.8);
 n.sendMsg("/set/param/cut/buffer", 0, 0);
-n.sendMsg("/set/pan/cut", 0, -0.5);
+n.sendMsg("/set/pan/cut", 0, 0.0);
 n.sendMsg("/set/enabled/cut", 0, 1.0);
 
 n.sendMsg("/set/param/cut/rate", 0, 3);

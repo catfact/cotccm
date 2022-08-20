@@ -3,7 +3,7 @@ Routine {
 SynthDef.new(\pm3, { 
 	arg out=0, amp=0.25, amplag=1.0,
 	hz1=220, hz2=330, hz3=110,
-	shape1=0, shape2=0, shape3=0,
+	// shape1=0, shape2=0, shape3=0,
 	pm12=0, pm23=0, pm31=0,
 	pm12del=0, pm23del=0, pm31del=0,
 	amp1=1, amp2=1, amp3=1,

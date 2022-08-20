@@ -17,7 +17,9 @@ SynthDef.new(\sine1, {
 }).send(s);
 
 ~pan = 0;
-p.do({ arg ev;
+~sine_f = {arg ev; };
+
+~sine_f = { arg ev;
 	SystemClock.sched(ev.time * 6.0, {
 		ev.postln;
 		Synth.new(\sine1, [
@@ -51,4 +53,8 @@ p.do({ arg ev;
 
 	});
 	~pan = (~pan + (0.05 + 0.6.rand)).wrap(-1.0, 1.0);
+};
+
+p.do({ arg ev;
+	~sine_f.value(ev);
 });
