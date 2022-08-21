@@ -46,22 +46,22 @@ Routine {
 	// pad numbers
 	~pnum = [ 60, 62, 64, 65, 67, 69];
 	~prate = Dictionary.newFrom([
-		60, [1, 6/4, 3/2, 2],
+		60, [1, 2],
 		62, [1, 3/2, 14/8],
 		64, [1, 2, 6/5, 4/3],
-		65, [1, 3/2, 4/3, 5/4, 18/8, 2, 15/8],
-		67, [1, 6/4, 3/2, 4/3],
-		69, [9/8, 6/4, 4/3, 8/5],
+		65, [1, 3/2, 4/3, 5/4, 15/8],
+		67, [1, 3/2, 4/3],
+		69, [9/8, 6/5, 4/3, 8/5],
 	]);
 
-	~ppos = ~prate.collect({0.0});
+	~ppos = ~prate.collect({arg x, i; i * 0.25});
 	~pridx = ~prate.collect({0});
 	~ppan = ~pnum.collect({arg num, i; i.linlin(0, ~pnum.size, -0.8, 0.8)});
 	~prnext = {arg num;
 		if (~pnum.indexOf(num).notNil, {
 			var r = ~prate[num];
 			var idx = ~pridx[num];
-			idx = (idx+1).wrap(0, r.size);
+			idx = (idx+1).wrap(0, r.size-1);
 			~pridx[num] = idx;
 			r[idx]
 		})
