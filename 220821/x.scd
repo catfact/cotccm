@@ -6,22 +6,17 @@ Routine {
 	b = Buffer.alloc(s, s.sampleRate * 16, 1);
 	s.sync;
 
-	// r = {
-	// 	{
-	// 		arg dur=16, pos=0;
-	// 		var sr = SampleRate.ir;
-	// 		BufWr.ar(SoundIn.ar(0), b.bufnum, Line.ar(pos*sr, (pos+dur)*sr, dur, doneAction:2), 0);
-	// 	}.play(s);
-	// }.value;
+	SynthDef.new(\rec_1shot, {
+		arg buf, in=0, dur=16, pos=0, rec=1, pre=0;
+		var sr = SampleRate.ir;
+		var env = EnvGen.kr(Env.linen(0, dur, 0), doneAction:2);
+		RecordBuf.ar(SoundIn.ar(in), buf, recLevel:rec, preLevel:pre, loop: 0);
+	}).send(s);
+	s.sync;
 
-	r = {
-		{
-			arg dur=16, pos=0;
-			var sr = SampleRate.ir;
-			RecordBuf.ar(SoundIn.ar(0), b.bufnum, loop: 0, doneAction:2);
-			Silent.ar
-		}.play(s);
-	};
+
+	r = { Synth.new(\rec_1shot, [\buf, b.bufnum]) };
+
 	r.value;
 
 
@@ -34,7 +29,7 @@ Routine {
 	*/
 
 
-	SynthDef.new(\shot, { arg out=0, buf, pos=0, rate=1,
+	SynthDef.new(\play_1shot, { arg out=0, buf, pos=0, rate=1,
 		atk=0.1, sus=0, rel=4.0,
 		hpf=10, lpf=20000, amp=1.0, pan=0;
 		var aenv = EnvGen.ar(Env.linen(atk, sus, rel), doneAction:2);
@@ -44,7 +39,6 @@ Routine {
 		Out.ar(out, Pan2.ar(snd, pan));
 	}).send(s);
 
-Synth.new(\shot, [\buf, b.bufnum
 
 	//-------------------------------------
 	/// MIDI
@@ -62,7 +56,7 @@ Synth.new(\shot, [\buf, b.bufnum
 
 	~ppos = ~prate.collect({0.0});
 	~pridx = ~prate.collect({0});
-		~ppan = ~pnum.collect({aarg num, i; i.linlin(0, ~pnum.size, -0.8, 0.8)});
+	~ppan = ~pnum.collect({arg num, i; i.linlin(0, ~pnum.size, -0.8, 0.8)});
 	~prnext = {arg num;
 		if (~pnum.indexOf(num).notNil, {
 			var r = ~prate[num];
@@ -79,9 +73,10 @@ Synth.new(\shot, [\buf, b.bufnum
 	MIDIdef.noteOn(\shot, { arg vel, num;
 		var rate = ~prnext.value(num);
 		var pos = ~ppos[num];
-			[rate, pos].postln;
+		var pan = ~ppan[num];
+		[rate, pos].postln;
 		if (rate.notNil, {
-			Synth.new(\shot, [\buf, b.bufnum, \rate, rate, \pos, pos]);
+			Synth.new(\play_1shot, [\buf, b.bufnum, \rate, rate, \pos, pos, \pan, pan]);
 		});
 	});
 }.play;
