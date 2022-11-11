@@ -2,11 +2,19 @@ s = Server.default;
 s.options.numInputBusChannels = 2;
 s.options.numOutputBusChannels = 4;
 
+/*
 s.options.inDevice = "Universal Audio Thunderbolt";
 s.options.outDevice = "Universal Audio Thunderbolt";
+*/
 
 s.waitForBoot {
 	Routine {
+		var outChannel;
+		// for Arrow:
+//		outChannel=2;
+		// testing internal:
+		outChannel = 0;
+
 		// audio I/O
 		~vla_b = Bus.audio(s, 1);
 
@@ -21,7 +29,7 @@ s.waitForBoot {
 
 		~out_s = { arg out=2, amp=1.0;
 			Out.ar(out, In.ar(~out_b, 2) * amp)
-		}.play(~og, args:[\out, 2]);
+		}.play(~og, args:[\out, outChannel]);
 
 		/*
 		~test_sine = {
@@ -36,6 +44,9 @@ s.waitForBoot {
 		/*
 		~test_sine.free;
 		*/
+
+		postln("done initializing audio system");
+		c.unhang;
 
 	}.play;
 }

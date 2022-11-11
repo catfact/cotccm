@@ -48,3 +48,15 @@ y.set(\fc, 200);
 y.set(\gain, 3.3);
 
 y.free;
+
+
+//-----------------------
+~dowse.bus.scope
+
+g = ~dowse.grab;
+
+
+~dowse.data.do({ arg ev, i; [i, ev].postln; });
+~dowse.grab.postln;
+(~dowse.grab).value(callback:{ arg ev; postln("!!!!"); ev.postln; });nil
+~dowse.data
