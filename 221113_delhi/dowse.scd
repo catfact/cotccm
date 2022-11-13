@@ -58,13 +58,13 @@ Routine {
 
 			d.data.add(ev);
 
-			"wtf! callback?".postln;
+//			"wtf! callback?".postln;
 			callback.postln;
 
-//			if (callback.notNil, {
-				callback.value(ev);
-//			});
-
+			// if (callback.notNil, {
+			// 	callback.value(ev);
+			// });
+			//
 		});
 		nil
 	};

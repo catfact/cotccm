@@ -2,18 +2,18 @@ s = Server.default;
 s.options.numInputBusChannels = 2;
 s.options.numOutputBusChannels = 4;
 
-/*
+
 s.options.inDevice = "Universal Audio Thunderbolt";
 s.options.outDevice = "Universal Audio Thunderbolt";
-*/
+
 
 s.waitForBoot {
 	Routine {
 		var outChannel;
 		// for Arrow:
-//		outChannel=2;
+		outChannel=2;
 		// testing internal:
-		outChannel = 0;
+//		outChannel = 0;
 
 		// audio I/O
 		~vla_b = Bus.audio(s, 1);

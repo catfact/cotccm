@@ -14,9 +14,9 @@ Routine {
 		buf = Buffer.alloc(s, bufdur*s.sampleRate, 1);
 
 		rec_s = {
-			arg gate=0, preLevel=0;
+			arg gate=0, preLevel=1.0, preLag=1.0;
 			var aenv = EnvGen.ar(Env.asr(2, 1, 2), gate);
-			var pre = preLevel * aenv;
+			var pre = Lag.kr(preLevel, preLag); //preLevel * aenv;
 			RecordBuf.ar(In.ar(inb) * aenv, buf.bufnum, run:aenv > 0, preLevel:pre);
 			Silent.ar;
 		}.play(~ig, addAction:\addAfter);

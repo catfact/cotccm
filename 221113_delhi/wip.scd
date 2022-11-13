@@ -53,10 +53,10 @@ y.free;
 //-----------------------
 ~dowse.bus.scope
 
-g = ~dowse.grab;
+g = ~dowse[\grab];
+g.value(callback:{ arg ev; postln("!!!!"); ev.postln; });
 
+~dowse.data.do({ arg ev, i; [i, ev].postln; }); w
+~dowsegrab.postln;
 
-~dowse.data.do({ arg ev, i; [i, ev].postln; });
-~dowse.grab.postln;
-(~dowse.grab).value(callback:{ arg ev; postln("!!!!"); ev.postln; });nil
 ~dowse.data
