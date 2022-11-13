@@ -7,7 +7,7 @@ Routine {
 	// pitch_b = Bus.control(s, 2);
 	// cent_b = Bus.control(s, 1);
 	// flat_b = Bus.control(s, 1);
-	d.bus = Bus.control(s, 5);
+	d.bus = Bus.control(s, 3);
 
 	t0 = SystemClock.seconds;
 
@@ -15,12 +15,12 @@ Routine {
 		var input, pitch, cent, flat;
 		input = In.ar(inb);
 		pitch = Pitch.kr(input, clar:1);
-		cent = SpecCentroid.kr(input);
-		flat = SpecFlatness.kr(input);
+//		cent = SpecCentroid.kr(input);
+//		flat = SpecFlatness.kr(input);
 		Out.kr(d.bus.index, pitch);
-		Out.kr(d.bus.index + 2, cent);
-		Out.kr(d.bus.index + 3, flat);
-		Out.kr(d.bus.index + 4, Amplitude.kr(input));
+		// Out.kr(d.bus.index + 2, cent);
+		// Out.kr(d.bus.index + 3, flat);
+		Out.kr(d.bus.index + 2, Amplitude.kr(input));
 	}.play(~xg);
 
 	s.sync;
@@ -36,8 +36,8 @@ Routine {
 		var ev = (
 			pitch:nil,
 			clar:nil,
-			cent:nil,
-			flat:nil,
+			// cent:nil,
+			// flat:nil,
 			amp:nil,
 			dur:nil,
 		);
@@ -48,8 +48,8 @@ Routine {
 			arg vals;
 			ev.pitch = vals[0];
 			ev.clar = vals[1];
-			ev.cent = vals[2];
-			ev.flat = vals[3];
+			// ev.cent = vals[2];
+			// ev.flat = vals[3];
 			ev.amp = vals[4];
 
 			if (n > 0, {

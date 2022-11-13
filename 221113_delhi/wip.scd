@@ -1,4 +1,18 @@
 
+~buf.tones.buf.plot
+
+b = ~buf.tones.buf.bufnum;
+// simple stereo loop, ok
+z = {
+	arg rate1=0.2, rate2= 0.25, amp=0.5, hpf=10;
+	var snd = PlayBuf.ar(1, b, [rate1, rate2], loop:1);
+	snd = HPF.ar(snd, hpf);
+	Out.ar(~out_b.index, snd*amp)
+}.play(~xg);
+
+z.set(\rate1, 1)
+z.set(\rate2, 6/5)
+z.free;
 
 // simple stereo loop, ok
 z = {

@@ -1,5 +1,5 @@
 Routine {
-	var bufdur = 256;
+	var bufdur = 32;
 
 	var init_buf = {
 		arg inb;
@@ -14,10 +14,10 @@ Routine {
 		buf = Buffer.alloc(s, bufdur*s.sampleRate, 1);
 
 		rec_s = {
-			arg gate=0, preLevel=1.0, preLag=1.0;
+			arg gate=0, preLevel=0, preLag=1.0;
 			var aenv = EnvGen.ar(Env.asr(2, 1, 2), gate);
-			var pre = Lag.kr(preLevel, preLag); //preLevel * aenv;
-			RecordBuf.ar(In.ar(inb) * aenv, buf.bufnum, run:aenv > 0, preLevel:pre);
+			var pre = (1-aenv).max(Lag.kr(preLevel, preLag));
+			RecordBuf.ar(In.ar(inb) * aenv, buf.bufnum, run:aenv > 0, preLevel:pre, loop:1);
 			Silent.ar;
 		}.play(~ig, addAction:\addAfter);
 
