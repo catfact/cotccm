@@ -50,7 +50,7 @@ Routine {
 			ev.clar = vals[1];
 			// ev.cent = vals[2];
 			// ev.flat = vals[3];
-			ev.amp = vals[4];
+			ev.amp = vals[2];
 
 			if (n > 0, {
 				d.data[n-1].dur = dur;
@@ -62,7 +62,7 @@ Routine {
 			callback.postln;
 
 			// if (callback.notNil, {
-			// 	callback.value(ev);
+			 	callback.value(ev);
 			// });
 			//
 		});

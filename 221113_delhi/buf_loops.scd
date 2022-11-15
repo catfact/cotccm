@@ -1,5 +1,5 @@
 SynthDef.new(\stereo_loop, {
-	arg buf, out=0, amp=0.5,
+	arg buf, out=0, amp=0.5, amplag=4,
 	gate=1, atk=4, rel=6,
 	rate1=0.2, rate2= 0.25,
 	hpf=10, lpf=16000,
@@ -16,7 +16,7 @@ SynthDef.new(\stereo_loop, {
 	var snd = BufRd.ar(1, buf, phase);
 //	snd = LPF.ar(HPF.ar(snd, hpf), lpf);
 	snd = snd * EnvGen.ar(Env.asr(atk, 1, rel), gate, doneAction:2);
-	Out.ar(out, snd*amp)
+	Out.ar(out, snd*amp.lag(amplag))
 }).send(s);
 
 

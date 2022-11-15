@@ -2,7 +2,7 @@ p = Document.current.path;
 p = PathName(p).pathOnly;
 x = { arg filename; this.executeFile(p ++ filename) };
 //
-c = Condition.new;
+ c = Condition.new;
 
 Routine {
 	x.value('audio.scd');
@@ -13,6 +13,8 @@ Routine {
 
 	x.value('dowse.scd');
 	c.hang;
+
+
 
 	//x.value('lownoise.scd');
 

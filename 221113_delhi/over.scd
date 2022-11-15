@@ -1,0 +1,1 @@
+~buf.tones.rec_s.set(\pre, 1);

@@ -1,5 +1,5 @@
 Routine {
-	var bufdur = 32;
+	var bufdur = 64;
 
 	var init_buf = {
 		arg inb;
