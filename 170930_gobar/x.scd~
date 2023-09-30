@@ -1,0 +1,5 @@
+p = PathName.new(Document.current.path).pathOnly;
+x = { |f| this.executeFile(p ++ f); };
+
+w = Window.new.front;
+

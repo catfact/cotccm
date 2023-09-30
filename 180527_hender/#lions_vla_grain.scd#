@@ -1,0 +1,132 @@
+Routine {
+
+
+	/*
+	~loop_buf.clear.zero
+*/
+~vla_del_g = Group.new(~echoshift, \addBefore);
+
+/*
+	~vla_del_g.free;
+
+*/
+
+~vla_del_grain = List.new;
+
+~vla_del_grain.add( Synth.new(\bufgrain, [\buf, ~loop_buf.bufnum,
+	\trigrate, 8.0 / 1.2,
+	\posrate, 1/4 / 1.2,
+	\dur, 0.25 / 1.2,
+	\out, ~echo_b.index,
+	\pan, 0,
+	\amplag, 8.0,
+	//	\amp, -15.dbamp
+	\amp, 0.0
+], ~vla_del_g);
+);
+~vla_del_grain.last.set(\trigrate, 8.0);
+//~vla_del_grain1.set(\amplag, 60.0);
+////SystemClock.sched(1.2, {~vla_del_grain1.set(\amp, -12.dbamp); nil});
+
+
+~vla_del_grain.add ( Synth.new(\bufgrain, [\buf, ~loop_buf.bufnum,		
+	\trigrate, 6.0 / 1.2,
+	\posrate, 1/3 / 1.2,
+	\dur, 0.25 / 1.2,
+	\out, ~echo_b.index,
+	\pan, 0,
+	\amplag, 16.0,
+	//	\amp, -15.dbamp
+	\amp, 0.0
+], ~vla_del_g);
+);
+~vla_del_grain.last.set(\trigrate, 2.0 / 1.2);
+////SystemClock.sched(1.2, {~vla_del_grain2.set(\amp, -12.dbamp); nil});
+
+
+
+~vla_del_grain.add( Synth.new(\bufgrain, [\buf, ~loop_buf.bufnum,
+	\trigrate, 3.0 / 1.2,
+	\posrate, (1/4) / 1.2,
+	\dur, 0.25 / 1.2,
+	\rate, 1.0,
+	\out, ~echo_b.index,
+	\pan, -0.25,
+	\amplag, 16.0,
+	//	\amp, -12.dbamp
+	\amp, 0.0
+], ~vla_del_g); );
+~vla_del_grain.last.set(\trigrate, 0.25 / 1.2);
+//~vla_del_grain3.set(\amplag, 90.0);
+////SystemClock.sched(1.2, {~vla_del_grain3.set(\amp, -24.dbamp); nil});
+
+
+
+~vla_del_grain.add( Synth.new(\bufgrain, [\buf, ~loop_buf.bufnum,
+	\trigrate, 4.0 / 1.2,
+	\posrate, 1 / 1.2,
+	\dur, 0.25 / 1.2,
+	\rate, 1.0,
+	\out, ~echo_b.index,
+	\pan, 0.25,
+	\amplag, 17.0,
+	//	\amp, -12.dbamp
+	\amp, 0.0
+], ~vla_del_g); );
+~vla_del_grain.last.set(\trigrate, 2.0 / 1.2);
+//~vla_del_grain4.set(\amplag, 120.0);
+////SystemClock.sched(1.2, {~vla_del_grain4.set(\amp, -20.dbamp); nil});
+
+
+~vla_del_grain.add ( Synth.new(\bufgrain, [\buf, ~loop_buf.bufnum,
+	\trigrate, 2.0 / 1.2,
+	\posrate, (3/4) / 1.2,
+	\dur, 0.4 / 1.2,
+	\rate, 2.0,
+	\out, ~echo_b.index,
+	\pan, -0.5,
+	\amplag, 22.0,
+	//	\amp, -12.dbamp
+	\amp, 0.0
+], ~vla_del_g); );
+//~vla_del_grain5.set(\amplag, 90.0);
+//SystemClock.sched(1.2, {~vla_del_grain5.set(\amp, -12.dbamp); nil});
+
+~vla_del_grain.add( Synth.new(\bufgrain, [\buf, ~loop_buf.bufnum,	\trigrate, 4.0 / 1.2,
+	\posrate, (1/4) / 1.2,
+	\dur, 2/5 / 1.2,
+	\rate, 2.0,
+	\out, ~echo_b.index,
+	\pan, 0.5,
+	\amplag, 20.0,
+	\amp, -12.dbamp
+], ~vla_del_g); );
+
+~vla_del_grain.do({ arg synth, i;
+	synth.set(\trigrate, (10 + (i/2)));
+	synth.set(\dur, 4.0 / (1 + (i/2)));
+});
+
+//~vla_del_grain.size
+~vla_del_grain[0].set(\rate, 0.5);
+~vla_del_grain[1].set(\rate, 0.25);
+~vla_del_grain[2].set(\rate, 0.5);
+~vla_del_grain[3].set(\rate, 1.5);
+~vla_del_grain[4].set(\rate, 1.0);
+
+	~vla_del_grain[5].set(\rate, 0.75);
+
+~vla_del_grain.do({ arg synth, i;
+	//	~synth.set(\amplag, 0.0);
+	//	~synth.set(\amp, 0.0);
+	~synth.set(\amplag, 8.0 + (i+1) * 2);
+	~synth.set(\amp, -12.dbamp);
+	8.wait;
+});
+
+
+}.play;
+
+/*
+~loop_s.run(false);
+*/

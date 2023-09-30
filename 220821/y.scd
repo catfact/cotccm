@@ -30,7 +30,7 @@ Server.default.waitForBoot {
 
 	*/
 
-	~amp = 0.5;
+	~amp = 0.8;
 
 	p = Routine { inf.do {
 		~wr.size.do({ arg i;
