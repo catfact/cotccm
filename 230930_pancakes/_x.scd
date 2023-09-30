@@ -1,34 +1,74 @@
-~dur = 33.333;
-~buf = Buffer.alloc(s, ~dur * s.sampleRate);
+p = PathName.new(Document.current.path).pathOnly;
+x = { |f| this.executeFile(p ++ f); };
 
 
-~noteon = { arg uid, chan, num, val;
-	["noteon", uid, chan, num, val].postln;
-};
+Routine {
+	s = Server.default;
+	s.boot;
+	s.sync;
+
+	x.value("tremloop.scd");
 
 
-~noteoff = { arg uid, chan, num, vel;
-	["noteoff", uid, chan, num, vel].postln;
-};
 
-MIDIClient.init;
-MIDIIn.connectAll;
-MIDIIn.clear;
-MIDIIn.addFuncTo(\noteOn, { arg uid, chan, num, vel;
-	~noteon.value(uid, chan, num, vel);
-});
-MIDIIn.addFuncTo(\noteOff, { arg uid, chan, num, vel;
-	~noteoff.value(uid, chan, num, vel);
-});
+	4.0.wait;
 
-~pitch_b = Bus.control(s, 2);
-~pitch_s = { Out.kr(~pitch_b, Pitch.kr(SoundIn.ar(\in.kr(0)))) }.play(s);
+	postln("3...");
+	1.0.wait;
+	postln("2...");
+	1.0.wait;
+	postln("1...");
+	1.0.wait;
 
-~pitch_poll_tick = 0.2;
-~pitch_poll_fn = {
-	var hz = ~pitch_b.get({arg val; val.postln; });
-}
-~pitch_poll = Routine { inf.do {
-	~pitch_poll_fn.value;
-	~pitch_poll_tick.wait;
-} }.play;
+	postln("--------------------");
+	postln("---- start ---------");
+	postln("--------------------");
+	postln("----- (remains)-----");
+
+	x.value("remains.scd");
+	postln("---record in 90s--");
+
+	90.wait;
+
+	postln("10...");
+	1.0.wait;
+	postln("9...");
+	1.0.wait;
+	postln("8...");
+	1.0.wait;
+	postln("7...");
+	1.0.wait;
+	postln("6...");
+	1.0.wait;
+	postln("5...");
+	1.0.wait;
+	postln("4...");
+	1.0.wait;
+	postln("3...");
+	1.0.wait;
+	postln("2...");
+	1.0.wait;
+	postln("1...");
+	1.0.wait;
+
+	postln("");
+	postln("--------------------");
+	postln("---- recording ---------");
+	postln("--------------------");
+	postln("");
+
+	~tremloop.rec(0);
+	~tremloop.rec(1, 1);
+
+	16.wait;
+	postln("-- sine_sequence --");
+	x.value("sine_sequence.scd");
+
+	~poll_task.stop;
+
+//~loop0
+
+	/*
+	{ ~tremloop.buf[0].plot; }.defer;
+	*/
+}.play;
