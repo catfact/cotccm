@@ -1,1 +1,2 @@
 q.value
+c.clear
