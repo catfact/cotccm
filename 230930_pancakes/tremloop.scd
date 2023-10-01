@@ -57,7 +57,7 @@ Routine {
 	loops = Array.fill(nloops, {
 		arg i;
 		var b, g, fx, r;
-		var bufIdx = nbuf.wrapAt(i);
+		var bufIdx = i & nbuf;
 
 		b = Bus.audio(s, 1);
 		g = Group.new(s);

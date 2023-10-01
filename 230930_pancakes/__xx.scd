@@ -16,6 +16,8 @@ Routine { 4.do { arg i;
 
 ~poll_task.stop;
 ~poll_task.reset;
+
+~poll_data = List.new;
 ~poll_task.play;
 
-	x.value("sine_sequence.scd");
+x.value("sine_sequence.scd");

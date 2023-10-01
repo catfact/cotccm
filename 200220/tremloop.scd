@@ -9,8 +9,6 @@ Routine {
 
 	buf = Array.fill(nbuf, {Buffer.alloc(s, buflen * s.sampleRate, 1); });
 
-
-
 	// mono->stereo tremolo
 	SynthDef.new(\trem, { arg in, out=0, amp=1.0,
 		hz=1.0, fb=0.0, pan=0.0, depth=1.0, lpfhz=2000;

@@ -24,7 +24,7 @@ SynthDef.new(\sine1, {
 		ev.postln;
 		Synth.new(\sine1, [
 			\hz, ev.hz,
-			\amp, ev.amp * 0.25,
+			\amp, ev.amp * 0.125,
 			\pan, ~pan,
 			\atk, 4 + 4.rand,
 			\dur, 16 + 8.rand,
@@ -34,7 +34,7 @@ SynthDef.new(\sine1, {
 		~pan = (~pan + (0.05 + 0.6.rand)).wrap(-1.0, 1.0);
 				Synth.new(\sine1, [
 			\hz, ev.hz* 2,
-			\amp, ev.amp * ev.flat,
+			\amp, ev.amp * ev.flat * 0.5,
 			\pan, ~pan,
 			\atk, 4 + 4.rand,
 			\dur, 16 + 8.rand,
@@ -43,7 +43,7 @@ SynthDef.new(\sine1, {
 
 		Synth.new(\sine1, [
 			\hz, ev.hz*0.5,
-			\amp, ev.amp * 0.25 * (1.0 - ev.flat),
+			\amp, ev.amp * 0.125 * (1.0 - ev.flat),
 			\pan, ~pan,
 			\atk, 4 + 4.rand,
 			\dur, 16 + 8.rand,

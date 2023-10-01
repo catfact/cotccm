@@ -25,7 +25,7 @@ Routine {
 	postln("---- start ---------");
 	postln("--------------------");
 
-	120.wait;
+//	120.wait;
 
 
 	postln("10...");

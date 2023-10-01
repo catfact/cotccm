@@ -1,11 +1,9 @@
 s = Server.default;
 s.options.numInputBusChannels = 2;
-s.options.numOutputBusChannels = 4;
+//s.options.numOutputBusChannels = 4;
 
-
-s.options.inDevice = "Universal Audio Thunderbolt";
-s.options.outDevice = "Universal Audio Thunderbolt";
-
+//s.options.inDevice = "Universal Audio Thunderbolt";
+//s.options.outDevice = "Universal Audio Thunderbolt";
 
 s.waitForBoot {
 	Routine {
@@ -27,7 +25,7 @@ s.waitForBoot {
 
 		~out_b = Bus.audio(s, 2);
 
-		~out_s = { arg out=2, amp=1.0;
+		~out_s = { arg out=0, amp=1.0;
 			Out.ar(out, In.ar(~out_b, 2) * amp)
 		}.play(~og, args:[\out, outChannel]);
 

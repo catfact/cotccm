@@ -28,7 +28,7 @@ Routine {
 	x.value("remains.scd");
 	postln("---record in 90s--");
 
-	90.wait;
+	120.wait;
 
 	postln("10...");
 	1.0.wait;
