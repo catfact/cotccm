@@ -1,11 +1,11 @@
-(
+/*(
 ~bufrates = [
 	1, 1, 1, 1, 3/2, 16/9, 17/9, 12/11
 ];
 
 ~bufoct = [1, 1, -1, -2, -1, -1, -1, 1];
 8.do({ |i| ~tremloop.loop_data[i].bufrate = ~bufrates[i] * (2 ** (~bufoct[i])) });
-)
+
 
 (
 ~tremloopdyr= [
@@ -16,9 +16,9 @@
 	1, 1, 1, 1, 3/2, 16/9, 17/9, 12/11
 ] * 8;
 
-8.do({ |i| ~tremloop.loop_data[i].dur = ~tremloopdyr[i];
+8.do({ |i| ~tremloop.loop_data[i].dur = ~tremloopdyr[i]; });
 )
-
+*/
 ~tremloop.loop_data[0].amp = 0.125;
 ~tremloop.loop_data[0].looprate = 6/5 * 0.25;
 ~tremloop.loop_data[0].dur= 2.0;
@@ -103,5 +103,6 @@
 
 /*
 8.do({ |i| ~tremloop.loop_data[i].amp = 0.0; });
-8.do({ |i| ~tremloop.loop_data[i].amp = 0.25; });
+8.do({ |i| ~tremloop.loop_data[i].amp = -8.dbamp; });
+8.do({ |i| ~tremloop.loop_data[i].amp = -10.dbamp; });
 */

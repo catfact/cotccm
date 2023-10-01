@@ -9,7 +9,7 @@
 // overdub all
 Routine { 4.do { arg i;
 
-	~tremloop.rec(i, 0, pre:0.5);
+	~tremloop.rec(i, 0, 0.5);
 	((i+1) * 1.75).wait;
 } }.play;
 )
