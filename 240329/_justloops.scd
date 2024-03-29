@@ -108,7 +108,9 @@ if (val ==0, { ~jl_clear.value(i); });
 		postln("time = " ++ ~jl_taps[i].time);
 		~jl_play_s[i] = Synth.new(\justloop_play, [
 			\buf, ~jl_bufs[i].bufnum,
-			\looptime, ~jl_taps[i].time / ~jl_rates[i], \rate, ~jl_rates[i], \level, -12.dbamp, \out, 0]);
+			\looptime, ~jl_taps[i].time / ~jl_rates[i], \rate, ~jl_rates[i],
+			\level, -12.dbamp,
+			\out, (i%2) + 4]);
 		~jl_clear_flags[i] = false;
 	}, {
 

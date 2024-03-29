@@ -1,6 +1,49 @@
 e = ();
-e.idx = 0;
+e.idx = -1;
+e.t = SystemClock.seconds;
 
+~perform_step = { arg step;
+	var dt;
+	var t1 = SystemClock.seconds;
+	dt = t1 - e.t;
+
+	if (dt > 1, {
+
+	e.t = t1;
+
+	if (step.size > 1, {
+		if (step.size > 2, {
+			~notify.value(step[1], step[2]);
+		}, {
+			~notify.value(step[1]);
+		});
+	});
+
+		step[0].value(dt);
+		true
+	}, {
+		false
+	});
+};
+
+~advance_score = {
+	var step;
+	e.idx = e.idx + 1;
+	step = e.steps.wrapAt(e.idx);
+	if (~perform_step.value(step).not, {
+		e.idx = e.idx - 1;
+	});
+};
+
+~reverse_score = {
+	var step;
+	e.idx = e.idx - 1;
+	step = e.steps.wrapAt(e.idx);
+		if (~perform_step.value(step).not, {
+		e.idx = e.idx + 1;
+	});
+
+};
 
 
 // each step is an array: [function, text, <,color>]
@@ -12,7 +55,6 @@ e.steps = [
 	[{
 		~jl_stop_record.value(0);
 	}, "play jl0"],
-
 
 	[{
 		~jl_start_record.value(1);
@@ -41,7 +83,7 @@ e.steps = [
 	//// part 1
 	[{
 
-		x.value("_swyc_vlabeet.scd");
+		x.value("_vlabeet.scd");
 	}, "vla bbt"],
 
 	[{
@@ -54,7 +96,7 @@ e.steps = [
 		], ~xg);
 
 		~vla_loop_start = SystemClock.seconds;
-		x.value("_sines.scd");
+//		x.value("_sines.scd");
 	}, "recording [viola loop 1]"],
 
 	//		{
@@ -83,6 +125,7 @@ e.steps = [
 		~vla_grain1_play = Group.new;
 		5.do({ arg i;
 			Synth.new(\chopgrain, [
+				\out, i%2 + 4,
 				\buf, ~vla_grain1_buf.bufnum,
 				\rate, 2**(i),
 				\choprate, 1.0 / (time / 16) * (i+1),
@@ -104,7 +147,11 @@ e.steps = [
 	//	Routine {
 	[{
 		~tempo = 0.9;
-		~vox_delay = Synth.new(\echo_buf, [\in, ~vox_in_b.index, \buf, ~vox_echo1_buf.bufnum, \time, ~tempo, \out, 0, \amp, 0.5], ~xg);
+		~vox_delay = Synth.new(\echo_buf, [\in, ~
+			vox_in_b.index, \buf, ~vox_echo1_buf.bufnum,
+			\time, ~tempo,
+			\out, 2,
+			\amp, 0.5], ~xg);
 		~chopr.stop;
 		~chopr2.stop;
 		~vlabeet_rbase = 0.75;
@@ -128,6 +175,7 @@ e.steps = [
 		//		time.postln;
 		~tempo = time* 2.0;
 		~bufbass = Synth.new(\buf_ringz_lpf_env, [
+			\out, 4,
 			\buf, ~vla_loop1_buf.bufnum,
 			\pulsehz, 1.0 / ~tempo,
 			\lpfhz, 110 * 4 / 3,
@@ -135,7 +183,6 @@ e.steps = [
 			\rate, 0.25,
 			\ringdecay, 0.007,
 			\envdecay, 20.0,
-			\out, 0,
 			\amp, -18.dbamp
 		]);
 		/*
@@ -153,9 +200,12 @@ e.steps = [
 	[{
 		~vla_loop_del.set(\inputamp, 0.0);
 		~vox_echo_pre = Synth.new(\cmpcho, [
-			\in, ~vox_in_b.index, \out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
+			\in, ~vox_in_b.index,
+			\out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		~vox_echo_out = Synth.new(\cmpcho, [
-			\in, ~vox_in_b.index, \out, 0, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
+			\in, ~vox_in_b.index,
+			\out, 2,
+			\time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 
 		~vox_delay2 = Synth.new(\echo_buf, [
 			\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -4.dbamp], ~xg);
@@ -170,8 +220,11 @@ e.steps = [
 		~vla_loop_del.set(\inputamp, 1.0);
 		~vla_loop_del.set(\feedback, 0.5);
 		~vla_delay = Synth.new(\echo_buf, [
-			\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -6.dbamp], ~xg);
+			\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3,
+			\out, 2,
+			\amp, -6.dbamp], ~xg);
 	}, "attempt to overwrite [viola loop 2] ?"],
+	[{
 		~vla_loop_del.set(\amplag, ~tempo * 8.0);
 		~vla_loop_del.set(\amp, 0.0);
 	}, "release [viola loop 2]"],

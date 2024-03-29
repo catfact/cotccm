@@ -53,7 +53,7 @@ Routine {
 
 	s.sync;
 
-	x.value("_events.scd");
+	x.value("_score.scd");
 
 	~notify.value("save what you can", Color.new(0.1, 0.1, 0.1));
 

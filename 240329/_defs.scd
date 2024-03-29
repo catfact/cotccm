@@ -144,9 +144,7 @@ SynthDef.new(\chopgrain_1shot_rez_dist, {
 
 	pos = LFSaw.kr(posrate / framediff * sr, posphase, framediff, minframes).wrap(minframes, maxframes - (sr / choprate));
 	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
-
 	//	read = read + InsideOut.ar(read, insideout);
-
 	read = Resonz.ar(read, hz, rq);
 
 	Out.ar(out, (read * ampenv * level * 0.6).dup);
@@ -288,7 +286,6 @@ SynthDef.new(\saw_1shot_rez_dist, {
 	//	read = PlayBuf.ar(1, buf, rate, trig, pos, loop:1);
 
 	//	read = read + InsideOut.ar(read, insideout);
-
 
 	read = SinOsc.ar(hz * 0.5) + Saw.ar(hz);
 	read = Resonz.ar(read, rhz, rq);
