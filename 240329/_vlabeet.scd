@@ -162,7 +162,7 @@
 		\rate, rate,
 		\choprate, 0.25 / ~vlabeet_t,
 		\hz, 220 * 8/9 * (i % 2 + 1),
-		\rq, (i%4) * 0.02 + 0.07,
+		\rq, (i%4) * 0.06 + 0.08,
 		\insideout, io,
 		\atk, 0.01, \rel, dur * 2.0,
 		\level, ~vlabeet_level, //i.min(32) / 32

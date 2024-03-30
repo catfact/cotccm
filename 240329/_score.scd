@@ -232,12 +232,12 @@ e.steps = [
 		~vla_loop_del.set(\inputamp, 1.0);
 		~vla_loop_del.set(\feedback, 0.5);
 
-		~vla_loop_del.set(\amp, 1.0);
+		~vla_loop_del.set(\amp, -8.dbamp);
 		~vla_delay = Synth.new(\echo_buf, [
 			\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time,~tempo * 4 * 3,
 			\out, 4,
 			\amp, -6.dbamp], ~xg);
-	}, "attempt to overwrite [viola loop 2] ?"],
+	}, "dub vla loop2"],
 	[{
 		~vla_loop_del.set(\amplag, ~tempo * 8.0);
 		~vla_loop_del.set(\amp, 0.0);
