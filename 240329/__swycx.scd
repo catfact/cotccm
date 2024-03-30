@@ -56,29 +56,44 @@ MIDIIn.connectAll;
 
 // midi responder functions
 m = ();
-m.wasOn = false;
+m.allCC =  MIDIFunc.cc({
+	arg val, num, chan, src;
+	[val, num, chan, src].postln;
+}, nil);
+
+m.noteOn =  MIDIFunc.noteOn({
+	arg val, num, chan, src;
+	[val, num, chan, src].postln;
+	if (num == 64, {
+		~advance_score.value;
+	});
+}, nil);
+//
+// m.noteOff =  MIDIFunc.noteOff({
+// 	arg val, num, chan, src;
+// 	[val, num, chan, src].postln;
+// }, nil);
+
+//m.wasOn = false;
+/*
 m.ccVol = MIDIFunc.cc({
 	arg val, num, chan, src;
 	[val, num, chan, src].postln;
 
 	if (m.wasOn.not, {
+// 		postln("?");
 		if (val > 124, {
 			m.wasOn = true;
 			postln("vol pedal down");
 			~advance_score.value
-
+		}, {
+			m.wasOn = false;
+		});
+	}, {
+		if (val > 124, {
 		}, {
 			m.wasOn = false;
 		});
 	});
-
-	// if (val != m.last, {
-	// 	if (val == 127, {
-	// 		postln([val, m.last]);
-	// 		postln("exp pedal down");
-	// 		~advance_score.value
-	// 	});
-	// 	m.last = val;
-	// });
-}, 11);
+}, 11);*/
 

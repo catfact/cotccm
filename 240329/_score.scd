@@ -2,24 +2,28 @@ e = ();
 e.idx = -1;
 e.t = SystemClock.seconds;
 
-~perform_step = { arg step;
+~perform_step = { arg step, step1;
 	var dt;
 	var t1 = SystemClock.seconds;
 	dt = t1 - e.t;
 
 	if (dt > 1, {
 
-	e.t = t1;
+		e.t = t1;
 
-	if (step.size > 1, {
-		if (step.size > 2, {
-			~notify.value(step[1], step[2]);
-		}, {
-			~notify.value(step[1]);
+		if (step.size > 1, {
+			if (step.size > 2, {
+				~notify.value(step[1], step[2]);
+			}, {
+				~notify.value(step[1]);
+			});
 		});
-	});
+		AppClock.sched(2, {
+			~notify.value("next: " ++ step1[1], Color.new(0.5, 0.5, 0.5, 0.5));
+			nil
+		});
 
-		step[0].value(dt);
+		step[0].value(nil, dt);
 		true
 	}, {
 		false
@@ -27,10 +31,11 @@ e.t = SystemClock.seconds;
 };
 
 ~advance_score = {
-	var step;
+	var step, step1;
 	e.idx = e.idx + 1;
 	step = e.steps.wrapAt(e.idx);
-	if (~perform_step.value(step).not, {
+	step1 = e.steps.wrapAt(e.idx + 1);
+	if (~perform_step.value(step, step1).not, {
 		e.idx = e.idx - 1;
 	});
 };
@@ -39,7 +44,7 @@ e.t = SystemClock.seconds;
 	var step;
 	e.idx = e.idx - 1;
 	step = e.steps.wrapAt(e.idx);
-		if (~perform_step.value(step).not, {
+	if (~perform_step.value(step).not, {
 		e.idx = e.idx + 1;
 	});
 
@@ -96,7 +101,7 @@ e.steps = [
 		], ~xg);
 
 		~vla_loop_start = SystemClock.seconds;
-//		x.value("_sines.scd");
+		//		x.value("_sines.scd");
 	}, "recording [viola loop 1]"],
 
 	//		{
@@ -108,14 +113,15 @@ e.steps = [
 		~vla_loop_del.set(\delaytime, (SystemClock.seconds - ~vla_loop_start) / 32.0);
 		~vla_loop_del.set(\amp, -9.dbamp);
 		~vla_loop_del.set(\feedback, -12.dbamp);
-		~notify.value("playback vla loop 1");
+		// ~notify.value("playback vla loop 1");
 		~vla_loop1_buf.copyData(~vla_chord1_buf, 0, 0, -1);
-	}, "noise chops"],
+	}, "save vla 1"],
 	[{
 		~vla_grain1_rec = Synth.new(\rec_loop, [\buf, ~vla_grain1_buf.bufnum, \in, ~vla_in_b.index], ~xg);
 	}, "recording vla grain 1"],
 	[{
 		arg val, time;
+		time.postln;
 		~sine_r.stop;
 		~vla_loop_del.set(\amplag, time * 0.25);
 		~vla_loop_del.set(\amp, 0);
@@ -125,40 +131,40 @@ e.steps = [
 		~vla_grain1_play = Group.new;
 		5.do({ arg i;
 			Synth.new(\chopgrain, [
-				\out, i%2 + 4,
+				\out, (i%2) + 4,
 				\buf, ~vla_grain1_buf.bufnum,
 				\rate, 2**(i),
 				\choprate, 1.0 / (time / 16) * (i+1),
 				\posrate, 1/(i+3),
 				\rel, 60.0 + i,
-				\atk, 4.0,
+				\atk, 14.0,
 				\level, (i * -3).dbamp * -7.dbamp
 			], ~vla_grain1_play);
 		});
-	}, "play [viola grain 1]"],
+	}, "play vla grain 1"],
 
 	// modulate to d
 	[{
 		~vla_grain1_play.set(\gate, 0);
 		x.value("_moveloops.scd");
-	}, "fade out vla grains, modulate loop"],
+	}, "fade out grains / modulate"],
 
 	//// part 2
 	//	Routine {
 	[{
-		~tempo = 0.9;
+		~tempo = 155/120;
 		~vox_delay = Synth.new(\echo_buf, [\in, ~
 			vox_in_b.index, \buf, ~vox_echo1_buf.bufnum,
 			\time, ~tempo,
-			\out, 2,
-			\amp, 0.5], ~xg);
+			\out, 4,
+			\amp, 0.125], ~xg);
 		~chopr.stop;
 		~chopr2.stop;
 		~vlabeet_rbase = 0.75;
 		~vlabeet_dur_base = 0.5;
 		~vlabeet_t = ~tempo;
 		~vlabeet_level = 1.0;
-	}, "PART 2 [vox echo]"],
+	}, "part 2 - vox echo", Color.new(1.0, 1.0, 0.0)],
 	[{
 		~vla_loop_del.set(\amplag, 0.0);
 		~vla_loop_del.set(\amp, 0.0);
@@ -171,7 +177,10 @@ e.steps = [
 		arg val, time;
 		//		time.postln;
 		~vla_loop_del.set(\delaytime, ~tempo * 32);
-		~vla_loop_del.set(\amp, 1.0);
+
+		// i don't want to hear this today
+		// ~vla_loop_del.set(\amp, 1.0);
+
 		//		time.postln;
 		~tempo = time* 2.0;
 		~bufbass = Synth.new(\buf_ringz_lpf_env, [
@@ -204,12 +213,15 @@ e.steps = [
 			\out, ~vox_in_b.index, \time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
 		~vox_echo_out = Synth.new(\cmpcho, [
 			\in, ~vox_in_b.index,
-			\out, 2,
-			\time, ~tempo /3, \maxtime, ~tempo, \amp, 0.7], ~ig, \addAfter);
+			\out, 4,
+			\time, ~tempo /3, \maxtime, ~tempo, \amp, -9.dbamp], ~vox_echo_pre, \addAfter);
 
 		~vox_delay2 = Synth.new(\echo_buf, [
-			\in, ~vox_in_b.index, \buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3, \out, 0, \amp, -4.dbamp], ~xg);
-		~vox_delay.set(\amp, -6.dbamp);
+			\in, ~vox_in_b.index,
+			\buf, ~vox_echo2_buf.bufnum, \time, ~tempo * 4 * 3,
+			\out, 5, \amp, -9.dbamp], ~vox_echo_pre, \addAfter);
+
+		~vox_delay.set(\amp, -12.dbamp);
 		~vox_del_switch = Routine({ inf.do({
 			arg i;
 			~vox_delay.set(\time, ~tempo * ((i+1) * 4).wrap(1, 7) / 4);
@@ -219,9 +231,11 @@ e.steps = [
 	[{
 		~vla_loop_del.set(\inputamp, 1.0);
 		~vla_loop_del.set(\feedback, 0.5);
+
+		~vla_loop_del.set(\amp, 1.0);
 		~vla_delay = Synth.new(\echo_buf, [
-			\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time, ~tempo * 4 * 3,
-			\out, 2,
+			\in, ~vla_in_b.index, \buf, ~vla_echo_buf.bufnum, \time,~tempo * 4 * 3,
+			\out, 4,
 			\amp, -6.dbamp], ~xg);
 	}, "attempt to overwrite [viola loop 2] ?"],
 	[{
@@ -244,7 +258,7 @@ e.steps = [
 			~vla_delay3.free;
 			~vox_delay.free;
 			~vox_delay2.free;
-			~vox_delay3.free;
+			//~vox_delay3.free;
 		}.play;
 	}, "stop everything"]
 ];

@@ -23,6 +23,8 @@ s.waitForBoot { Routine {
 
 	// groups
 	~in_g = Group.new(s);
+	~xg = Group.after(~in_g);
+	~oxg = Group.after(~xg);
 
 	// busses
 	~mic_in_b    = Bus.audio(s, 1);
